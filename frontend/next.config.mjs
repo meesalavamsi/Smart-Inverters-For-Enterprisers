@@ -14,6 +14,7 @@ const nextConfig = {
       { protocol: "https", hostname: "**.unsplash.com" },
       { protocol: "https", hostname: "**.railway.app" },
       { protocol: "https", hostname: "**.up.railway.app" },
+      { protocol: "https", hostname: "**.onrender.com" },
     ],
   },
   async rewrites() {
