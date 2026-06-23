@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
-const stats = [
-  { value: 5000, suffix: "+", label: "Happy Customers" },
-  { value: 10, suffix: "+", label: "Years Experience" },
-  { value: 24, suffix: "/7", label: "Emergency Support" },
-  { value: 3, suffix: " Yr", label: "Warranty Guarantee" },
+const statValues = [
+  { value: 5000, suffix: "+", key: "customers" },
+  { value: 10, suffix: "+", key: "experience" },
+  { value: 24, suffix: "/7", key: "support" },
+  { value: 5, suffix: " Yr", key: "warranty" },
 ];
 
 function CountUp({ target, suffix, active }: { target: number; suffix: string; active: boolean }) {
@@ -30,6 +31,7 @@ function CountUp({ target, suffix, active }: { target: number; suffix: string; a
 }
 
 export default function StatsCounter() {
+  const t = useTranslations("stats");
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
 
@@ -53,9 +55,9 @@ export default function StatsCounter() {
     >
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-blue-800/60">
-          {stats.map((s, i) => (
+          {statValues.map((s, i) => (
             <motion.div
-              key={s.label}
+              key={s.key}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -74,7 +76,7 @@ export default function StatsCounter() {
                 <CountUp target={s.value} suffix={s.suffix} active={active} />
               </div>
               <p className="text-xs font-semibold text-blue-400/70 tracking-widest uppercase">
-                {s.label}
+                {t(s.key as any)}
               </p>
             </motion.div>
           ))}

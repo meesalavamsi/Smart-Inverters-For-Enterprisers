@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 const LOCALES = [
   { code: "en", label: "English", flag: "🇬🇧" },
   { code: "te", label: "తెలుగు", flag: "🇮🇳" },
+  { code: "hi", label: "हिंदी", flag: "🇮🇳" },
 ];
 
 const navLinks = [

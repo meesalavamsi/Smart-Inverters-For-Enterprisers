@@ -3,15 +3,7 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Shield, Zap, Clock, Headphones, Award, Recycle } from "lucide-react";
-
-const benefits = [
-  { icon: Shield, title: "Genuine Products", desc: "100% authentic ISI certified inverters and batteries from top brands.", gradient: "from-blue-500 to-blue-700", glow: "rgba(37,99,235,0.2)" },
-  { icon: Zap, title: "Expert Installation", desc: "Certified technicians install your inverter safely and correctly.", gradient: "from-amber-400 to-orange-500", glow: "rgba(251,146,60,0.2)" },
-  { icon: Clock, title: "Same Day Service", desc: "We respond quickly. Most services completed the same day.", gradient: "from-emerald-400 to-green-600", glow: "rgba(52,211,153,0.2)" },
-  { icon: Headphones, title: "24/7 Support", desc: "Round the clock WhatsApp and phone support for all queries.", gradient: "from-violet-500 to-purple-700", glow: "rgba(139,92,246,0.2)" },
-  { icon: Award, title: "3 Year Warranty", desc: "Industry-leading warranty on all inverter batteries we sell.", gradient: "from-rose-400 to-red-600", glow: "rgba(244,63,94,0.2)" },
-  { icon: Recycle, title: "Eco Responsible", desc: "Proper battery disposal and recycling programs available.", gradient: "from-teal-400 to-cyan-600", glow: "rgba(20,184,166,0.2)" },
-];
+import { useTranslations } from "next-intl";
 
 function TiltCard({ children, glow }: { children: React.ReactNode; glow: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -52,11 +44,20 @@ function TiltCard({ children, glow }: { children: React.ReactNode; glow: string 
 }
 
 export default function Benefits() {
+  const t = useTranslations("benefits");
+
+  const cards = [
+    { icon: Shield, titleKey: "card1Title", descKey: "card1Desc", gradient: "from-blue-500 to-blue-700", glow: "rgba(37,99,235,0.2)" },
+    { icon: Zap, titleKey: "card2Title", descKey: "card2Desc", gradient: "from-amber-400 to-orange-500", glow: "rgba(251,146,60,0.2)" },
+    { icon: Clock, titleKey: "card3Title", descKey: "card3Desc", gradient: "from-emerald-400 to-green-600", glow: "rgba(52,211,153,0.2)" },
+    { icon: Headphones, titleKey: "card4Title", descKey: "card4Desc", gradient: "from-violet-500 to-purple-700", glow: "rgba(139,92,246,0.2)" },
+    { icon: Award, titleKey: "card5Title", descKey: "card5Desc", gradient: "from-rose-400 to-red-600", glow: "rgba(244,63,94,0.2)" },
+    { icon: Recycle, titleKey: "card6Title", descKey: "card6Desc", gradient: "from-teal-400 to-cyan-600", glow: "rgba(20,184,166,0.2)" },
+  ];
+
   return (
     <section className="py-28 bg-gradient-to-b from-white to-blue-50/60 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-        {/* Header */}
         <div className="text-center mb-16">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
@@ -64,7 +65,7 @@ export default function Benefits() {
             viewport={{ once: true }}
             className="inline-block bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-5 shadow-md shadow-blue-200"
           >
-            Why Choose Us
+            {t("badge")}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -73,8 +74,7 @@ export default function Benefits() {
             transition={{ delay: 0.1 }}
             className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4"
           >
-            The Smart Inverter's{" "}
-            <span className="gradient-text-blue">Advantage</span>
+            {t("title")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -83,15 +83,14 @@ export default function Benefits() {
             transition={{ delay: 0.2 }}
             className="text-lg text-gray-500 max-w-2xl mx-auto"
           >
-            Trusted by 5000+ families across Andhra Pradesh & Telangana for quality, reliability, and exceptional service.
+            {t("description")}
           </motion.p>
         </div>
 
-        {/* 3D Tilt Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {benefits.map((b, i) => (
+          {cards.map((b, i) => (
             <motion.div
-              key={b.title}
+              key={b.titleKey}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -99,19 +98,16 @@ export default function Benefits() {
               className="h-full"
             >
               <TiltCard glow={b.glow}>
-                {/* Icon with gradient */}
                 <div
                   className={`inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-br ${b.gradient} text-white mb-6 shadow-lg`}
                   style={{ transform: "translateZ(20px)" }}
                 >
                   <b.icon className="h-7 w-7" />
                 </div>
-                {/* Content */}
                 <div style={{ transform: "translateZ(10px)" }}>
-                  <h3 className="font-extrabold text-xl text-gray-900 mb-3">{b.title}</h3>
-                  <p className="text-gray-500 leading-relaxed">{b.desc}</p>
+                  <h3 className="font-extrabold text-xl text-gray-900 mb-3">{t(b.titleKey as any)}</h3>
+                  <p className="text-gray-500 leading-relaxed">{t(b.descKey as any)}</p>
                 </div>
-                {/* Bottom gradient line */}
                 <div className={`mt-6 h-1 w-12 rounded-full bg-gradient-to-r ${b.gradient} opacity-60`} />
               </TiltCard>
             </motion.div>
