@@ -3,7 +3,7 @@ services:
     name: smart-inverters-backend
     runtime: node
     rootDir: backend
-    buildCommand: npm install && npx prisma generate && npx prisma db push
+    buildCommand: npm install && npx prisma generate && npx prisma db push && node prisma/seed.js && node prisma/seed-products.js && node prisma/seed-images.js
     startCommand: node src/index.js
     envVars:
       - key: NODE_ENV
