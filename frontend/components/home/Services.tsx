@@ -122,10 +122,10 @@ export default function Services() {
                 Power outage at night or on holidays? We&apos;re available 24/7 across the region.
               </p>
               <a
-                href="tel:7207762577"
+                href="tel:9133639888"
                 className="inline-flex items-center gap-2 bg-white text-blue-700 px-6 py-3 rounded-xl font-extrabold text-sm hover:bg-yellow-300 hover:text-blue-900 transition-all duration-300 shadow-lg"
               >
-                <Phone className="h-4 w-4" /> 7207762577
+                <Phone className="h-4 w-4" /> 9133639888
               </a>
             </div>
           </motion.div>

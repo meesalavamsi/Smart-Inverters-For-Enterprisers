@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   description: "Contact Smart Inverter's for inverter and battery services across Andhra Pradesh and Telangana",
 };
 
-const WHATSAPP_URL = "https://wa.me/917207762577?text=Hello!%20I%20want%20to%20know%20about%20Smart%20Inverters.";
+const WHATSAPP_URL = "https://wa.me/919133639888?text=Hello!%20I%20want%20to%20know%20about%20Smart%20Inverters.";
 
 const contactDetails = [
-  { icon: Phone, label: "Phone / Call", value: "7207762577", href: "tel:7207762577", color: "text-blue-600 bg-blue-50" },
-  { icon: MessageCircle, label: "WhatsApp", value: "7207762577", href: WHATSAPP_URL, color: "text-green-600 bg-green-50" },
-  { icon: Mail, label: "Email", value: "info@smartinverters.in", href: "mailto:info@smartinverters.in", color: "text-purple-600 bg-purple-50" },
+  { icon: Phone, label: "Phone / Call", value: "9133639888 / 9951447358", href: "tel:9133639888", color: "text-blue-600 bg-blue-50" },
+  { icon: MessageCircle, label: "WhatsApp", value: "9133639888", href: WHATSAPP_URL, color: "text-green-600 bg-green-50" },
+  { icon: Mail, label: "Email", value: "maniagency.rvpm@gmail.com", href: "mailto:maniagency.rvpm@gmail.com", color: "text-purple-600 bg-purple-50" },
   { icon: MapPin, label: "Office Address", value: "Indira Colony (Near Community Hall), Daggara, Ravulapalem, East Godavari, AP", href: "#map", color: "text-red-600 bg-red-50" },
   {
     icon: Clock, label: "Working Hours", value: null, href: null, color: "text-orange-600 bg-orange-50",
@@ -119,7 +119,7 @@ export default function ContactPage() {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <h3 className="font-bold text-gray-900 mb-4">Quick Actions</h3>
               <div className="grid grid-cols-2 gap-3">
-                <a href="tel:7207762577"
+                <a href="tel:9133639888"
                   className="flex items-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors justify-center">
                   <Phone className="h-4 w-4" /> Call Now
                 </a>

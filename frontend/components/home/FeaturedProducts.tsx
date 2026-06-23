@@ -46,9 +46,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   const { addItem } = useCartStore();
   const router = useRouter();
   const primaryImage = product.images[0]?.url;
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
+  const discount = 0;
 
   const handleBook = (e: React.MouseEvent) => {
     e.preventDefault();

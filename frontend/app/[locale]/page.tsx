@@ -12,7 +12,7 @@ import CTA from "@/components/home/CTA";
 
 export const metadata: Metadata = {
   title: "Smart Inverter's - Premium Inverters & Batteries in Ravulapalem",
-  description: "Buy premium inverters and batteries online. Expert installation, repair, and maintenance services in Ravulapalem, Andhra Pradesh. 7207762577",
+  description: "Terranova authorized lithium inverter dealer in Ravulapalem. Zero maintenance LiFePO4 inverters 1kV–5kV. Expert installation & 24/7 support. Call 9133639888.",
 };
 
 export default function HomePage() {

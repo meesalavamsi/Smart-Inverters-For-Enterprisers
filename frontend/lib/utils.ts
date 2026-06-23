@@ -14,7 +14,7 @@ export function formatDate(date: string | Date) {
 }
 
 export function getWhatsAppUrl(message: string) {
-  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "917207762577";
+  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919133639888";
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 

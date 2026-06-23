@@ -3,20 +3,20 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, ChevronDown } from "lucide-react";
 
-const MANAGER_WA_NUMBER = "917207762577";
+const MANAGER_WA_NUMBER = "919133639888";
 
 const FAQS = [
   {
     q_en: "What types of inverters do you sell?",
     q_te: "మీరు ఏ రకమైన ఇన్వర్టర్లు అమ్ముతారు?",
-    a_en: "We sell home inverters (500VA–5KVA), solar inverters, and UPS systems from top brands like Luminous, Microtek, Exide, and Genus.",
-    a_te: "మేము Luminous, Microtek, Exide, Genus బ్రాండ్ల నుండి హోమ్ ఇన్వర్టర్లు (500VA–5KVA), సోలార్ ఇన్వర్టర్లు మరియు UPS సిస్టమ్‌లను విక్రయిస్తాము.",
+    a_en: "We are the authorized distributors of Terranova lithium inverters — 1kV, 2kV, 3kV and 5kV models with inbuilt LiFePO4 battery. Zero maintenance, 5-year warranty.",
+    a_te: "మేము Terranova లిథియం ఇన్వర్టర్ల అధికారిక పంపిణీదారులం — 1kV, 2kV, 3kV మరియు 5kV మోడల్స్, LiFePO4 బ్యాటరీతో. నిర్వహణ అవసరం లేదు, 5 సంవత్సరాల వారంటీ.",
   },
   {
     q_en: "What is the warranty on batteries?",
     q_te: "బ్యాటరీలకు వారంటీ ఎంత?",
-    a_en: "Lithium batteries come with up to 5 years warranty. Lead acid batteries have 1–3 years warranty depending on the brand.",
-    a_te: "లిథియం బ్యాటరీలకు 5 సంవత్సరాల వరకు వారంటీ ఉంటుంది. లెడ్ యాసిడ్ బ్యాటరీలకు 1–3 సంవత్సరాల వారంటీ ఉంటుంది.",
+    a_en: "All Terranova lithium inverters come with 5 years warranty on the battery and 2 years warranty on electronics. No other brand matches this.",
+    a_te: "అన్ని Terranova లిథియం ఇన్వర్టర్లకు బ్యాటరీపై 5 సంవత్సరాల వారంటీ మరియు ఎలక్ట్రానిక్స్‌పై 2 సంవత్సరాల వారంటీ ఉంటుంది.",
   },
   {
     q_en: "Do you provide home installation?",
@@ -39,20 +39,20 @@ const FAQS = [
   {
     q_en: "How do I book a service?",
     q_te: "సేవని ఎలా బుక్ చేయాలి?",
-    a_en: "You can book a service online via our website (Service Booking page) or call/WhatsApp us at 7207762577.",
-    a_te: "మీరు మా వెబ్‌సైట్ ద్వారా ఆన్‌లైన్‌లో (Service Booking పేజీ ద్వారా) లేదా 7207762577 కి కాల్/WhatsApp ద్వారా బుక్ చేసుకోవచ్చు.",
+    a_en: "You can book a service online via our website (Service Booking page) or call/WhatsApp us at 9133639888 or 9951447358.",
+    a_te: "మీరు మా వెబ్‌సైట్ ద్వారా ఆన్‌లైన్‌లో (Service Booking పేజీ ద్వారా) లేదా 9133639888 లేదా 9951447358 కి కాల్/WhatsApp ద్వారా బుక్ చేసుకోవచ్చు.",
   },
   {
     q_en: "What is the price range for inverters?",
     q_te: "ఇన్వర్టర్ ధర ఎంత?",
-    a_en: "Prices range from ₹3,500 for basic home inverters to ₹45,000+ for solar inverters. Contact us for exact pricing on your requirement.",
-    a_te: "ధరలు బేసిక్ హోమ్ ఇన్వర్టర్లకు ₹3,500 నుండి సోలార్ ఇన్వర్టర్లకు ₹45,000+ వరకు ఉంటాయి. మీ అవసరాన్ని బట్టి ఖచ్చితమైన ధర కోసం మమ్మల్ని సంప్రదించండి.",
+    a_en: "Terranova 1kV starts at ₹34,000, 2kV at ₹69,000, 3kV at ₹1,12,000, and 5kV at ₹1,78,000. All include inbuilt LiFePO4 battery. Contact us for details.",
+    a_te: "Terranova 1kV ₹34,000 నుండి, 2kV ₹69,000, 3kV ₹1,12,000, మరియు 5kV ₹1,78,000. అన్నింటికీ LiFePO4 బ్యాటరీ అంతర్గతంగా ఉంటుంది. వివరాలకు మమ్మల్ని సంప్రదించండి.",
   },
   {
     q_en: "Do you repair old inverters?",
     q_te: "పాత ఇన్వర్టర్లు రిపేర్ చేస్తారా?",
-    a_en: "Yes, we repair all brands of inverters and batteries. Book a repair service on our website or call us at 7207762577.",
-    a_te: "అవును, మేము అన్ని బ్రాండ్ ఇన్వర్టర్లు మరియు బ్యాటరీలను రిపేర్ చేస్తాము. మా వెబ్‌సైట్‌లో రిపేర్ సేవని బుక్ చేయండి లేదా 7207762577 కి కాల్ చేయండి.",
+    a_en: "Yes, we repair all brands of inverters and batteries. Book a repair service on our website or call us at 9133639888.",
+    a_te: "అవును, మేము అన్ని బ్రాండ్ ఇన్వర్టర్లు మరియు బ్యాటరీలను రిపేర్ చేస్తాము. మా వెబ్‌సైట్‌లో రిపేర్ సేవని బుక్ చేయండి లేదా 9133639888 కి కాల్ చేయండి.",
   },
 ];
 

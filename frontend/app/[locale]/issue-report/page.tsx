@@ -114,7 +114,7 @@ export default function IssueReportPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">{t("productName")}</label>
-              <input {...form.register("productName")} placeholder="e.g. Exide Inverter 150Ah or model number"
+              <input {...form.register("productName")} placeholder="e.g. Terranova T-1150 Gen 1 or model number"
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm" />
             </div>
 

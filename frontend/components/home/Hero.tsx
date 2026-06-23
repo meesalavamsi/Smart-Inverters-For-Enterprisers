@@ -96,17 +96,22 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-wrap gap-5"
             >
-              <a href="tel:7207762577" className="flex items-center gap-2.5 text-blue-200 hover:text-white transition-colors font-semibold">
-                <div className="h-9 w-9 rounded-xl bg-blue-600/30 border border-blue-500/30 flex items-center justify-center">
-                  <Phone className="h-4 w-4 text-blue-400" />
-                </div>
-                7207762577
-              </a>
+              <div className="flex flex-col gap-1">
+                <a href="tel:9133639888" className="flex items-center gap-2.5 text-blue-200 hover:text-white transition-colors font-semibold">
+                  <div className="h-9 w-9 rounded-xl bg-blue-600/30 border border-blue-500/30 flex items-center justify-center">
+                    <Phone className="h-4 w-4 text-blue-400" />
+                  </div>
+                  9133639888
+                </a>
+                <a href="tel:9951447358" className="flex items-center gap-2.5 text-blue-200/70 hover:text-white transition-colors text-sm font-medium pl-11">
+                  9951447358
+                </a>
+              </div>
               <div className="flex items-center gap-2.5 text-blue-200/70">
                 <div className="h-9 w-9 rounded-xl bg-green-600/20 border border-green-500/20 flex items-center justify-center">
                   <Shield className="h-4 w-4 text-green-400" />
                 </div>
-                ISI Certified Products
+                Terranova Authorized Dealer
               </div>
             </motion.div>
 
@@ -117,7 +122,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.65 }}
               className="flex flex-wrap gap-2.5"
             >
-              {["Exide", "Luminous", "Amaron", "Su-Kam", "Microtek"].map((brand) => (
+              {["Terranova", "LiFePO4 Tech", "Zero Maintenance", "5 Yr Warranty", "Eco Friendly"].map((brand) => (
                 <span key={brand} className="inline-flex items-center gap-1.5 text-xs font-semibold border border-blue-500/20 bg-blue-500/10 text-blue-300 px-3 py-1.5 rounded-full backdrop-blur-sm">
                   <CheckCircle className="h-3 w-3 text-green-400" />
                   {brand}
@@ -142,7 +147,7 @@ export default function Hero() {
               className="absolute top-8 right-6 z-10 rounded-2xl px-4 py-2.5 text-sm font-bold text-white border border-blue-400/30 backdrop-blur-md"
               style={{ background: "rgba(37,99,235,0.35)", boxShadow: "0 0 20px rgba(37,99,235,0.4)" }}
             >
-              ✅ ISI Certified
+              🔋 LiFePO4 Certified
             </motion.div>
             <motion.div
               animate={{ y: [0, 12, 0] }}

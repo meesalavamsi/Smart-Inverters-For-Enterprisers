@@ -225,7 +225,7 @@ export default function AdminProductsPage() {
             <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { key: "name", label: "Product Name *", placeholder: "e.g. ExideMilex 150Ah Battery", col: "col-span-2" },
+                  { key: "name", label: "Product Name *", placeholder: "e.g. Terranova T-1150 Gen 1 Wall Mount", col: "col-span-2" },
                   { key: "model", label: "Model Number *", placeholder: "e.g. EXML-150" },
                   { key: "price", label: "Price (₹) *", placeholder: "12500", type: "number" },
                   { key: "originalPrice", label: "Original Price (₹)", placeholder: "14000", type: "number" },

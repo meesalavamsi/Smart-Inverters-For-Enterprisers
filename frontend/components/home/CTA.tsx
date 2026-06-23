@@ -69,15 +69,16 @@ export default function CTA() {
 
           {/* Phone + Hours */}
           <div className="glass-premium rounded-2xl px-8 py-6 inline-flex flex-col sm:flex-row items-center gap-8 shadow-blue-glow">
-            <a href="tel:7207762577" className="flex items-center gap-3 text-gray-800 hover:text-blue-600 transition-colors">
-              <div className="h-12 w-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-md shadow-blue-200">
+            <div className="flex items-center gap-3 text-gray-800">
+              <div className="h-12 w-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-md shadow-blue-200 shrink-0">
                 <Phone className="h-6 w-6 text-white" />
               </div>
               <div className="text-left">
                 <p className="text-xs text-gray-400 font-medium">Call / WhatsApp</p>
-                <p className="text-2xl font-extrabold">7207762577</p>
+                <a href="tel:9133639888" className="block text-2xl font-extrabold hover:text-blue-600 transition-colors">9133639888</a>
+                <a href="tel:9951447358" className="block text-sm font-semibold text-gray-500 hover:text-blue-500 transition-colors">9951447358</a>
               </div>
-            </a>
+            </div>
             <div className="w-px h-12 bg-gray-200 hidden sm:block" />
             <div className="text-left">
               <p className="text-xs text-gray-400 font-medium mb-1">Working Hours</p>

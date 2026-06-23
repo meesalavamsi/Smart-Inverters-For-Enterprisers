@@ -164,7 +164,7 @@ export default function ServiceBookingPage() {
           </div>
           <p className="text-gray-500 text-sm mb-6">Our team will call you shortly to confirm the appointment.</p>
           <div className="flex gap-3 justify-center">
-            <a href={`tel:7207762577`}
+            <a href={`tel:9133639888`}
               className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors">
               <Phone className="h-4 w-4" />Call Us
             </a>
@@ -307,10 +307,10 @@ export default function ServiceBookingPage() {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <h3 className="font-bold text-gray-900 mb-4">Contact Us Directly</h3>
               <div className="space-y-3">
-                <a href="tel:7207762577"
+                <a href="tel:9133639888"
                   className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition-colors">
                   <Phone className="h-5 w-5 text-blue-600" />
-                  <span className="font-semibold">7207762577</span>
+                  <span className="font-semibold">9133639888</span>
                 </a>
                 <a href={getWhatsAppUrl(waMsg)} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 text-gray-700 hover:text-green-600 transition-colors">

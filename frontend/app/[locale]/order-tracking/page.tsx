@@ -170,8 +170,8 @@ export default function OrderTrackingPage() {
         <div className="mt-6 bg-blue-50 rounded-2xl p-5 text-center">
           <p className="text-sm text-blue-700 font-medium">Need help with your order?</p>
           <div className="flex justify-center gap-4 mt-3">
-            <a href="tel:7207762577" className="text-blue-600 font-semibold text-sm hover:underline">📞 7207762577</a>
-            <a href="https://wa.me/917207762577" target="_blank" rel="noopener noreferrer"
+            <a href="tel:9133639888" className="text-blue-600 font-semibold text-sm hover:underline">📞 9133639888</a>
+            <a href="https://wa.me/919133639888" target="_blank" rel="noopener noreferrer"
               className="text-green-600 font-semibold text-sm hover:underline">💬 WhatsApp</a>
           </div>
         </div>
