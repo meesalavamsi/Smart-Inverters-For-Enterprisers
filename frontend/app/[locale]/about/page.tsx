@@ -12,12 +12,12 @@ export default async function AboutPage() {
   const t = await getTranslations("about");
 
   const milestones = [
-    { year: "2015", titleKey: "m1Title", descKey: "m1Desc" },
-    { year: "2017", titleKey: "m2Title", descKey: "m2Desc" },
-    { year: "2019", titleKey: "m3Title", descKey: "m3Desc" },
-    { year: "2021", titleKey: "m4Title", descKey: "m4Desc" },
-    { year: "2023", titleKey: "m5Title", descKey: "m5Desc" },
-    { year: "2024", titleKey: "m6Title", descKey: "m6Desc" },
+    { titleKey: "m1Title", descKey: "m1Desc" },
+    { titleKey: "m2Title", descKey: "m2Desc" },
+    { titleKey: "m3Title", descKey: "m3Desc" },
+    { titleKey: "m4Title", descKey: "m4Desc" },
+    { titleKey: "m5Title", descKey: "m5Desc" },
+    { titleKey: "m6Title", descKey: "m6Desc" },
   ];
 
   const values = [
@@ -95,16 +95,15 @@ export default async function AboutPage() {
           <div className="relative">
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-blue-100 -translate-x-1/2" />
             {milestones.map((m, i) => (
-              <div key={m.year} className={`flex items-center gap-8 mb-10 ${i % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}>
+              <div key={m.titleKey} className={`flex items-center gap-8 mb-10 ${i % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}>
                 <div className={`flex-1 ${i % 2 === 0 ? "text-right" : "text-left"}`}>
                   <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 inline-block max-w-xs">
-                    <p className="font-bold text-blue-700 text-lg">{m.year}</p>
                     <p className="font-semibold text-gray-900">{t(m.titleKey as any)}</p>
                     <p className="text-gray-500 text-sm">{t(m.descKey as any)}</p>
                   </div>
                 </div>
-                <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs shrink-0">
-                  {m.year.slice(2)}
+                <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm shrink-0">
+                  {i + 1}
                 </div>
                 <div className="flex-1" />
               </div>
