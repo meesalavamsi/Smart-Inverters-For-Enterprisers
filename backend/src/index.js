@@ -20,11 +20,14 @@ app.use(cors({
   origin: (origin, callback) => {
     const allowed = [
       process.env.FRONTEND_URL || "http://localhost:3000",
+      "http://localhost:3000",
       "http://localhost:3001",
       "http://localhost:3002",
       "http://localhost:3003",
     ];
-    if (!origin || allowed.includes(origin)) return callback(null, true);
+    if (!origin) return callback(null, true);
+    if (allowed.includes(origin)) return callback(null, true);
+    if (origin.endsWith(".vercel.app") || origin.endsWith(".onrender.com")) return callback(null, true);
     callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
