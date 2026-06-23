@@ -46,7 +46,8 @@ router.get("/dashboard", authenticate, authorize("ADMIN"), async (req, res) => {
       prisma.product.findMany({ orderBy: { salesCount: "desc" }, take: 5, select: { id: true, name: true, model: true, salesCount: true, price: true } }),
       prisma.order.findMany({ orderBy: { createdAt: "desc" }, take: 5, include: { user: { select: { name: true } }, items: { include: { product: { select: { name: true } } } } } }),
       prisma.order.groupBy({ by: ["status"], _count: { status: true } }),
-      prisma.$queryRaw`SELECT strftime('%Y-%m', createdAt) as month, SUM(totalAmount) as revenue, COUNT(*) as orders FROM "Order" WHERE paymentStatus = 'PAID' GROUP BY month ORDER BY month DESC LIMIT 12`,
+      // PostgreSQL-compatible monthly revenue (was SQLite strftime — crashes on Neon)
+      prisma.$queryRaw`SELECT TO_CHAR("createdAt", 'YYYY-MM') as period, SUM("totalAmount") as revenue, COUNT(*)::int as orders FROM "Order" WHERE "paymentStatus" = 'PAID' GROUP BY period ORDER BY period DESC LIMIT 12`,
       prisma.notification.count({ where: { isRead: false, userId: null } }),
     ]);
 
@@ -77,19 +78,20 @@ router.get("/dashboard", authenticate, authorize("ADMIN"), async (req, res) => {
 router.get("/revenue", authenticate, authorize("ADMIN"), async (req, res) => {
   try {
     const { period = "monthly" } = req.query;
-    let groupFormat = "%Y-%m";
-    if (period === "daily") groupFormat = "%Y-%m-%d";
-    else if (period === "yearly") groupFormat = "%Y";
+    // PostgreSQL TO_CHAR format strings (replaces SQLite strftime)
+    let pgFormat = "YYYY-MM";
+    if (period === "daily") pgFormat = "YYYY-MM-DD";
+    else if (period === "yearly") pgFormat = "YYYY";
 
-    const data = await prisma.$queryRaw`
-      SELECT strftime(${groupFormat}, createdAt) as period,
-             SUM(totalAmount) as revenue,
-             COUNT(*) as orders
+    const data = await prisma.$queryRawUnsafe(`
+      SELECT TO_CHAR("createdAt", '${pgFormat}') as period,
+             SUM("totalAmount") as revenue,
+             COUNT(*)::int as orders
       FROM "Order"
-      WHERE paymentStatus = 'PAID'
+      WHERE "paymentStatus" = 'PAID'
       GROUP BY period
       ORDER BY period DESC
-      LIMIT 24`;
+      LIMIT 24`);
 
     res.json({ success: true, data });
   } catch (error) {
