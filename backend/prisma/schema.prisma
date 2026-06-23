@@ -1,0 +1,280 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(uuid())
+  name             String
+  email            String    @unique
+  phone            String?
+  password         String
+  role             String    @default("CUSTOMER")
+  isVerified       Boolean   @default(false)
+  isActive         Boolean   @default(true)
+  mfaEnabled       Boolean   @default(false)
+  mfaSecret        String?
+  otpCode          String?
+  otpExpiresAt     DateTime?
+  loginAttempts    Int       @default(0)
+  lockedUntil      DateTime?
+  rememberToken    String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  orders           Order[]
+  serviceBookings  ServiceBooking[]
+  feedbacks        Feedback[]
+  issueReports     IssueReport[]
+  loginHistory     LoginHistory[]
+  notifications    Notification[]
+  auditLogs        AuditLog[]
+}
+
+model ProductCategory {
+  id          String    @id @default(uuid())
+  name        String
+  slug        String    @unique
+  description String?
+  image       String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+}
+
+model Product {
+  id              String          @id @default(uuid())
+  name            String
+  model           String          @unique
+  slug            String          @unique
+  description     String
+  price           Float
+  originalPrice   Float?
+  warranty        String
+  capacity        String
+  batteryType     String
+  features        String
+  specifications  String
+  stockQuantity   Int             @default(0)
+  status          String          @default("ACTIVE")
+  tags            String?
+  seoTitle        String?
+  seoDescription  String?
+  seoKeywords     String?
+  rating          Float           @default(0)
+  reviewCount     Int             @default(0)
+  salesCount      Int             @default(0)
+  categoryId      String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  category        ProductCategory @relation(fields: [categoryId], references: [id])
+  images          ProductImage[]
+  videos          ProductVideo[]
+  orderItems      OrderItem[]
+  reviews         Review[]
+}
+
+model ProductImage {
+  id        String  @id @default(uuid())
+  url       String
+  alt       String?
+  isPrimary Boolean @default(false)
+  order     Int     @default(0)
+  productId String
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductVideo {
+  id          String  @id @default(uuid())
+  youtubeId   String
+  title       String
+  description String?
+  productId   String
+
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id              String    @id @default(uuid())
+  orderNumber     String    @unique
+  status          String    @default("PENDING")
+  totalAmount     Float
+  shippingAddress String
+  paymentMethod   String    @default("COD")
+  paymentStatus   String    @default("PENDING")
+  notes           String?
+  userId          String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User      @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  quantity  Int
+  price     Float
+  orderId   String
+  productId String
+
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model ServiceBooking {
+  id              String    @id @default(uuid())
+  bookingNumber   String    @unique
+  serviceType     String
+  customerName    String
+  phone           String
+  email           String?
+  address         String
+  preferredDate   DateTime
+  preferredTime   String
+  notes           String?
+  status          String    @default("PENDING")
+  technicianId    String?
+  userId          String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User?     @relation(fields: [userId], references: [id])
+}
+
+model IssueReport {
+  id            String    @id @default(uuid())
+  reportNumber  String    @unique
+  customerName  String
+  phone         String
+  issueType     String
+  productName   String
+  description   String
+  images        String?
+  priority      String    @default("MEDIUM")
+  status        String    @default("OPEN")
+  resolution    String?
+  userId        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user          User?     @relation(fields: [userId], references: [id])
+}
+
+model Feedback {
+  id          String    @id @default(uuid())
+  name        String
+  email       String
+  rating      Int
+  message     String
+  isApproved  Boolean   @default(false)
+  isDisplayed Boolean   @default(false)
+  userId      String?
+  createdAt   DateTime  @default(now())
+
+  user        User?     @relation(fields: [userId], references: [id])
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  rating     Int
+  title      String?
+  comment    String
+  isApproved Boolean  @default(false)
+  userId     String
+  productId  String
+  createdAt  DateTime @default(now())
+
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model YoutubeResource {
+  id          String   @id @default(uuid())
+  title       String
+  youtubeId   String
+  description String?
+  category    String
+  thumbnail   String?
+  duration    String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model RecyclingResource {
+  id        String   @id @default(uuid())
+  name      String
+  type      String
+  address   String
+  phone     String?
+  email     String?
+  website   String?
+  district  String?
+  state     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  type      String
+  isRead    Boolean  @default(false)
+  userId    String?
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String
+  entityId  String?
+  oldData   String?
+  newData   String?
+  ip        String?
+  userId    String?
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model LoginHistory {
+  id        String   @id @default(uuid())
+  ip        String?
+  userAgent String?
+  success   Boolean
+  userId    String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  group     String   @default("general")
+  updatedAt DateTime @updatedAt
+}
+
+model Translation {
+  id     String @id @default(uuid())
+  locale String
+  key    String
+  value  String
+
+  @@unique([locale, key])
+}
