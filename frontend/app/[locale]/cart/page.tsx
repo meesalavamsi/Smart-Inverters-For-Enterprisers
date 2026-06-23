@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle } from "lucide-react";
+import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle, Clock } from "lucide-react";
 import { useCartStore, useAuthStore } from "@/lib/store";
 import { ordersApi } from "@/lib/api";
 import { formatCurrency, getWhatsAppUrl } from "@/lib/utils";
@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const checkoutSchema = z.object({
   shippingAddress: z.string().min(20, "Please enter a complete address (min 20 characters)"),
@@ -42,6 +44,8 @@ export default function CartPage() {
       return;
     }
     setPlacing(true);
+    // Wake up the backend before placing (Render free tier sleeps after 15 min)
+    try { await fetch(`${API_URL}/api/health`); } catch { /* ignore */ }
     try {
       const res = await ordersApi.create({
         items: items.map((i) => ({ productId: i.productId, quantity: i.quantity, price: i.price })),
@@ -55,8 +59,13 @@ export default function CartPage() {
       setOrdered(orderNumber);
       toast.success("Order placed successfully!");
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { message?: string } } };
-      toast.error(error?.response?.data?.message || "Failed to place order. Please try again.");
+      const error = err as { response?: { data?: { message?: string } }; code?: string };
+      const msg = error?.response?.data?.message;
+      if (error?.code === "ECONNABORTED" || !error?.response) {
+        toast.error("Server is waking up — please wait 30 seconds and try again.");
+      } else {
+        toast.error(msg || "Failed to place order. Please try again.");
+      }
     } finally {
       setPlacing(false);
     }
@@ -142,7 +151,7 @@ export default function CartPage() {
               >
                 <div className="h-16 w-16 bg-gray-50 rounded-xl flex items-center justify-center shrink-0">
                   {item.image ? (
-                    <img src={item.image.startsWith("/uploads") ? `http://localhost:5000${item.image}` : item.image}
+                    <img src={item.image.startsWith("/uploads") ? `${API_URL}${item.image}` : item.image}
                       alt={item.name} className="h-full w-full object-contain rounded-xl" />
                   ) : (
                     <Package className="h-8 w-8 text-gray-300" />
@@ -218,19 +227,42 @@ export default function CartPage() {
               <div className="mb-4">
                 <label className="text-xs font-bold text-gray-700 mb-2 block">Payment Method</label>
                 <div className="space-y-2">
-                  {[
-                    { value: "COD", label: "Cash on Delivery", desc: "Pay when product arrives" },
-                    { value: "UPI", label: "UPI / PhonePe / GPay", desc: "Instant payment" },
-                    { value: "BANK_TRANSFER", label: "Bank Transfer / NEFT", desc: "Transfer to our bank account" },
-                  ].map(({ value, label, desc }) => (
-                    <label key={value} className="flex items-start gap-3 cursor-pointer">
-                      <input type="radio" {...register("paymentMethod")} value={value} className="mt-1 accent-blue-600" />
-                      <div>
-                        <p className="text-sm font-semibold text-gray-800">{label}</p>
-                        <p className="text-xs text-gray-400">{desc}</p>
+                  {/* Cash on Delivery — available */}
+                  <label className="flex items-start gap-3 cursor-pointer rounded-xl border border-blue-200 bg-blue-50 px-3 py-2.5">
+                    <input type="radio" {...register("paymentMethod")} value="COD" className="mt-0.5 accent-blue-600" />
+                    <div>
+                      <p className="text-sm font-semibold text-gray-800">Cash on Delivery</p>
+                      <p className="text-xs text-gray-500">Pay when product arrives</p>
+                    </div>
+                  </label>
+
+                  {/* UPI — coming soon */}
+                  <div className="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 opacity-60 cursor-not-allowed">
+                    <input type="radio" disabled className="mt-0.5 accent-gray-400" />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-gray-500">UPI / PhonePe / GPay</p>
+                        <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">
+                          <Clock className="h-3 w-3" /> Coming Soon
+                        </span>
                       </div>
-                    </label>
-                  ))}
+                      <p className="text-xs text-gray-400">Instant payment — launching shortly</p>
+                    </div>
+                  </div>
+
+                  {/* Bank Transfer — coming soon */}
+                  <div className="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 opacity-60 cursor-not-allowed">
+                    <input type="radio" disabled className="mt-0.5 accent-gray-400" />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-gray-500">Bank Transfer / NEFT</p>
+                        <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">
+                          <Clock className="h-3 w-3" /> Coming Soon
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-400">Direct bank transfer — launching shortly</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 

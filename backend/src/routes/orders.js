@@ -68,28 +68,33 @@ router.post("/", authenticate, async (req, res) => {
       });
     }
 
-    // Notify admin
-    await prisma.notification.create({
-      data: {
-        title: "New Order Received",
-        message: `Order ${order.orderNumber} placed for ₹${totalAmount.toLocaleString()}`,
-        type: "ORDER",
-      },
-    });
+    // Notify admin (non-critical — don't let this fail the order)
+    try {
+      await prisma.notification.create({
+        data: {
+          title: "New Order Received",
+          message: `Order ${order.orderNumber} placed for ₹${totalAmount.toLocaleString()}`,
+          type: "ORDER",
+        },
+      });
+    } catch (e) {
+      logger.warn("Notification create failed (non-critical):", e.message);
+    }
 
     // Send confirmation email to customer
     try {
       await sendEmail({
         to: req.user.email,
-        subject: `Order Confirmed - ${order.orderNumber}`,
+        subject: `Order Confirmed - ${order.orderNumber} | Smart Inverter's`,
         html: orderConfirmationTemplate(order, req.user),
       });
+      logger.info(`Order confirmation email sent to ${req.user.email}`);
     } catch (e) {
       logger.warn("Customer order email failed:", e.message);
     }
 
-    // Send manager notification email
-    const managerEmail = process.env.MANAGER_EMAIL;
+    // Send manager notification email (use MANAGER_EMAIL or fall back to SMTP_USER)
+    const managerEmail = process.env.MANAGER_EMAIL || process.env.SMTP_USER;
     if (managerEmail && managerEmail !== "your-email@gmail.com") {
       try {
         const itemsList = order.items.map(i => `• ${i.product.name} × ${i.quantity} — ₹${(i.price * i.quantity).toLocaleString()}`).join("\n");

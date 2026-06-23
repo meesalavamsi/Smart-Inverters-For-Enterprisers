@@ -55,7 +55,7 @@ export const productsApi = {
 
 // Orders
 export const ordersApi = {
-  create: (data: Record<string, unknown>) => api.post("/api/orders", data),
+  create: (data: Record<string, unknown>) => api.post("/api/orders", data, { timeout: 60000 }),
   getMy: (params?: Record<string, string | number>) => api.get("/api/orders/my", { params }),
   track: (orderNumber: string) => api.get(`/api/orders/track/${orderNumber}`),
   getAdminAll: (params?: Record<string, string | number>) => api.get("/api/orders/admin/all", { params }),
