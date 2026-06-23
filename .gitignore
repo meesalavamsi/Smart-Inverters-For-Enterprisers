@@ -20,9 +20,11 @@ backend/prisma/dev.db-journal
 backend/prisma/*.db
 *.db
 
-# Uploads (user-uploaded files - not versioned)
+# Uploads — product images are committed; user uploads (issues, etc.) are not
 backend/uploads/*
 !backend/uploads/.gitkeep
+!backend/uploads/products/
+!backend/uploads/products/*
 
 # Logs
 backend/logs/
