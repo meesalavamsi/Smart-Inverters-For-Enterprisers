@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X, Search, BookOpen, Zap, Battery, Wrench, Recycle, HelpCircle } from "lucide-react";
 import { videosApi } from "@/lib/api";
+import { useTranslations } from "next-intl";
 
 interface Video {
   id: string;
@@ -15,21 +16,22 @@ interface Video {
   duration?: string;
 }
 
-const CATEGORIES = [
-  { key: "ALL", label: "All Videos", icon: BookOpen },
-  { key: "INSTALLATION", label: "Installation", icon: Wrench },
-  { key: "MAINTENANCE", label: "Maintenance", icon: Battery },
-  { key: "TROUBLESHOOTING", label: "Troubleshooting", icon: HelpCircle },
-  { key: "PRODUCT_DEMO", label: "Product Demo", icon: Zap },
-  { key: "TIPS_TRICKS", label: "Tips & Tricks", icon: Recycle },
-];
-
 export default function LearningCenterPage() {
+  const t = useTranslations("learning");
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("ALL");
   const [search, setSearch] = useState("");
   const [playing, setPlaying] = useState<Video | null>(null);
+
+  const CATEGORIES = [
+    { key: "ALL", label: t("catAll"), icon: BookOpen },
+    { key: "INSTALLATION", label: t("catInstallation"), icon: Wrench },
+    { key: "MAINTENANCE", label: t("catMaintenance"), icon: Battery },
+    { key: "TROUBLESHOOTING", label: t("catTroubleshooting"), icon: HelpCircle },
+    { key: "PRODUCT_DEMO", label: t("catProductDemo"), icon: Zap },
+    { key: "TIPS_TRICKS", label: t("catTips"), icon: Recycle },
+  ];
 
   useEffect(() => {
     videosApi.getAll().then((res) => {
@@ -52,18 +54,16 @@ export default function LearningCenterPage() {
       <div className="bg-gradient-to-br from-blue-700 to-blue-900 text-white py-14">
         <div className="max-w-5xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm font-medium mb-4">
-            <BookOpen className="h-4 w-4" /> Learning Center
+            <BookOpen className="h-4 w-4" /> {t("badge")}
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-3">Master Your Inverter & Battery</h1>
-          <p className="text-blue-100 max-w-xl mx-auto">
-            Free expert tutorials — installation guides, maintenance tips, troubleshooting help, and product demos in Telugu & English.
-          </p>
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-3">{t("title")}</h1>
+          <p className="text-blue-100 max-w-xl mx-auto">{t("description")}</p>
           <div className="relative max-w-md mx-auto mt-6">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search videos..."
+              placeholder={t("searchPlaceholder")}
               className="w-full pl-11 pr-4 py-3 rounded-xl text-gray-900 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
           </div>
@@ -88,13 +88,6 @@ export default function LearningCenterPage() {
           ))}
         </div>
 
-        {/* Stats */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <span className="font-semibold text-gray-900">{filtered.length}</span> videos
-          {search && <span>for "{search}"</span>}
-          {category !== "ALL" && <span>in {CATEGORIES.find(c => c.key === category)?.label}</span>}
-        </div>
-
         {/* Grid */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -111,8 +104,8 @@ export default function LearningCenterPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-16">
             <BookOpen className="h-16 w-16 text-gray-200 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-1">No videos found</h3>
-            <p className="text-gray-400 text-sm">Try a different search or category</p>
+            <h3 className="text-lg font-semibold text-gray-700 mb-1">{t("emptyTitle")}</h3>
+            <p className="text-gray-400 text-sm">{t("emptyDesc")}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -153,7 +146,7 @@ export default function LearningCenterPage() {
                     <p className="text-sm text-gray-500 mt-1 line-clamp-2">{video.description}</p>
                   )}
                   <div className="flex items-center gap-1 mt-3 text-blue-600 text-sm font-medium">
-                    <Play className="h-3.5 w-3.5" /> Watch Now
+                    <Play className="h-3.5 w-3.5" /> {t("watchNow")}
                   </div>
                 </div>
               </motion.div>

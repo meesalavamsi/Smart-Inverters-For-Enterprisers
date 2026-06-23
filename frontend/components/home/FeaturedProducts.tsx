@@ -10,6 +10,7 @@ import { formatCurrency } from "@/lib/utils";
 import { useCartStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface Product {
   id: string; name: string; model: string; slug: string;
@@ -43,6 +44,7 @@ function TiltCard({ children, className, style }: { children: React.ReactNode; c
 }
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
+  const t = useTranslations("featured");
   const { addItem } = useCartStore();
   const router = useRouter();
   const primaryImage = product.images[0]?.url;
@@ -51,7 +53,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   const handleBook = (e: React.MouseEvent) => {
     e.preventDefault();
     addItem({ productId: product.id, name: product.name, price: product.price, quantity: 1, image: primaryImage, model: product.model });
-    toast.success("Added to cart!");
+    toast.success(t("addedToCart"));
     router.push("/cart");
   };
 
@@ -90,7 +92,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         {/* Content */}
         <div className="p-5 flex flex-col flex-1">
           <h3 className="font-bold text-white text-base leading-tight line-clamp-2 mb-1">{product.name}</h3>
-          <p className="text-xs text-blue-400 mb-3">Model: {product.model}</p>
+          <p className="text-xs text-blue-400 mb-3">{t("model")} {product.model}</p>
           <div className="flex flex-wrap gap-1.5 mb-3">
             <span className="text-xs px-2 py-0.5 rounded border border-blue-500/30 text-blue-300">{product.capacity}</span>
             <span className="text-xs px-2 py-0.5 rounded border border-cyan-500/30 text-cyan-300">{product.batteryType}</span>
@@ -114,12 +116,12 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             <div className="flex gap-2">
               <Link href={`/products/${product.slug}`}
                 className="flex-1 text-center border border-blue-500/40 text-blue-300 hover:bg-blue-500/10 hover:text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-200">
-                Details
+                {t("details")}
               </Link>
               <button onClick={handleBook}
                 className="flex-1 flex items-center justify-center gap-1.5 text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:brightness-110"
                 style={{ background: "linear-gradient(135deg, #2563eb, #1d4ed8)", boxShadow: "0 0 15px rgba(37,99,235,0.4)" }}>
-                <ShoppingCart className="h-3.5 w-3.5" /> Order
+                <ShoppingCart className="h-3.5 w-3.5" /> {t("order")}
               </button>
             </div>
           </div>
@@ -130,6 +132,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 }
 
 export default function FeaturedProducts() {
+  const t = useTranslations("featured");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -158,7 +161,7 @@ export default function FeaturedProducts() {
               className="inline-block text-xs font-bold px-4 py-2 rounded-full mb-4 border border-blue-500/40 text-blue-300"
               style={{ background: "rgba(37,99,235,0.15)" }}
             >
-              Featured Products
+              {t("badge")}
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -166,15 +169,14 @@ export default function FeaturedProducts() {
               viewport={{ once: true }}
               className="text-4xl lg:text-5xl font-extrabold text-white"
             >
-              Our{" "}
               <span style={{ background: "linear-gradient(135deg,#60a5fa,#3b82f6,#06b6d4)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
-                Best Sellers
+                {t("title")}
               </span>
             </motion.h2>
-            <p className="mt-2 text-blue-300/70">Premium quality trusted by thousands of families</p>
+            <p className="mt-2 text-blue-300/70">{t("subtitle")}</p>
           </div>
           <Link href="/products" className="hidden sm:flex items-center gap-2 text-blue-400 font-semibold hover:text-blue-300 hover:gap-3 transition-all duration-200">
-            View All <ArrowRight className="h-4 w-4" />
+            {t("viewAll")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
@@ -184,7 +186,7 @@ export default function FeaturedProducts() {
 
         <div className="text-center mt-8 sm:hidden">
           <Link href="/products" className="inline-flex items-center gap-2 text-blue-400 font-semibold">
-            View All Products <ArrowRight className="h-4 w-4" />
+            {t("viewAllMobile")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>
