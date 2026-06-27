@@ -11,8 +11,22 @@ import RecyclingBanner from "@/components/home/RecyclingBanner";
 import CTA from "@/components/home/CTA";
 
 export const metadata: Metadata = {
-  title: "Smart Inverter's - Premium Inverters & Batteries in Ravulapalem",
-  description: "Terranova authorized lithium inverter dealer in Ravulapalem. Zero maintenance LiFePO4 inverters 1kV–5kV. Expert installation & 24/7 support. Call 9133639888.",
+  title: "Smart Inverter's Ravulapalem | #1 Terranova Lithium Battery Dealer",
+  description:
+    "Buy Terranova LiFePO4 lithium inverter batteries in Ravulapalem. Zero maintenance, 5-year warranty, expert installation & 24/7 support. East Godavari's trusted inverter shop. Call 9133639888.",
+  keywords: [
+    "smart inverters ravulapalem",
+    "terranova battery ravulapalem",
+    "lithium inverter ravulapalem",
+    "inverter shop east godavari",
+    "LiFePO4 battery dealer andhra pradesh",
+    "buy inverter ravulapalem",
+    "home inverter battery ravulapalem",
+  ],
+  alternates: {
+    canonical: "/en",
+    languages: { "te-IN": "/te", "hi-IN": "/hi" },
+  },
 };
 
 export default function HomePage() {

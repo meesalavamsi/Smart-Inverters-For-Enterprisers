@@ -36,13 +36,15 @@ router.post("/", optionalAuth, async (req, res) => {
       },
     });
 
-    await prisma.notification.create({
-      data: {
-        title: "New Service Booking",
-        message: `${customerName} booked ${serviceType.replace(/_/g, " ")} service for ${preferredDate}`,
-        type: "BOOKING",
-      },
-    });
+    try {
+      await prisma.notification.create({
+        data: {
+          title: "New Service Booking",
+          message: `${customerName} booked ${serviceType.replace(/_/g, " ")} service for ${preferredDate}`,
+          type: "BOOKING",
+        },
+      });
+    } catch (e) { logger.warn("Notification create failed (non-critical):", e.message); }
 
     // Email to customer
     if (email) {
@@ -72,8 +74,8 @@ router.post("/", optionalAuth, async (req, res) => {
     }
 
     // Email notification to manager
-    const managerEmail = process.env.MANAGER_EMAIL;
-    if (managerEmail && managerEmail !== "your-email@gmail.com") {
+    const managerEmail = process.env.MANAGER_EMAIL || process.env.SMTP_USER;
+    if (managerEmail) {
       try {
         await sendEmail({
           to: managerEmail,
