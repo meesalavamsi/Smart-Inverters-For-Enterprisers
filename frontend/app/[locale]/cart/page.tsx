@@ -262,7 +262,7 @@ export default function CartPage() {
                       {/* Phone + Name */}
                       <div className="bg-blue-50 rounded-xl p-3 mb-3 text-center">
                         <p className="text-2xl font-extrabold text-blue-700 tracking-widest mb-0.5">9951447358</p>
-                        <p className="text-sm font-semibold text-gray-700">Mani Prasad Rotte</p>
+                        <p className="text-sm font-semibold text-gray-700">Mani Agencies</p>
                       </div>
                       <p className="text-xs text-gray-500 mb-3 text-center">Open any UPI app → Scan QR or enter number above</p>
                       <div className="flex justify-center gap-2 mb-3">
