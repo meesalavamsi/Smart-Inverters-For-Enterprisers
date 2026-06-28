@@ -231,7 +231,7 @@ router.put("/:id", authenticate, authorize("ADMIN"), upload.array("images", 10),
     res.json({ success: true, message: "Product updated successfully", data: fullProduct });
   } catch (error) {
     logger.error("Update product error:", error);
-    res.status(500).json({ success: false, message: "Failed to update product" });
+    res.status(500).json({ success: false, message: "Failed to update product", error: error.message });
   }
 });
 

@@ -10,8 +10,10 @@ import { toast } from "sonner";
 
 interface Product {
   id: string; name: string; model: string; slug: string;
-  price: number; status: string; stockQuantity: number;
+  price: number; originalPrice?: number; status: string; stockQuantity: number;
   batteryType: string; capacity: string; warranty: string; createdAt: string;
+  description?: string; features?: string; specifications?: string;
+  tags?: string; seoTitle?: string; seoDescription?: string;
   category: { id: string; name: string };
   images: { url: string; isPrimary: boolean }[];
   _count: { orderItems: number };
@@ -57,11 +59,22 @@ export default function AdminProductsPage() {
   const openEdit = (p: Product) => {
     setEditProduct(p);
     setForm({
-      name: p.name, model: p.model, description: "", price: String(p.price),
-      originalPrice: "", warranty: p.warranty || "", capacity: p.capacity || "",
-      batteryType: p.batteryType || "Tubular", features: "", specifications: "",
-      stockQuantity: String(p.stockQuantity), status: p.status, tags: "",
-      seoTitle: "", seoDescription: "", categoryId: p.category?.id || "",
+      name: p.name,
+      model: p.model,
+      description: p.description || "",
+      price: String(p.price),
+      originalPrice: p.originalPrice ? String(p.originalPrice) : "",
+      warranty: p.warranty || "",
+      capacity: p.capacity || "",
+      batteryType: p.batteryType || "Tubular",
+      features: p.features || "",
+      specifications: p.specifications || "",
+      stockQuantity: String(p.stockQuantity),
+      status: p.status,
+      tags: p.tags || "",
+      seoTitle: p.seoTitle || "",
+      seoDescription: p.seoDescription || "",
+      categoryId: p.category?.id || "",
     });
     setFiles([]);
     setShowForm(true);
