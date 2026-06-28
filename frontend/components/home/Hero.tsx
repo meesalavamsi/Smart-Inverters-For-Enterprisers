@@ -97,21 +97,21 @@ export default function Hero() {
               className="flex flex-wrap gap-5"
             >
               <div className="flex flex-col gap-1">
-                <a href="tel:9133639888" className="flex items-center gap-2.5 text-blue-200 hover:text-white transition-colors font-semibold">
+                <a href="tel:9951447358" className="flex items-center gap-2.5 text-blue-200 hover:text-white transition-colors font-semibold">
                   <div className="h-9 w-9 rounded-xl bg-blue-600/30 border border-blue-500/30 flex items-center justify-center">
                     <Phone className="h-4 w-4 text-blue-400" />
                   </div>
-                  9133639888
-                </a>
-                <a href="tel:9951447358" className="flex items-center gap-2.5 text-blue-200/70 hover:text-white transition-colors text-sm font-medium pl-11">
                   9951447358
+                </a>
+                <a href="tel:9133639888" className="flex items-center gap-2.5 text-blue-200/70 hover:text-white transition-colors text-sm font-medium pl-11">
+                  9133639888 (WhatsApp)
                 </a>
               </div>
               <div className="flex items-center gap-2.5 text-blue-200/70">
                 <div className="h-9 w-9 rounded-xl bg-green-600/20 border border-green-500/20 flex items-center justify-center">
                   <Shield className="h-4 w-4 text-green-400" />
                 </div>
-                Terranova Authorized Dealer
+                Terranova Authorized Distributor
               </div>
             </motion.div>
 
@@ -155,7 +155,7 @@ export default function Hero() {
               className="absolute bottom-12 left-4 z-10 rounded-2xl px-4 py-2.5 text-sm font-bold text-white border border-green-400/30 backdrop-blur-md"
               style={{ background: "rgba(16,185,129,0.3)", boxShadow: "0 0 20px rgba(16,185,129,0.3)" }}
             >
-              ⚡ Same Day Install
+              ⚡ 48 Hr Service
             </motion.div>
             <motion.div
               animate={{ y: [0, -8, 0] }}
