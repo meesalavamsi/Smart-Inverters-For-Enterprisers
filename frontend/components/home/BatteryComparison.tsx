@@ -129,7 +129,7 @@ export default function BatteryComparison() {
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10"
         >
           {[
-            { value: "3000+", labelKey: "stat1Label" },
+            { value: "4000+", labelKey: "stat1Label" },
             { value: "50%", labelKey: "stat2Label" },
             { value: "5 Yrs", labelKey: "stat3Label" },
             { value: t("stat4Value"), labelKey: "stat4Label" },
