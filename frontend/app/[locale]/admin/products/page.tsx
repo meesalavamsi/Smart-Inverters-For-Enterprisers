@@ -26,7 +26,7 @@ const defaultForm = {
   originalPrice: "", warranty: "", capacity: "",
   batteryType: "Tubular", features: "", specifications: "",
   stockQuantity: "0", status: "ACTIVE", tags: "",
-  seoTitle: "", seoDescription: "", categoryId: "",
+  seoTitle: "", seoDescription: "", categoryId: "", imageUrl: "",
 };
 
 export default function AdminProductsPage() {
@@ -75,6 +75,7 @@ export default function AdminProductsPage() {
       seoTitle: p.seoTitle || "",
       seoDescription: p.seoDescription || "",
       categoryId: p.category?.id || "",
+      imageUrl: "",
     });
     setFiles([]);
     setShowForm(true);
@@ -305,35 +306,77 @@ export default function AdminProductsPage() {
               </div>
 
               {/* Images */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Product Images (Max 10)</label>
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-colors"
-                >
-                  <Upload className="h-8 w-8 text-gray-300 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">Click to upload images</p>
-                  <p className="text-xs text-gray-400 mt-1">JPG, PNG, WebP · Max 5MB each</p>
-                </div>
-                <input
-                  ref={fileInputRef} type="file" multiple accept="image/*"
-                  onChange={e => setFiles(Array.from(e.target.files || []))}
-                  className="hidden"
-                />
-                {files.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {files.map((f, i) => (
-                      <div key={i} className="relative">
-                        <img src={URL.createObjectURL(f)} alt=""
-                          className="h-16 w-16 object-cover rounded-lg border border-gray-200" />
-                        <button onClick={() => setFiles(prev => prev.filter((_, j) => j !== i))}
-                          className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
-                          ×
-                        </button>
-                      </div>
-                    ))}
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-gray-700">Product Image</label>
+
+                {/* Show existing images when editing */}
+                {editProduct?.images?.length ? (
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">Current image:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {editProduct.images.map((img, i) => (
+                        <div key={i} className="relative">
+                          <img
+                            src={img.url.startsWith("http") ? img.url : `${process.env.NEXT_PUBLIC_API_URL}${img.url}`}
+                            alt="" className="h-20 w-20 object-cover rounded-lg border-2 border-gray-200"
+                          />
+                          {img.isPrimary && (
+                            <span className="absolute -top-1.5 -left-1.5 bg-blue-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">MAIN</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                )}
+                ) : null}
+
+                {/* Paste image URL — permanent, doesn't get wiped */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Paste Image URL <span className="text-green-600 font-semibold">(Recommended — image stays permanent)</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={form.imageUrl}
+                    onChange={e => setForm(f => ({ ...f, imageUrl: e.target.value }))}
+                    placeholder="https://i.ibb.co/... or any public image link"
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Upload your image to <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">imgbb.com</a> (free) → copy the Direct link → paste here
+                  </p>
+                </div>
+
+                {/* Or upload file */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Or upload a file</label>
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-colors"
+                  >
+                    <Upload className="h-6 w-6 text-gray-300 mx-auto mb-1" />
+                    <p className="text-sm text-gray-500">Click to upload</p>
+                    <p className="text-xs text-gray-400 mt-0.5">JPG, PNG, WebP · Max 5MB</p>
+                  </div>
+                  <input
+                    ref={fileInputRef} type="file" multiple accept="image/*"
+                    onChange={e => setFiles(Array.from(e.target.files || []))}
+                    className="hidden"
+                  />
+                  {files.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {files.map((f, i) => (
+                        <div key={i} className="relative">
+                          <img src={URL.createObjectURL(f)} alt=""
+                            className="h-16 w-16 object-cover rounded-lg border border-gray-200" />
+                          <button onClick={() => setFiles(prev => prev.filter((_, j) => j !== i))}
+                            className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

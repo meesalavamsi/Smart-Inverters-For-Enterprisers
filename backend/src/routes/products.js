@@ -211,13 +211,24 @@ router.put("/:id", authenticate, authorize("ADMIN"), upload.array("images", 10),
 
     const product = await prisma.product.update({ where: { id }, data: updateData });
 
+    // Handle image URL paste (persists without disk)
+    const { imageUrl } = req.body;
+    if (imageUrl && imageUrl.trim()) {
+      await prisma.productImage.updateMany({ where: { productId: id }, data: { isPrimary: false } });
+      await prisma.productImage.create({
+        data: { id: uuidv4(), url: imageUrl.trim(), alt: product.name, isPrimary: true, order: 0, productId: id },
+      });
+    }
+
     if (req.files?.length) {
+      // Un-set existing primary so the first new upload becomes primary
+      await prisma.productImage.updateMany({ where: { productId: id }, data: { isPrimary: false } });
       const imageData = req.files.map((file, index) => ({
         id: uuidv4(),
         url: `/uploads/products/${file.filename}`,
         alt: product.name,
-        isPrimary: false,
-        order: index + 100,
+        isPrimary: index === 0,
+        order: index,
         productId: product.id,
       }));
       await prisma.productImage.createMany({ data: imageData });
