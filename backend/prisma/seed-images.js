@@ -81,10 +81,11 @@ async function main() {
     const product = await prisma.product.findUnique({ where: { slug } });
     if (!product) { console.log("NOT FOUND:", slug); continue; }
 
-    // Remove existing images first
-    await prisma.productImage.deleteMany({ where: { productId: product.id } });
+    // Skip if product already has images (preserves admin-uploaded images)
+    const existingCount = await prisma.productImage.count({ where: { productId: product.id } });
+    if (existingCount > 0) { console.log(`SKIPPED (already has images): ${product.name}`); continue; }
 
-    // Add new images
+    // Only seed images for products with none
     for (const img of images) {
       await prisma.productImage.create({ data: { ...img, productId: product.id } });
     }
