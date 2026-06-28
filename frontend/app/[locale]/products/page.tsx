@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Search, SlidersHorizontal, Package, ChevronLeft, ChevronRight, X, ShoppingCart, Eye } from "lucide-react";
 
 import { productsApi } from "@/lib/api";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getProductImageSrc } from "@/lib/utils";
 import { useCartStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -219,7 +219,7 @@ export default function ProductsPage() {
                   <div className="relative h-44 bg-gray-50 overflow-hidden">
                     {primaryImage ? (
                       <Image
-                        src={primaryImage.startsWith("/") ? `${process.env.NEXT_PUBLIC_API_URL}${primaryImage}` : primaryImage}
+                        src={getProductImageSrc(primaryImage)}
                         alt={product.name} fill
                         className="object-contain p-3 group-hover:scale-105 transition-transform"
                       />

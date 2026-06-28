@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { productsApi } from "@/lib/api";
 import { useCartStore, useAuthStore } from "@/lib/store";
-import { formatCurrency, getWhatsAppUrl } from "@/lib/utils";
+import { formatCurrency, getWhatsAppUrl, getProductImageSrc } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface Product {
@@ -120,9 +120,7 @@ export default function ProductDetailPage() {
           <div>
             <div className="relative bg-white rounded-2xl overflow-hidden aspect-square border border-gray-100 shadow-sm">
               <Image
-                src={images[imageIdx]?.url?.startsWith("/uploads")
-                  ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${images[imageIdx].url}`
-                  : images[imageIdx]?.url || "/placeholder-product.jpg"}
+                src={getProductImageSrc(images[imageIdx]?.url)}
                 alt={images[imageIdx]?.alt || product.name}
                 fill className="object-contain p-6"
                 onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=Product"; }}
@@ -151,7 +149,7 @@ export default function ProductDetailPage() {
                   <button key={img.id} onClick={() => setImageIdx(i)}
                     className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition-colors ${i === imageIdx ? "border-blue-500" : "border-gray-200"}`}>
                     <Image
-                      src={img.url?.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${img.url}` : img.url}
+                      src={getProductImageSrc(img.url)}
                       alt="" fill className="object-cover"
                       onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/64x64?text=Img"; }}
                     />

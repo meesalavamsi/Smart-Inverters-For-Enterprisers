@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Plus, Search, Edit, Trash2, Package, X, Loader2, Upload, CheckCircle } from "lucide-react";
 import { productsApi } from "@/lib/api";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getProductImageSrc } from "@/lib/utils";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import { toast } from "sonner";
 
@@ -172,7 +172,7 @@ export default function AdminProductsPage() {
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       {p.images[0] ? (
-                        <img src={`${process.env.NEXT_PUBLIC_API_URL}${p.images[0].url}`} alt={p.name}
+                        <img src={getProductImageSrc(p.images[0].url)} alt={p.name}
                           className="h-10 w-10 rounded-lg object-cover bg-gray-100" />
                       ) : (
                         <div className="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
@@ -317,7 +317,7 @@ export default function AdminProductsPage() {
                       {editProduct.images.map((img, i) => (
                         <div key={i} className="relative">
                           <img
-                            src={img.url.startsWith("http") ? img.url : `${process.env.NEXT_PUBLIC_API_URL}${img.url}`}
+                            src={getProductImageSrc(img.url)}
                             alt="" className="h-20 w-20 object-cover rounded-lg border-2 border-gray-200"
                           />
                           {img.isPrimary && (

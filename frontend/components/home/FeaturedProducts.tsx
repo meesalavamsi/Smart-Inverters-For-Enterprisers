@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Star, ArrowRight, Package, ShoppingCart } from "lucide-react";
 import { productsApi } from "@/lib/api";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getProductImageSrc } from "@/lib/utils";
 import { useCartStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -70,7 +70,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         <div className="relative h-52 overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
           {primaryImage ? (
             <Image
-              src={primaryImage.startsWith("/") ? `${process.env.NEXT_PUBLIC_API_URL}${primaryImage}` : primaryImage}
+              src={getProductImageSrc(primaryImage)}
               alt={product.name} fill
               className="object-contain p-4 hover:scale-105 transition-transform duration-500"
             />

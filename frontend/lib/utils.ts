@@ -13,6 +13,13 @@ export function formatDate(date: string | Date) {
   return new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(date));
 }
 
+export function getProductImageSrc(url: string | undefined): string {
+  if (!url) return "/placeholder-product.jpg";
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) return url;
+  const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  return `${base}${url}`;
+}
+
 export function getWhatsAppUrl(message: string) {
   const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919133639888";
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
