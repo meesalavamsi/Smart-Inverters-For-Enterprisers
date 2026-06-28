@@ -4,14 +4,19 @@ const logger = require("./logger");
 // Gmail SMTP transporter — App Password required (myaccount.google.com/apppasswords)
 function createTransporter() {
   return nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.SMTP_USER,
       pass: (process.env.SMTP_PASS || "").replace(/\s/g, ""),
     },
     tls: {
-      rejectUnauthorized: false, // bypass SSL inspection by ISP/router
+      rejectUnauthorized: false,
     },
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000,
   });
 }
 
