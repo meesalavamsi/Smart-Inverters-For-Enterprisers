@@ -59,6 +59,22 @@ async function main() {
         { url: IMG.floor,   alt: "Terranova high capacity inverter installation",                    isPrimary: false, order: 2 },
       ],
     },
+    {
+      slug: "terranova-5kv-72kwh-battery",
+      images: [
+        { url: IMG.wallBig, alt: "Terranova 5kV Inverter with 7.2kW battery — wall mount",          isPrimary: true,  order: 1 },
+        { url: IMG.floor,   alt: "Terranova 5kV high capacity system installation",                  isPrimary: false, order: 2 },
+        { url: IMG.clean,   alt: "Terranova 5kV 7.2kW combo unit",                                  isPrimary: false, order: 3 },
+      ],
+    },
+    {
+      slug: "terranova-48kw-3kwh-battery",
+      images: [
+        { url: IMG.wallBig, alt: "Terranova 4.8kW Inverter with 3kW battery",                       isPrimary: true,  order: 1 },
+        { url: IMG.floor,   alt: "Terranova 4.8kW inverter floor installation",                      isPrimary: false, order: 2 },
+        { url: IMG.clean,   alt: "Terranova 4.8kW system unit",                                      isPrimary: false, order: 3 },
+      ],
+    },
   ];
 
   for (const { slug, images } of assignments) {
