@@ -372,8 +372,14 @@ async function main() {
       await prisma.product.create({ data: p });
       console.log("Created:", p.name, "— ₹" + p.price.toLocaleString("en-IN"));
     } else {
-      await prisma.product.update({ where: { slug: p.slug }, data: p });
-      console.log("Updated:", p.name);
+      // Skip MICAH'S and combo products — prices/status are managed via admin dashboard
+      const skipUpdate = ["micahs-25kw-lithium-inverter","micahs-1kv-lithium-inverter","terranova-5kv-72kwh-battery","terranova-48kw-3kwh-battery"];
+      if (skipUpdate.includes(p.slug)) {
+        console.log("Skipped (admin-managed):", p.name);
+      } else {
+        await prisma.product.update({ where: { slug: p.slug }, data: p });
+        console.log("Updated:", p.name);
+      }
     }
   }
 
