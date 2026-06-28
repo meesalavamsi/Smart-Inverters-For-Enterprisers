@@ -69,8 +69,8 @@ export default function CTA() {
               </div>
               <div className="text-left">
                 <p className="text-xs text-gray-400 font-medium">{t("callLabel")}</p>
-                <a href="tel:9133639888" className="block text-2xl font-extrabold hover:text-blue-600 transition-colors">9133639888</a>
-                <a href="tel:9951447358" className="block text-sm font-semibold text-gray-500 hover:text-blue-500 transition-colors">9951447358</a>
+                <a href="tel:9951447358" className="block text-2xl font-extrabold hover:text-blue-600 transition-colors">9951447358</a>
+                <a href="tel:9133639888" className="block text-sm font-semibold text-gray-500 hover:text-blue-500 transition-colors">9133639888 (WhatsApp)</a>
               </div>
             </div>
             <div className="w-px h-12 bg-gray-200 hidden sm:block" />

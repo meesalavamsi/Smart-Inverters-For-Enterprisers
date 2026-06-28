@@ -14,11 +14,14 @@ function generateBookingNumber() {
 
 // PUBLIC: Create service booking
 router.post("/", optionalAuth, async (req, res) => {
-  const { serviceType, customerName, phone, email, address, preferredDate, preferredTime, notes } = req.body;
+  const { serviceType, customerName, phone, email, address, notes } = req.body;
 
-  if (!serviceType || !customerName || !phone || !address || !preferredDate || !preferredTime) {
+  if (!serviceType || !customerName || !phone || !address) {
     return res.status(400).json({ success: false, message: "Required fields missing" });
   }
+
+  const preferredDate = req.body.preferredDate || new Date().toISOString();
+  const preferredTime = req.body.preferredTime || "Team will call to confirm";
 
   try {
     const booking = await prisma.serviceBooking.create({

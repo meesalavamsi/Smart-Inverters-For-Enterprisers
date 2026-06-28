@@ -3,6 +3,18 @@ import { Shield, Award, Zap, Target, Heart } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
+function HighlightTerranova({ text }: { text: string }) {
+  const parts = text.split("Terranova");
+  return (
+    <>
+      {parts.flatMap((part, i) => {
+        if (i === parts.length - 1) return [part];
+        return [part, <span key={i} className="font-bold text-blue-700">Terranova</span>];
+      })}
+    </>
+  );
+}
+
 export const metadata: Metadata = {
   title: "About Us",
   description: "Learn about Smart Inverter's - Trusted inverter and battery solutions in Ravulapalem",
@@ -52,9 +64,9 @@ export default async function AboutPage() {
             <div>
               <span className="inline-block bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">{t("storyBadge")}</span>
               <h2 className="text-4xl font-extrabold text-gray-900 mb-5">{t("storyTitle")}</h2>
-              <p className="text-gray-600 leading-relaxed mb-4">{t("storyP1")}</p>
-              <p className="text-gray-600 leading-relaxed mb-4">{t("storyP2")}</p>
-              <p className="text-gray-600 leading-relaxed">{t("storyP3")}</p>
+              <p className="text-gray-600 leading-relaxed mb-4"><HighlightTerranova text={t("storyP1")} /></p>
+              <p className="text-gray-600 leading-relaxed mb-4"><HighlightTerranova text={t("storyP2")} /></p>
+              <p className="text-gray-600 leading-relaxed"><HighlightTerranova text={t("storyP3")} /></p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {stats.map(stat => (

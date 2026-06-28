@@ -121,12 +121,20 @@ export default function Services() {
               <p className="text-blue-200 text-sm leading-relaxed mb-6">
                 Power outage at night or on holidays? We&apos;re available 24/7 across the region.
               </p>
-              <a
-                href="tel:9133639888"
-                className="inline-flex items-center gap-2 bg-white text-blue-700 px-6 py-3 rounded-xl font-extrabold text-sm hover:bg-yellow-300 hover:text-blue-900 transition-all duration-300 shadow-lg"
-              >
-                <Phone className="h-4 w-4" /> 9133639888
-              </a>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="tel:9951447358"
+                  className="inline-flex items-center gap-2 bg-white text-blue-700 px-6 py-3 rounded-xl font-extrabold text-sm hover:bg-yellow-300 hover:text-blue-900 transition-all duration-300 shadow-lg"
+                >
+                  <Phone className="h-4 w-4" /> 9951447358 (Call)
+                </a>
+                <a
+                  href="tel:9133639888"
+                  className="inline-flex items-center gap-2 bg-white/20 text-white border border-white/30 px-6 py-3 rounded-xl font-semibold text-sm hover:bg-white/30 transition-all duration-300"
+                >
+                  <Phone className="h-4 w-4" /> 9133639888 (WhatsApp)
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
