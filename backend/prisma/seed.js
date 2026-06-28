@@ -40,18 +40,22 @@ async function main() {
   }
   console.log("Categories seeded");
 
-  // Sample YouTube videos
+  // Real YouTube videos from @maniprasadatreyapuram/shorts
   const videos = [
-    { title: "How to Install an Inverter at Home", youtubeId: "dQw4w9WgXcQ", category: "INSTALLATION", description: "Step-by-step home inverter installation guide", duration: "12:45", order: 1 },
-    { title: "Inverter Battery Safety Tips", youtubeId: "dQw4w9WgXcQ", category: "SAFETY", description: "Essential safety precautions for inverter batteries", duration: "8:30", order: 1 },
-    { title: "Battery Maintenance Best Practices", youtubeId: "dQw4w9WgXcQ", category: "MAINTENANCE", description: "How to extend battery life", duration: "10:15", order: 1 },
-    { title: "Troubleshooting Common Inverter Problems", youtubeId: "dQw4w9WgXcQ", category: "TROUBLESHOOTING", description: "Fix common inverter issues", duration: "15:20", order: 1 },
-    { title: "Solar Inverter Setup Guide", youtubeId: "dQw4w9WgXcQ", category: "INSTALLATION", description: "How to set up a solar inverter system", duration: "18:00", order: 2 },
-    { title: "How to Check Battery Water Level", youtubeId: "dQw4w9WgXcQ", category: "MAINTENANCE", description: "Checking and topping up battery water", duration: "5:30", order: 2 },
+    { title: "Inverter Installation Guide - Step by Step", youtubeId: "YQNXFfza7_c", category: "INSTALLATION", description: "Complete step-by-step inverter installation at home", order: 1, isActive: true },
+    { title: "Home Inverter Setup - Full Demonstration", youtubeId: "Oq2DHDtLuYM", category: "INSTALLATION", description: "Watch our technician set up a home inverter system", order: 2, isActive: true },
+    { title: "Battery Connection & Wiring Guide", youtubeId: "Syxae_j-qQc", category: "INSTALLATION", description: "How to safely connect inverter batteries with proper wiring", order: 3, isActive: true },
+    { title: "Terranova Inverter - Product Demo", youtubeId: "rHgBnmMBUkU", category: "PRODUCT_DEMO", description: "See the Terranova LiFePO4 smart inverter in action", order: 1, isActive: true },
+    { title: "How to Check Inverter Performance", youtubeId: "JCwXK44pNqA", category: "MAINTENANCE", description: "Quick checks to make sure your inverter is running at its best", order: 1, isActive: true },
+    { title: "Inverter Troubleshooting - Common Problems Fixed", youtubeId: "KPafO3rMBHw", category: "TROUBLESHOOTING", description: "Diagnose and fix the most common inverter problems", order: 1, isActive: true },
+    { title: "Lithium Battery vs Lead Acid - Live Comparison", youtubeId: "OU_WvgnV1Go", category: "PRODUCT_DEMO", description: "Real-world comparison: lithium vs lead acid battery", order: 2, isActive: true },
+    { title: "Smart Inverter Complete Setup Walkthrough", youtubeId: "d-kw7pcluLo", category: "INSTALLATION", description: "End-to-end smart inverter installation demonstration", order: 4, isActive: true },
+    { title: "Inverter Battery Maintenance Tips", youtubeId: "SRBcYBPE2UM", category: "MAINTENANCE", description: "How to keep your inverter battery in top condition for years", order: 2, isActive: true },
+    { title: "Quick Tips: Inverter Usage & Care", youtubeId: "kwMUrbKefds", category: "TIPS_TRICKS", description: "Daily tips to get the most out of your inverter", order: 1, isActive: true },
   ];
 
   for (const video of videos) {
-    const existing = await prisma.youtubeResource.findFirst({ where: { youtubeId: video.youtubeId, title: video.title } });
+    const existing = await prisma.youtubeResource.findFirst({ where: { youtubeId: video.youtubeId } });
     if (!existing) await prisma.youtubeResource.create({ data: video });
   }
   console.log("Videos seeded");
