@@ -59,10 +59,27 @@ export default function Hero() {
               </h1>
             </motion.div>
 
+            {/* Trust line — #1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.22 }}
+              className="flex flex-wrap items-center gap-x-3 gap-y-1"
+            >
+              {[
+                "✓ Authorized Terranova Dealer",
+                "✓ 10+ Years Experience",
+                "✓ East Godavari",
+                "✓ 5000+ Happy Customers",
+              ].map((item) => (
+                <span key={item} className="text-sm font-semibold text-green-400">{item}</span>
+              ))}
+            </motion.div>
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.25 }}
+              transition={{ duration: 0.7, delay: 0.32 }}
               className="text-lg text-blue-200/80 leading-relaxed max-w-xl"
             >
               {t("subtitle")}

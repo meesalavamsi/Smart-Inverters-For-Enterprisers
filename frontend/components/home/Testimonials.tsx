@@ -7,15 +7,16 @@ import { feedbackApi } from "@/lib/api";
 
 interface Testimonial {
   id: string; name: string; rating: number; message: string; createdAt: string;
+  location?: string;
 }
 
 const FALLBACK: Testimonial[] = [
-  { id: "1", name: "Suresh Rao", rating: 5, message: "Excellent service! They installed our inverter within 2 hours. Very professional team.", createdAt: "" },
-  { id: "2", name: "Lakshmi Devi", rating: 5, message: "Battery quality is superb. Already 2 years, still works like new. Highly recommended!", createdAt: "" },
-  { id: "3", name: "Ravi Kumar", rating: 4, message: "Good products, quick delivery. The WhatsApp support is very responsive.", createdAt: "" },
-  { id: "4", name: "Anjali Reddy", rating: 5, message: "Best inverter shop in Ravulapalem. Genuine products and fair prices.", createdAt: "" },
-  { id: "5", name: "Venkata Rao", rating: 5, message: "Had an emergency power issue on Sunday night, they responded immediately. Amazing service!", createdAt: "" },
-  { id: "6", name: "Padma Kumari", rating: 4, message: "Very satisfied with the battery replacement. Team was courteous and efficient.", createdAt: "" },
+  { id: "1", name: "Suresh Rao", rating: 5, message: "Excellent service! They installed our inverter within 2 hours. Very professional team. Highly recommend to anyone in East Godavari.", createdAt: "2025", location: "Ravulapalem" },
+  { id: "2", name: "Lakshmi Devi", rating: 5, message: "Battery quality is superb. Already 2 years, still works like new. Zero maintenance as promised. Highly recommended!", createdAt: "2023", location: "Amalapuram" },
+  { id: "3", name: "Ravi Kumar", rating: 4, message: "Good products, quick delivery. The WhatsApp support is very responsive. Got my inverter installed the same day.", createdAt: "2024", location: "Kothapeta" },
+  { id: "4", name: "Anjali Reddy", rating: 5, message: "Best inverter shop in Ravulapalem. Genuine Terranova products and fair prices. No power issues since installation.", createdAt: "2025", location: "Ravulapalem" },
+  { id: "5", name: "Venkata Rao", rating: 5, message: "Had an emergency power issue on Sunday night, they responded immediately. Amazing after-sales support. Truly 24/7 service.", createdAt: "2024", location: "Mandapeta" },
+  { id: "6", name: "Padma Kumari", rating: 4, message: "Very satisfied with the battery replacement. Team was courteous and efficient. The lithium battery is much better than the old tubular one.", createdAt: "2025", location: "Ravulapalem" },
 ];
 
 const COLORS = ["from-blue-600 to-blue-800", "from-purple-600 to-violet-800", "from-cyan-600 to-blue-700", "from-emerald-600 to-teal-800", "from-rose-600 to-pink-800", "from-amber-500 to-orange-600"];
@@ -53,7 +54,10 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
         </div>
         <div>
           <p className="font-semibold text-white text-sm">{t.name}</p>
-          <p className="text-xs text-blue-400">Verified Customer</p>
+          <p className="text-xs text-blue-400">
+            {t.location ? `${t.location}` : "Verified Customer"}
+            {t.createdAt ? ` • ${t.createdAt.slice(0, 4)}` : ""}
+          </p>
         </div>
       </div>
     </motion.div>

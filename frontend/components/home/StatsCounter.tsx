@@ -13,9 +13,11 @@ const statValues = [
 
 function CountUp({ target, suffix, active }: { target: number; suffix: string; active: boolean }) {
   const [count, setCount] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (!active) return;
+    setVisible(true);
     let frame = 0;
     const total = 80;
     const timer = setInterval(() => {
@@ -27,7 +29,11 @@ function CountUp({ target, suffix, active }: { target: number; suffix: string; a
     return () => clearInterval(timer);
   }, [active, target]);
 
-  return <>{count.toLocaleString()}{suffix}</>;
+  return (
+    <span className={`transition-opacity duration-300 ${visible ? "opacity-100" : "opacity-0"}`}>
+      {count.toLocaleString()}{suffix}
+    </span>
+  );
 }
 
 export default function StatsCounter() {
