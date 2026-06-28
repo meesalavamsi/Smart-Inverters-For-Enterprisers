@@ -185,10 +185,29 @@ router.put("/:id", authenticate, authorize("ADMIN"), upload.array("images", 10),
     const existing = await prisma.product.findUnique({ where: { id } });
     if (!existing) return res.status(404).json({ success: false, message: "Product not found" });
 
-    const updateData = { ...req.body };
-    if (updateData.price) updateData.price = parseFloat(updateData.price);
-    if (updateData.originalPrice) updateData.originalPrice = parseFloat(updateData.originalPrice);
-    if (updateData.stockQuantity) updateData.stockQuantity = parseInt(updateData.stockQuantity);
+    const {
+      name, model, description, price, originalPrice, warranty, capacity,
+      batteryType, features, specifications, stockQuantity, status,
+      tags, seoTitle, seoDescription, categoryId,
+    } = req.body;
+
+    const updateData = {};
+    if (name !== undefined) updateData.name = name;
+    if (model !== undefined) updateData.model = model;
+    if (description !== undefined) updateData.description = description;
+    if (price !== undefined && price !== "") updateData.price = parseFloat(price);
+    if (originalPrice !== undefined) updateData.originalPrice = originalPrice !== "" ? parseFloat(originalPrice) : null;
+    if (warranty !== undefined) updateData.warranty = warranty;
+    if (capacity !== undefined) updateData.capacity = capacity;
+    if (batteryType !== undefined) updateData.batteryType = batteryType;
+    if (features !== undefined) updateData.features = features;
+    if (specifications !== undefined) updateData.specifications = specifications;
+    if (stockQuantity !== undefined && stockQuantity !== "") updateData.stockQuantity = parseInt(stockQuantity);
+    if (status !== undefined) updateData.status = status;
+    if (tags !== undefined) updateData.tags = tags;
+    if (seoTitle !== undefined) updateData.seoTitle = seoTitle;
+    if (seoDescription !== undefined) updateData.seoDescription = seoDescription;
+    if (categoryId !== undefined && categoryId !== "") updateData.categoryId = categoryId;
 
     const product = await prisma.product.update({ where: { id }, data: updateData });
 
