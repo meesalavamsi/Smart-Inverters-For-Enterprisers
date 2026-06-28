@@ -54,7 +54,7 @@ export default function Hero() {
                 <span className="text-white">Welcome to</span>
                 <br />
                 <span style={{ background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 40%, #06b6d4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                  Smart Inverter&apos;s
+                  Smart Inverters
                 </span>
                 <br />
                 <span className="text-white">Ravulapalem</span>
