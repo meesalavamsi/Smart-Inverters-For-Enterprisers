@@ -81,65 +81,51 @@ router.post("/", authenticate, async (req, res) => {
       logger.warn("Notification create failed (non-critical):", e.message);
     }
 
-    // Send confirmation email to customer
-    try {
-      await sendEmail({
-        to: req.user.email,
-        subject: `Order Confirmed - ${order.orderNumber} | Smart Inverter's`,
-        html: orderConfirmationTemplate(order, req.user),
-      });
-      logger.info(`Order confirmation email sent to ${req.user.email}`);
-    } catch (e) {
-      logger.warn("Customer order email failed:", e.message);
-    }
+    // Respond immediately — emails fire in background so button doesn't spin
+    res.status(201).json({ success: true, message: "Order placed successfully!", data: order });
 
-    // Send manager notification email (use MANAGER_EMAIL or fall back to SMTP_USER)
+    // Customer confirmation email (background — non-blocking)
+    sendEmail({
+      to: req.user.email,
+      subject: `Order Confirmed - ${order.orderNumber} | Smart Inverter's`,
+      html: orderConfirmationTemplate(order, req.user),
+    }).then(() => logger.info(`Order confirmation email sent to ${req.user.email}`))
+      .catch(e => logger.warn("Customer order email failed:", e.message));
+
+    // Manager notification email (background — non-blocking)
     const managerEmail = process.env.MANAGER_EMAIL || process.env.SMTP_USER;
     if (managerEmail && managerEmail !== "your-email@gmail.com") {
-      try {
-        const itemsList = order.items.map(i => `• ${i.product.name} × ${i.quantity} — ₹${(i.price * i.quantity).toLocaleString()}`).join("\n");
-        await sendEmail({
-          to: managerEmail,
-          subject: `🛒 New Order: ${order.orderNumber} — ₹${totalAmount.toLocaleString()}`,
-          html: `
-            <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-              <div style="background:linear-gradient(135deg,#d97706,#f59e0b);padding:20px;text-align:center;">
-                <h2 style="color:white;margin:0;">🛒 New Order Received</h2>
+      const itemsList = order.items.map(i => `• ${i.product.name} × ${i.quantity} — ₹${(i.price * i.quantity).toLocaleString()}`).join("\n");
+      sendEmail({
+        to: managerEmail,
+        subject: `🛒 New Order: ${order.orderNumber} — ₹${totalAmount.toLocaleString()}`,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+            <div style="background:linear-gradient(135deg,#d97706,#f59e0b);padding:20px;text-align:center;">
+              <h2 style="color:white;margin:0;">🛒 New Order Received</h2>
+            </div>
+            <div style="background:white;padding:24px;border:1px solid #e5e7eb;">
+              <table style="width:100%;border-collapse:collapse;">
+                <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;width:40%;">Order Number</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;font-weight:bold;">${order.orderNumber}</td></tr>
+                <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Customer</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;font-weight:bold;">${req.user.name}</td></tr>
+                <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Customer Email</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;">${req.user.email}</td></tr>
+                <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Payment</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;">${paymentMethod}</td></tr>
+                <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Shipping To</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;">${typeof shippingAddress === "object" ? JSON.stringify(shippingAddress) : shippingAddress}</td></tr>
+                <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Total Amount</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;font-size:18px;font-weight:bold;color:#1d4ed8;">₹${totalAmount.toLocaleString()}</td></tr>
+              </table>
+              <div style="margin-top:16px;background:#f9fafb;border-radius:8px;padding:16px;">
+                <p style="font-weight:bold;margin:0 0 8px;color:#374151;">Items Ordered:</p>
+                <pre style="margin:0;font-family:Arial,sans-serif;font-size:14px;color:#4b5563;white-space:pre-wrap;">${itemsList}</pre>
               </div>
-              <div style="background:white;padding:24px;border:1px solid #e5e7eb;">
-                <table style="width:100%;border-collapse:collapse;">
-                  <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;width:40%;">Order Number</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;font-weight:bold;">${order.orderNumber}</td></tr>
-                  <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Customer</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;font-weight:bold;">${req.user.name}</td></tr>
-                  <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Customer Email</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;">${req.user.email}</td></tr>
-                  <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Payment</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;">${paymentMethod}</td></tr>
-                  <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Shipping To</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;">${typeof shippingAddress === "object" ? JSON.stringify(shippingAddress) : shippingAddress}</td></tr>
-                  <tr><td style="padding:8px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Total Amount</td><td style="padding:8px;border-bottom:1px solid #f3f4f6;font-size:18px;font-weight:bold;color:#1d4ed8;">₹${totalAmount.toLocaleString()}</td></tr>
-                </table>
-                <div style="margin-top:16px;background:#f9fafb;border-radius:8px;padding:16px;">
-                  <p style="font-weight:bold;margin:0 0 8px;color:#374151;">Items Ordered:</p>
-                  <pre style="margin:0;font-family:Arial,sans-serif;font-size:14px;color:#4b5563;white-space:pre-wrap;">${itemsList}</pre>
-                </div>
-                <div style="margin-top:16px;padding:16px;background:#fef3c7;border-radius:8px;border-left:4px solid #f59e0b;">
-                  <p style="margin:0;font-weight:bold;color:#92400e;">Please process this order and arrange delivery.</p>
-                </div>
-                ${notes ? `<p style="margin-top:12px;color:#6b7280;"><strong>Customer Notes:</strong> ${notes}</p>` : ""}
+              <div style="margin-top:16px;padding:16px;background:#fef3c7;border-radius:8px;border-left:4px solid #f59e0b;">
+                <p style="margin:0;font-weight:bold;color:#92400e;">Please process this order and arrange delivery.</p>
               </div>
-            </div>`,
-        });
-        logger.info(`Manager notified for order ${order.orderNumber}`);
-      } catch (e) {
-        logger.warn("Manager order email failed:", e.message);
-      }
+              ${notes ? `<p style="margin-top:12px;color:#6b7280;"><strong>Customer Notes:</strong> ${notes}</p>` : ""}
+            </div>
+          </div>`,
+      }).then(() => logger.info(`Manager notified for order ${order.orderNumber}`))
+        .catch(e => logger.warn("Manager order email failed:", e.message));
     }
-
-    // Log WhatsApp notification for manager
-    const managerWA = process.env.MANAGER_WHATSAPP;
-    if (managerWA) {
-      const waMsg = `🛒 New Order!\nOrder: ${order.orderNumber}\nCustomer: ${req.user.name}\nTotal: ₹${totalAmount.toLocaleString()}\nPayment: ${paymentMethod}`;
-      logger.info(`Manager WhatsApp alert: https://wa.me/${managerWA}?text=${encodeURIComponent(waMsg)}`);
-    }
-
-    res.status(201).json({ success: true, message: "Order placed successfully!", data: order });
   } catch (error) {
     logger.error("Create order error:", error);
     res.status(500).json({ success: false, message: "Failed to place order" });
