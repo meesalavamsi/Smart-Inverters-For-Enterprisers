@@ -4,20 +4,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle, Clock } from "lucide-react";
+import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle, Smartphone, Building2 } from "lucide-react";
 import { useCartStore, useAuthStore } from "@/lib/store";
 import { ordersApi } from "@/lib/api";
-import { formatCurrency, getWhatsAppUrl } from "@/lib/utils";
+import { formatCurrency, getWhatsAppUrl, getProductImageSrc } from "@/lib/utils";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
 const checkoutSchema = z.object({
   shippingAddress: z.string().min(20, "Please enter a complete address (min 20 characters)"),
-  paymentMethod: z.enum(["COD", "UPI", "BANK_TRANSFER"]),
+  paymentMethod: z.enum(["UPI", "BANK_TRANSFER"]),
   notes: z.string().optional(),
 });
 
@@ -32,10 +30,11 @@ export default function CartPage() {
 
   const totalPrice = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<CheckoutForm>({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: { paymentMethod: "COD" },
+    defaultValues: { paymentMethod: "UPI" },
   });
+  const selectedPayment = watch("paymentMethod");
 
   const handleOrder = async (data: CheckoutForm) => {
     if (!user) {
@@ -45,7 +44,7 @@ export default function CartPage() {
     }
     setPlacing(true);
     // Wake up the backend before placing (Render free tier sleeps after 15 min)
-    try { await fetch(`${API_URL}/api/health`); } catch { /* ignore */ }
+    try { await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/health`); } catch { /* ignore */ }
     try {
       const res = await ordersApi.create({
         items: items.map((i) => ({ productId: i.productId, quantity: i.quantity, price: i.price })),
@@ -151,7 +150,7 @@ export default function CartPage() {
               >
                 <div className="h-16 w-16 bg-gray-50 rounded-xl flex items-center justify-center shrink-0">
                   {item.image ? (
-                    <img src={item.image.startsWith("/uploads") ? `${API_URL}${item.image}` : item.image}
+                    <img src={getProductImageSrc(item.image)}
                       alt={item.name} className="h-full w-full object-contain rounded-xl" />
                   ) : (
                     <Package className="h-8 w-8 text-gray-300" />
@@ -227,42 +226,68 @@ export default function CartPage() {
               <div className="mb-4">
                 <label className="text-xs font-bold text-gray-700 mb-2 block">Payment Method</label>
                 <div className="space-y-2">
-                  {/* Cash on Delivery — available */}
-                  <label className="flex items-start gap-3 cursor-pointer rounded-xl border border-blue-200 bg-blue-50 px-3 py-2.5">
-                    <input type="radio" {...register("paymentMethod")} value="COD" className="mt-0.5 accent-blue-600" />
-                    <div>
-                      <p className="text-sm font-semibold text-gray-800">Cash on Delivery</p>
-                      <p className="text-xs text-gray-500">Pay when product arrives</p>
+
+                  {/* UPI */}
+                  <label className={`flex items-start gap-3 cursor-pointer rounded-xl border px-3 py-2.5 transition-colors ${selectedPayment === "UPI" ? "border-blue-400 bg-blue-50" : "border-gray-200 bg-white hover:border-blue-200"}`}>
+                    <input type="radio" {...register("paymentMethod")} value="UPI" className="mt-0.5 accent-blue-600" />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <Smartphone className="h-4 w-4 text-blue-600" />
+                        <p className="text-sm font-semibold text-gray-800">UPI / Google Pay / PhonePe</p>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-0.5">Instant digital payment</p>
                     </div>
                   </label>
 
-                  {/* UPI — coming soon */}
-                  <div className="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 opacity-60 cursor-not-allowed">
-                    <input type="radio" disabled className="mt-0.5 accent-gray-400" />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-semibold text-gray-500">UPI / PhonePe / GPay</p>
-                        <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">
-                          <Clock className="h-3 w-3" /> Coming Soon
-                        </span>
+                  {/* UPI QR Code — shown when UPI is selected */}
+                  {selectedPayment === "UPI" && (
+                    <div className="rounded-xl border border-blue-200 bg-white p-4 text-center">
+                      <p className="text-xs font-bold text-gray-600 mb-3">Scan QR code to pay</p>
+                      <div className="inline-block rounded-xl border-2 border-blue-200 bg-gray-50 p-2 mb-3">
+                        {/* Replace /upi-qr.png with your actual QR image */}
+                        <img
+                          src="/upi-qr.png"
+                          alt="UPI QR Code"
+                          className="w-44 h-44 object-contain"
+                          onError={e => {
+                            const t = e.currentTarget.parentElement!;
+                            t.innerHTML = '<div class="w-44 h-44 flex flex-col items-center justify-center gap-2 text-blue-400"><svg xmlns=\'http://www.w3.org/2000/svg\' class=\'h-12 w-12\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'currentColor\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z\' /></svg><p class=\'text-xs text-gray-400 px-4\'>QR code being added</p></div>';
+                          }}
+                        />
                       </div>
-                      <p className="text-xs text-gray-400">Instant payment — launching shortly</p>
+                      <div className="flex justify-center gap-3 mb-3">
+                        {["GPay", "PhonePe", "Paytm", "BHIM"].map(app => (
+                          <span key={app} className="text-xs bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-full border border-blue-100">{app}</span>
+                        ))}
+                      </div>
+                      <p className="text-xs text-orange-600 font-medium">After payment, confirm order on WhatsApp with your transaction ID</p>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Bank Transfer — coming soon */}
-                  <div className="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 opacity-60 cursor-not-allowed">
-                    <input type="radio" disabled className="mt-0.5 accent-gray-400" />
+                  {/* Net Banking */}
+                  <label className={`flex items-start gap-3 cursor-pointer rounded-xl border px-3 py-2.5 transition-colors ${selectedPayment === "BANK_TRANSFER" ? "border-green-400 bg-green-50" : "border-gray-200 bg-white hover:border-green-200"}`}>
+                    <input type="radio" {...register("paymentMethod")} value="BANK_TRANSFER" className="mt-0.5 accent-green-600" />
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-semibold text-gray-500">Bank Transfer / NEFT</p>
-                        <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">
-                          <Clock className="h-3 w-3" /> Coming Soon
-                        </span>
+                        <Building2 className="h-4 w-4 text-green-600" />
+                        <p className="text-sm font-semibold text-gray-800">Net Banking / NEFT / RTGS</p>
                       </div>
-                      <p className="text-xs text-gray-400">Direct bank transfer — launching shortly</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Direct bank transfer</p>
                     </div>
-                  </div>
+                  </label>
+
+                  {/* Bank details — shown when Bank Transfer is selected */}
+                  {selectedPayment === "BANK_TRANSFER" && (
+                    <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm space-y-1.5">
+                      <p className="font-bold text-green-800 mb-2">Bank Transfer Details</p>
+                      <div className="flex justify-between text-xs"><span className="text-gray-500">Account Name</span><span className="font-semibold text-gray-800">Smart Inverter&apos;s</span></div>
+                      <div className="flex justify-between text-xs"><span className="text-gray-500">Account No.</span><span className="font-semibold text-gray-800 font-mono">— (shared on WhatsApp)</span></div>
+                      <div className="flex justify-between text-xs"><span className="text-gray-500">IFSC Code</span><span className="font-semibold text-gray-800 font-mono">— (shared on WhatsApp)</span></div>
+                      <div className="flex justify-between text-xs"><span className="text-gray-500">Bank</span><span className="font-semibold text-gray-800">— (shared on WhatsApp)</span></div>
+                      <p className="text-xs text-orange-600 font-medium pt-1">Place your order — we will send full bank details on WhatsApp immediately</p>
+                    </div>
+                  )}
+
                 </div>
               </div>
 
