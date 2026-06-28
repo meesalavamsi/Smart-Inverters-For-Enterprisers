@@ -50,13 +50,18 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <h1 className="text-5xl sm:text-6xl lg:text-[4.8rem] font-extrabold leading-[1.03] tracking-tight">
-                <span className="text-white">{t("title")}</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.8rem] font-extrabold leading-[1.08] tracking-tight">
+                <span className="text-white">Welcome to</span>
                 <br />
                 <span style={{ background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 40%, #06b6d4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                  {t("titleHighlight")}
+                  Smart Inverter&apos;s
                 </span>
+                <br />
+                <span className="text-white">Ravulapalem</span>
               </h1>
+              <p className="mt-3 text-xl sm:text-2xl font-semibold text-blue-300/80 tracking-wide">
+                {t("title")} <span style={{ background: "linear-gradient(135deg, #60a5fa, #06b6d4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{t("titleHighlight")}</span>
+              </p>
             </motion.div>
 
             {/* Trust line — #1 */}
