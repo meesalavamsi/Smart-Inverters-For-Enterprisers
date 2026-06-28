@@ -242,12 +242,29 @@ export default function CartPage() {
                   {/* UPI details — shown when UPI is selected */}
                   {selectedPayment === "UPI" && (
                     <div className="rounded-xl border border-blue-200 bg-white p-4">
-                      <p className="text-xs font-bold text-gray-600 mb-3 text-center">Pay via UPI — search by phone number</p>
+                      <p className="text-xs font-bold text-gray-600 mb-3 text-center">Scan QR or pay by phone number</p>
+
+                      {/* QR Code */}
+                      <div className="flex justify-center mb-3">
+                        <div className="rounded-xl border-2 border-blue-200 bg-gray-50 p-2 inline-block" id="qr-wrapper">
+                          <img
+                            src="/upi-qr.png"
+                            alt="UPI QR Code"
+                            className="w-44 h-44 object-contain"
+                            onError={() => {
+                              const wrapper = document.getElementById("qr-wrapper");
+                              if (wrapper) wrapper.innerHTML = '<div class="w-44 h-44 flex flex-col items-center justify-center gap-2"><svg xmlns=\'http://www.w3.org/2000/svg\' class=\'h-10 w-10 text-blue-300\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'currentColor\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z\' /></svg><p class=\'text-xs text-gray-400 text-center px-3\'>QR code<br/>coming soon</p></div>';
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Phone + Name */}
                       <div className="bg-blue-50 rounded-xl p-3 mb-3 text-center">
                         <p className="text-2xl font-extrabold text-blue-700 tracking-widest mb-0.5">9951447358</p>
                         <p className="text-sm font-semibold text-gray-700">Mani Prasad Rotte</p>
                       </div>
-                      <p className="text-xs text-gray-500 mb-3 text-center">Open any UPI app → Send money → Enter the number above</p>
+                      <p className="text-xs text-gray-500 mb-3 text-center">Open any UPI app → Scan QR or enter number above</p>
                       <div className="flex justify-center gap-2 mb-3">
                         {["GPay", "PhonePe", "Paytm", "BHIM"].map(app => (
                           <span key={app} className="text-xs bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-full border border-blue-100">{app}</span>
