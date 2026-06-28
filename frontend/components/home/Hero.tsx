@@ -72,9 +72,9 @@ export default function Hero() {
               className="flex flex-wrap items-center gap-x-3 gap-y-1"
             >
               {[
-                "✓ Authorized Terranova Dealer",
-                "✓ 10+ Years Experience",
-                "✓ East Godavari",
+                "✓ Authorized Terranova Distributor",
+                "✓ 5+ Years Experience",
+                "✓ Dr.B.R. Ambedkar Konaseema District",
                 "✓ 5000+ Happy Customers",
               ].map((item) => (
                 <span key={item} className="text-sm font-semibold text-green-400">{item}</span>
