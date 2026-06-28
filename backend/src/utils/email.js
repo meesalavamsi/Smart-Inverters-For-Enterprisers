@@ -36,7 +36,7 @@ async function sendEmail({ to, subject, html, text }) {
   const t = createTransporter(); // fresh transporter per send (avoids stale connections)
   try {
     const info = await t.sendMail({
-      from: `"Smart Inverter's" <${process.env.SMTP_USER}>`,
+      from: `"Smart Inverter's" <${process.env.EMAIL_FROM || process.env.MANAGER_EMAIL || process.env.SMTP_USER}>`,
       to,
       subject,
       html,
