@@ -12,7 +12,7 @@ interface Product {
   id: string; name: string; model: string; slug: string;
   price: number; status: string; stockQuantity: number;
   batteryType: string; capacity: string; warranty: string; createdAt: string;
-  category: { name: string };
+  category: { id: string; name: string };
   images: { url: string; isPrimary: boolean }[];
   _count: { orderItems: number };
 }
@@ -61,7 +61,7 @@ export default function AdminProductsPage() {
       originalPrice: "", warranty: p.warranty || "", capacity: p.capacity || "",
       batteryType: p.batteryType || "Tubular", features: "", specifications: "",
       stockQuantity: String(p.stockQuantity), status: p.status, tags: "",
-      seoTitle: "", seoDescription: "", categoryId: p.category?.name || "",
+      seoTitle: "", seoDescription: "", categoryId: p.category?.id || "",
     });
     setFiles([]);
     setShowForm(true);
