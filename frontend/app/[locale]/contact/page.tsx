@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock, MessageCircle, ExternalLink, Zap } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { SERVICE_CITIES } from "@/components/home/ServiceArea";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -11,15 +12,7 @@ export const metadata: Metadata = {
 const WHATSAPP_URL = "https://wa.me/919133639888?text=Hello!%20I%20want%20to%20know%20about%20Smart%20Inverters.";
 
 const SERVICE_AREAS = {
-  "Andhra Pradesh": [
-    "Ravulapalem", "Daggara", "Kovvur", "Nidadavolu", "Tanuku",
-    "Bhimavaram", "Undi", "Nagaram", "Rajahmundry", "Kakinada",
-    "Eluru", "Amalapuram", "Palakol", "Narasapuram",
-  ],
-  "Telangana": [
-    "Hyderabad", "Secunderabad", "Warangal", "Karimnagar", "Khammam",
-    "Nalgonda", "Nizamabad", "Mahbubnagar", "Adilabad", "Suryapet",
-  ],
+  "Andhra Pradesh": SERVICE_CITIES,
 };
 
 export default async function ContactPage() {
@@ -29,7 +22,7 @@ export default async function ContactPage() {
     { icon: Phone, label: t("phoneLabel"), value: "9133639888 / 9951447358", href: "tel:9133639888", color: "text-blue-600 bg-blue-50" },
     { icon: MessageCircle, label: t("whatsappLabel"), value: "9133639888", href: WHATSAPP_URL, color: "text-green-600 bg-green-50" },
     { icon: Mail, label: t("emailLabel"), value: "maniagency.rvpm@gmail.com", href: "mailto:maniagency.rvpm@gmail.com", color: "text-purple-600 bg-purple-50" },
-    { icon: MapPin, label: t("addressLabel"), value: "Indira Colony (Near Community Hall), Daggara, Ravulapalem, East Godavari, AP", href: "#map", color: "text-red-600 bg-red-50" },
+    { icon: MapPin, label: t("addressLabel"), value: "Indira Colony (Near Community Hall), Ravulapalem, Andhra Pradesh, India", href: "#map", color: "text-red-600 bg-red-50" },
     {
       icon: Clock, label: t("hoursLabel"), value: null, href: null, color: "text-orange-600 bg-orange-50",
       lines: [
@@ -102,13 +95,13 @@ export default async function ContactPage() {
                 <h3 className="font-bold text-gray-900 flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-blue-600" /> {t("findMaps")}
                 </h3>
-                <a href="https://maps.google.com/?q=Ravulapalem,Andhra+Pradesh" target="_blank" rel="noopener noreferrer"
+                <a href="https://maps.google.com/?q=Andhra+Pradesh,India" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
                   {t("openMaps")} <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               </div>
               <iframe
-                src="https://maps.google.com/maps?q=Ravulapalem,Andhra+Pradesh&output=embed&z=14"
+                src="https://maps.google.com/maps?q=Andhra+Pradesh,India&output=embed&z=6"
                 width="100%" height="280" style={{ border: 0 }}
                 allowFullScreen loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

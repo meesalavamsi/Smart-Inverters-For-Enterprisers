@@ -6,12 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { CheckCircle, Loader2, MessageCircle, Phone, Lock, UserPlus, LogIn, ShieldCheck } from "lucide-react";
+import { CheckCircle, Loader2, MessageCircle, Phone, MapPin, Lock, UserPlus, LogIn, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { bookingsApi } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { SERVICE_CITIES } from "@/components/home/ServiceArea";
 
 const schema = z.object({
   customerName: z.string().min(2, "Name required"),
@@ -285,10 +286,24 @@ export default function ServiceBookingPage() {
               </div>
             </div>
 
+            <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+              <div className="p-5 border-b border-gray-100 flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-blue-600" />
+                <h3 className="font-bold text-gray-900">Service Area Map</h3>
+              </div>
+              <iframe
+                src="https://maps.google.com/maps?q=Andhra+Pradesh,India&output=embed&z=6"
+                width="100%" height="220" style={{ border: 0 }}
+                allowFullScreen loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Andhra Pradesh Service Area"
+              />
+            </div>
+
             <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
               <h3 className="font-bold text-blue-900 mb-3">Service Area</h3>
               <ul className="space-y-1.5 text-sm text-blue-700">
-                {["Ravulapalem", "Daggara", "Kovvur", "Nidadavolu", "East Godavari District"].map(area => (
+                {SERVICE_CITIES.map((area) => (
                   <li key={area} className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />{area}
                   </li>
