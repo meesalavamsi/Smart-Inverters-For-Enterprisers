@@ -84,7 +84,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">7. Contact Us</h2>
             <p className="text-sm leading-relaxed">
               For any privacy-related questions, contact Mani Agencies (Smart Inverter&apos;s):<br />
-              Indira Colony, Daggara, Ravulapalem, East Godavari, Andhra Pradesh<br />
+              Indira Colony, Ravulapalem, Andhra Pradesh<br />
               Email: maniagency.rvpm@gmail.com | Phone: 9133639888
             </p>
           </section>

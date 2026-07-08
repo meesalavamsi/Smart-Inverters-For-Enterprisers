@@ -4,6 +4,7 @@ import StatsCounter from "@/components/home/StatsCounter";
 import Benefits from "@/components/home/Benefits";
 import TrustBadges from "@/components/home/TrustBadges";
 import Services from "@/components/home/Services";
+import ServiceArea from "@/components/home/ServiceArea";
 import FeaturedProducts from "@/components/home/FeaturedProducts";
 import BatteryComparison from "@/components/home/BatteryComparison";
 import VideoSection from "@/components/home/VideoSection";
@@ -16,18 +17,18 @@ import { FAQ_DATA } from "@/lib/faq-data";
 export const metadata: Metadata = {
   title: "Smart Inverter's Ravulapalem | #1 Terranova Lithium Battery Dealer",
   description:
-    "Buy Terranova LiFePO4 lithium inverter batteries in Ravulapalem. Zero maintenance, 5-year warranty, expert installation & 24/7 support. East Godavari's trusted inverter shop. Call 9951447358.",
+    "Buy Terranova LiFePO4 lithium inverter batteries in Ravulapalem. Zero maintenance, 5-year warranty, expert installation & 24/7 support. Andhra Pradesh's trusted inverter shop. Call 9951447358.",
   keywords: [
     "smart inverters ravulapalem",
     "terranova battery ravulapalem",
     "lithium inverter ravulapalem",
-    "inverter shop east godavari",
+    "inverter shop andhra pradesh",
     "LiFePO4 battery dealer andhra pradesh",
     "buy inverter ravulapalem",
     "inverter dealer amalapuram",
     "inverter dealer kothapeta",
     "inverter dealer mandapeta",
-    "terranova authorized dealer east godavari",
+    "terranova authorized dealer andhra pradesh",
     "home inverter battery ravulapalem",
   ],
   alternates: {
@@ -42,7 +43,7 @@ const localBusinessSchema = {
   "@id": "https://www.smartinvertersravulapalem.in",
   name: "Smart Inverter's Ravulapalem",
   description:
-    "Authorized Terranova Lithium Battery Dealer in Ravulapalem, East Godavari. Expert inverter installation and service across Andhra Pradesh.",
+    "Authorized Terranova Lithium Battery Dealer in Ravulapalem. Expert inverter installation and service across Andhra Pradesh.",
   url: "https://www.smartinvertersravulapalem.in",
   telephone: "+919951447358",
   priceRange: "₹₹",
@@ -114,6 +115,7 @@ export default function HomePage() {
       <TrustBadges />
       <Benefits />
       <Services />
+      <ServiceArea />
       <FeaturedProducts />
       <BatteryComparison />
       <VideoSection />

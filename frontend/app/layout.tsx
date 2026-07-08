@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | Smart Inverter's Ravulapalem",
   },
   description:
-    "Smart Inverter's — Ravulapalem's exclusive Terranova authorized dealer. Buy LiFePO4 lithium inverter batteries, expert installation & 24/7 service in East Godavari, Andhra Pradesh. Call 9133639888.",
+    "Smart Inverter's — Ravulapalem's exclusive Terranova authorized dealer. Buy LiFePO4 lithium inverter batteries, expert installation & 24/7 service in Andhra Pradesh. Call 9133639888.",
   keywords: [
     "smart inverters ravulapalem",
     "inverter battery ravulapalem",
@@ -18,10 +18,8 @@ export const metadata: Metadata = {
     "lithium battery ravulapalem",
     "inverter shop ravulapalem",
     "LiFePO4 inverter andhra pradesh",
-    "inverter installation east godavari",
     "battery dealer ravulapalem",
     "inverter service ravulapalem",
-    "smart inverters east godavari",
     "terranova authorized dealer",
     "best inverter battery andhra pradesh",
     "home inverter ravulapalem",
@@ -52,7 +50,7 @@ export const metadata: Metadata = {
     siteName: "Smart Inverter's Ravulapalem",
     title: "Smart Inverter's Ravulapalem | Terranova Lithium Inverter Dealer",
     description:
-      "Ravulapalem's exclusive Terranova authorized dealer. Zero-maintenance LiFePO4 lithium inverters, expert installation & 24/7 support. East Godavari, Andhra Pradesh.",
+      "Ravulapalem's exclusive Terranova authorized dealer. Zero-maintenance LiFePO4 lithium inverters, expert installation and 24/7 support in Andhra Pradesh.",
     images: [
       {
         url: "/og-image.png",
@@ -66,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Smart Inverter's Ravulapalem | Terranova Lithium Inverter Dealer",
     description:
-      "Zero-maintenance LiFePO4 lithium inverters. Expert installation & 24/7 support in Ravulapalem, East Godavari.",
+      "Zero-maintenance LiFePO4 lithium inverters. Expert installation & 24/7 support in Ravulapalem, Andhra Pradesh.",
   },
   alternates: {
     canonical: baseUrl,
@@ -95,14 +93,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name: "Smart Inverter's",
               alternateName: "Smart Inverters Ravulapalem",
               description:
-                "Ravulapalem's exclusive Terranova authorized dealer for LiFePO4 lithium inverter batteries, expert installation and 24/7 after-sales support in East Godavari, Andhra Pradesh.",
+                "Ravulapalem's exclusive Terranova authorized dealer for LiFePO4 lithium inverter batteries, expert installation and 24/7 after-sales support in Andhra Pradesh.",
               url: baseUrl,
               telephone: "+919133639888",
               email: "maniagency.rvpm@gmail.com",
               foundingDate: "2023",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "Indira Colony, Near Community Hall, Daggara",
+                streetAddress: "Indira Colony, Near Community Hall, Ravulapalem",
                 addressLocality: "Ravulapalem",
                 addressRegion: "Andhra Pradesh",
                 postalCode: "533238",
@@ -156,7 +154,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               },
               areaServed: [
                 { "@type": "City", name: "Ravulapalem" },
-                { "@type": "AdministrativeArea", name: "East Godavari" },
                 { "@type": "State", name: "Andhra Pradesh" },
               ],
               priceRange: "₹₹",

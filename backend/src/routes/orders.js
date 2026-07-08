@@ -22,6 +22,8 @@ router.post("/", authenticate, async (req, res) => {
     return res.status(400).json({ success: false, message: "Items and shipping address are required" });
   }
 
+  logger.info(`User ${req.user.id} (${req.user.email}) attempting to place order with ${items.length} items`);
+
   try {
     let totalAmount = 0;
     const enrichedItems = [];
@@ -59,6 +61,8 @@ router.post("/", authenticate, async (req, res) => {
         items: { include: { product: { select: { name: true, model: true } } } },
       },
     });
+
+    logger.info(`Order ${order.orderNumber} created successfully for user ${req.user.id} with total ₹${totalAmount}`);
 
     // Decrease stock
     for (const item of enrichedItems) {
@@ -138,6 +142,8 @@ router.get("/my", authenticate, async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
+    logger.info(`Fetching orders for user ${req.user.id} (${req.user.email})`);
+
     const [orders, total] = await Promise.all([
       prisma.order.findMany({
         where: { userId: req.user.id },
@@ -146,15 +152,18 @@ router.get("/my", authenticate, async (req, res) => {
         orderBy: { createdAt: "desc" },
         include: {
           items: {
-            include: { product: { select: { name: true, model: true }, include: { images: { where: { isPrimary: true }, take: 1 } } } },
+            include: { product: { include: { images: { where: { isPrimary: true }, take: 1 } } } },
           },
         },
       }),
       prisma.order.count({ where: { userId: req.user.id } }),
     ]);
 
+    logger.info(`Found ${orders.length} orders out of ${total} total for user ${req.user.id}`);
+
     res.json({ success: true, data: orders, pagination: { page: parseInt(page), total, pages: Math.ceil(total / parseInt(limit)) } });
   } catch (error) {
+    logger.error("Get my orders error:", error);
     res.status(500).json({ success: false, message: "Failed to fetch orders" });
   }
 });
@@ -165,7 +174,7 @@ router.get("/track/:orderNumber", async (req, res) => {
     const order = await prisma.order.findUnique({
       where: { orderNumber: req.params.orderNumber },
       include: {
-        items: { include: { product: { select: { name: true, model: true } } } },
+        items: { include: { product: true } },
         user: { select: { name: true, email: true } },
       },
     });

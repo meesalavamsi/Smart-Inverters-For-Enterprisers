@@ -179,7 +179,7 @@ export default function ProductDetailPage() {
             <div className="flex items-end gap-3 mb-5">
               <span className="text-3xl font-extrabold text-blue-700">{formatCurrency(product.price)}</span>
               {product.originalPrice && (
-                <span className="text-gray-400 line-through text-lg">{formatCurrency(product.originalPrice)}</span>
+                <span className="text-gray-600 line-through text-lg">{formatCurrency(product.originalPrice)}</span>
               )}
             </div>
 

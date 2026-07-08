@@ -251,7 +251,7 @@ export default function ProductsPage() {
                       <div className="flex items-center gap-1.5 mb-3">
                         <span className="text-xl font-extrabold text-blue-700">{formatCurrency(product.price)}</span>
                         {product.originalPrice && (
-                          <span className="text-xs text-gray-400 line-through">{formatCurrency(product.originalPrice)}</span>
+                          <span className="text-xs text-gray-600 line-through">{formatCurrency(product.originalPrice)}</span>
                         )}
                       </div>
                       <div className="flex flex-col gap-1.5">

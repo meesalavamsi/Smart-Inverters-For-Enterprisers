@@ -20,6 +20,7 @@ const YoutubeIcon = () => (
   </svg>
 );
 import { getWhatsAppUrl } from "@/lib/utils";
+import { SERVICE_CITIES } from "@/components/home/ServiceArea";
 
 export default function Footer() {
   const t = useTranslations("footer");
@@ -120,32 +121,16 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Service Area */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Contact Info</h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2 text-sm text-gray-400">
-                <MapPin className="h-4 w-4 mt-0.5 text-blue-400 shrink-0" />
-                <span>{tc("address")}</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <Phone className="h-4 w-4 text-blue-400" />
-                <a href={`tel:${tc("phone")}`} className="text-gray-400 hover:text-blue-400 transition-colors">{tc("phone")}</a>
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <Mail className="h-4 w-4 text-blue-400" />
-                <a href={`mailto:${tc("email")}`} className="text-gray-400 hover:text-blue-400 transition-colors">{tc("email")}</a>
-              </li>
-              <li className="flex items-start gap-2 text-sm text-gray-400">
-                <Clock className="h-4 w-4 mt-0.5 text-blue-400 shrink-0" />
-                <span>{tc("hours")}</span>
-              </li>
-              <li>
-                <a href={waUrl} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-1 bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg transition-colors">
-                  <MessageCircle className="h-4 w-4" />Chat on WhatsApp
-                </a>
-              </li>
+            <h4 className="font-semibold text-white mb-4">Service Area</h4>
+            <ul className="grid grid-cols-2 gap-2 text-sm text-gray-400">
+              {SERVICE_CITIES.map((city) => (
+                <li key={city} className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-blue-400" />
+                  {city}
+                </li>
+              ))}
             </ul>
           </div>
         </div>

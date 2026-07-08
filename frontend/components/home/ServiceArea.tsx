@@ -2,6 +2,7 @@ import { MapPin } from "lucide-react";
 
 export const SERVICE_CITIES = [
   "Amalapuram",
+  "Anakapalle",
   "Bhimavaram",
   "Eluru",
   "Kakinada",
@@ -11,6 +12,7 @@ export const SERVICE_CITIES = [
   "Nelluru",
   "Nidadavolu",
   "Palakollu",
+  "Pithapuram",
   "Rajahmundry",
   "Ramachandrapuram",
   "Ravulapalem",

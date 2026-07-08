@@ -88,7 +88,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">8. Governing Law</h2>
             <p className="text-sm leading-relaxed">
               These terms are governed by the laws of India. Any disputes shall be subject to the exclusive
-              jurisdiction of courts in East Godavari District, Andhra Pradesh.
+              jurisdiction of courts in Andhra Pradesh.
             </p>
           </section>
 
@@ -96,7 +96,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">9. Contact</h2>
             <p className="text-sm leading-relaxed">
               For any questions about these terms, contact us:<br />
-              Mani Agencies (Smart Inverter&apos;s), Ravulapalem, East Godavari, AP<br />
+              Mani Agencies (Smart Inverter&apos;s), Ravulapalem, Andhra Pradesh<br />
               Email:{" "}
               <a href="mailto:maniagency.rvpm@gmail.com" className="text-blue-600 hover:underline">
                 maniagency.rvpm@gmail.com

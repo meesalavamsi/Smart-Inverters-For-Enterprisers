@@ -20,17 +20,19 @@ export default function CustomerDashboard() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [profileForm, setProfileForm] = useState({ name: user?.name || "", phone: user?.phone || "" });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!user) { router.push("/login"); return; }
     setLoading(true);
+    setError(null);
     Promise.all([
-      ordersApi.getMy().then(r => setOrders(r.data.data || [])),
-      bookingsApi.getMy().then(r => setBookings(r.data.data || [])),
-      issuesApi.getMy().then(r => setIssues(r.data.data || [])),
-    ]).catch(() => {}).finally(() => setLoading(false));
+      ordersApi.getMy().then(r => setOrders(r.data.data || [])).catch(e => { console.error("Orders fetch error:", e); setError("Failed to load orders"); }),
+      bookingsApi.getMy().then(r => setBookings(r.data.data || [])).catch(e => { console.error("Bookings fetch error:", e); }),
+      issuesApi.getMy().then(r => setIssues(r.data.data || [])).catch(e => { console.error("Issues fetch error:", e); }),
+    ]).finally(() => setLoading(false));
   }, [user, router]);
 
   const handleProfileSave = async () => {
@@ -96,6 +98,11 @@ export default function CustomerDashboard() {
             {[...Array(3)].map((_, i) => (
               <div key={i} className="bg-white rounded-2xl p-5 animate-pulse border border-gray-100 h-20" />
             ))}
+          </div>
+        ) : error ? (
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-5 text-red-700">
+            <p className="font-semibold">{error}</p>
+            <p className="text-sm mt-1">Please refresh the page or contact support if the problem persists.</p>
           </div>
         ) : (
           <motion.div key={tab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>

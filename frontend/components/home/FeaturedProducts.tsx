@@ -48,7 +48,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   const { addItem } = useCartStore();
   const router = useRouter();
   const primaryImage = product.images[0]?.url;
-  const discount = 0;
+  const discount = product.originalPrice && product.originalPrice > product.price
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0;
 
   const handleBook = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -107,12 +109,18 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             </div>
           )}
           <div className="mt-auto">
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl font-extrabold text-blue-400">{formatCurrency(product.price)}</span>
               {product.originalPrice && (
-                <span className="text-sm text-gray-500 line-through">{formatCurrency(product.originalPrice)}</span>
+                <span className="text-sm text-gray-600 line-through">{formatCurrency(product.originalPrice)}</span>
               )}
             </div>
+            {discount > 0 && (
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-red-500/10 text-red-600 text-xs font-semibold px-3 py-1">
+                <span>{discount}% OFF</span>
+                <span className="text-red-400">Save {formatCurrency(product.originalPrice - product.price)}</span>
+              </div>
+            )}
             <div className="flex gap-2">
               <Link href={`/products/${product.slug}`}
                 className="flex-1 text-center border border-blue-500/40 text-blue-300 hover:bg-blue-500/10 hover:text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-200">
