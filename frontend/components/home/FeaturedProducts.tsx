@@ -115,7 +115,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
                 <span className="text-sm text-gray-600 line-through">{formatCurrency(product.originalPrice)}</span>
               )}
             </div>
-            {discount > 0 && (
+            {discount > 0 && product.originalPrice && (
               <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-red-500/10 text-red-600 text-xs font-semibold px-3 py-1">
                 <span>{discount}% OFF</span>
                 <span className="text-red-400">Save {formatCurrency(product.originalPrice - product.price)}</span>

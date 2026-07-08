@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Zap, Phone, MapPin, Mail, Clock, MessageCircle } from "lucide-react";
+import { Zap, Phone, MessageCircle } from "lucide-react";
 
 const FacebookIcon = () => (
   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
