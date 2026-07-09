@@ -31,6 +31,7 @@ router.get("/product/:productId", async (req, res) => {
     });
     res.json({ success: true, data: reviews });
   } catch (error) {
+    logger.error("Get product reviews error:", error);
     res.status(500).json({ success: false, message: "Failed to fetch reviews" });
   }
 });
@@ -58,6 +59,7 @@ router.get("/eligibility/:productId", authenticate, async (req, res) => {
       reason: purchase ? null : "You can review a product after it has been delivered to you.",
     });
   } catch (error) {
+    logger.error("Review eligibility error:", error);
     res.status(500).json({ success: false, message: "Failed to check review eligibility" });
   }
 });
@@ -119,6 +121,7 @@ router.get("/admin/all", authenticate, authorize("ADMIN"), async (req, res) => {
       pagination: { page: parseInt(page), total, pages: Math.ceil(total / parseInt(limit)) },
     });
   } catch (error) {
+    logger.error("Get admin reviews error:", error);
     res.status(500).json({ success: false, message: "Failed to fetch reviews" });
   }
 });
@@ -134,6 +137,7 @@ router.put("/:id", authenticate, authorize("ADMIN"), async (req, res) => {
     await recomputeProductRating(review.productId);
     res.json({ success: true, message: "Review updated", data: review });
   } catch (error) {
+    logger.error("Update review error:", error);
     res.status(500).json({ success: false, message: "Failed to update review" });
   }
 });
@@ -145,6 +149,7 @@ router.delete("/:id", authenticate, authorize("ADMIN"), async (req, res) => {
     await recomputeProductRating(review.productId);
     res.json({ success: true, message: "Review deleted" });
   } catch (error) {
+    logger.error("Delete review error:", error);
     res.status(500).json({ success: false, message: "Failed to delete review" });
   }
 });
