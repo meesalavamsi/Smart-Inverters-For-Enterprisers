@@ -19,6 +19,7 @@ const navItems = [
   { href: "/admin/bookings", label: "Bookings", icon: Wrench },
   { href: "/admin/issues", label: "Issues", icon: AlertCircle },
   { href: "/admin/feedback", label: "Feedback", icon: Star },
+  { href: "/admin/reviews", label: "Product Reviews", icon: Star },
   { href: "/admin/videos", label: "Videos", icon: Video },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/admin/users", label: "Users", icon: Users },

@@ -87,6 +87,16 @@ export const feedbackApi = {
   delete: (id: string) => api.delete(`/api/feedback/${id}`),
 };
 
+// Reviews
+export const reviewsApi = {
+  getForProduct: (productId: string) => api.get(`/api/reviews/product/${productId}`),
+  getEligibility: (productId: string) => api.get(`/api/reviews/eligibility/${productId}`),
+  create: (data: { productId: string; rating: number; title?: string; comment: string }) => api.post("/api/reviews", data),
+  getAdminAll: (params?: Record<string, string | number>) => api.get("/api/reviews/admin/all", { params }),
+  update: (id: string, data: { isApproved: boolean }) => api.put(`/api/reviews/${id}`, data),
+  delete: (id: string) => api.delete(`/api/reviews/${id}`),
+};
+
 // Videos
 export const videosApi = {
   getAll: (params?: Record<string, string>) => api.get("/api/videos", { params }),

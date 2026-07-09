@@ -8,9 +8,9 @@ import {
   Star, ShoppingCart, MessageCircle, Shield, Zap, ArrowLeft,
   CheckCircle, Package, Truck, ChevronLeft, ChevronRight, ClipboardList
 } from "lucide-react";
-import { productsApi } from "@/lib/api";
+import { productsApi, reviewsApi } from "@/lib/api";
 import { useCartStore, useAuthStore } from "@/lib/store";
-import { formatCurrency, getWhatsAppUrl, getProductImageSrc } from "@/lib/utils";
+import { formatCurrency, getWhatsAppUrl, getProductImageSrc, formatDate } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface Product {
@@ -34,6 +34,15 @@ interface Product {
   category: { name: string };
 }
 
+interface Review {
+  id: string;
+  rating: number;
+  title?: string;
+  comment: string;
+  createdAt: string;
+  user: { name: string };
+}
+
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -45,15 +54,46 @@ export default function ProductDetailPage() {
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState<"specs" | "features" | "reviews">("specs");
 
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [eligibility, setEligibility] = useState<{ canReview: boolean; alreadyReviewed: boolean; reason?: string } | null>(null);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewComment, setReviewComment] = useState("");
+  const [submittingReview, setSubmittingReview] = useState(false);
+
   useEffect(() => {
     const id = params.id as string;
     productsApi.getBySlug(id).then((res) => {
       setProduct(res.data.data);
+      reviewsApi.getForProduct(res.data.data.id).then(r => setReviews(r.data.data || [])).catch(() => {});
     }).catch(() => {
       toast.error("Product not found");
       router.back();
     }).finally(() => setLoading(false));
   }, [params.id, router]);
+
+  useEffect(() => {
+    if (!product || !user) { setEligibility(null); return; }
+    reviewsApi.getEligibility(product.id).then(r => setEligibility(r.data)).catch(() => {});
+  }, [product, user]);
+
+  const handleSubmitReview = async () => {
+    if (!product || !reviewComment.trim()) {
+      toast.error("Please write a comment for your review");
+      return;
+    }
+    setSubmittingReview(true);
+    try {
+      await reviewsApi.create({ productId: product.id, rating: reviewRating, title: reviewTitle.trim() || undefined, comment: reviewComment.trim() });
+      toast.success("Review submitted! It will appear once approved.");
+      setReviewComment("");
+      setReviewTitle("");
+      setEligibility(prev => prev ? { ...prev, canReview: false, alreadyReviewed: true } : prev);
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      toast.error(error.response?.data?.message || "Failed to submit review");
+    } finally { setSubmittingReview(false); }
+  };
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -167,14 +207,18 @@ export default function ProductDetailPage() {
             <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 mb-2">{product.name}</h1>
             <p className="text-gray-500 text-sm mb-3">Model: <span className="font-mono text-gray-700">{product.model}</span></p>
 
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                ))}
+            {product.reviewCount > 0 ? (
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
+                  ))}
+                </div>
+                <span className="text-sm text-gray-500">{product.rating.toFixed(1)} ({product.reviewCount} reviews)</span>
               </div>
-              <span className="text-sm text-gray-500">{product.rating.toFixed(1)} ({product.reviewCount} reviews)</span>
-            </div>
+            ) : (
+              <p className="text-sm text-gray-400 mb-4">No reviews yet</p>
+            )}
 
             <div className="flex items-end gap-3 mb-5">
               <span className="text-3xl font-extrabold text-blue-700">{formatCurrency(product.price)}</span>
@@ -303,13 +347,66 @@ export default function ProductDetailPage() {
             )}
 
             {activeTab === "reviews" && (
-              <div className="text-center py-12">
-                <Star className="h-12 w-12 text-gray-200 mx-auto mb-3" />
-                <p className="text-gray-400">No reviews yet. Be the first to review this product.</p>
-                {user && (
-                  <Link href="/feedback" className="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm">
-                    Write a Review
-                  </Link>
+              <div className="space-y-6">
+                {/* Write a review */}
+                {!user ? (
+                  <div className="text-center py-6 bg-gray-50 rounded-xl">
+                    <p className="text-gray-500 text-sm mb-3">Login to write a review after your order is delivered.</p>
+                    <Link href={`/login?redirect=/products/${product.slug}`} className="inline-block px-5 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm">
+                      Login
+                    </Link>
+                  </div>
+                ) : eligibility?.alreadyReviewed ? (
+                  <p className="text-center py-4 text-sm text-gray-500 bg-gray-50 rounded-xl">You've already reviewed this product. Thank you!</p>
+                ) : eligibility?.canReview ? (
+                  <div className="bg-gray-50 rounded-xl p-5">
+                    <p className="font-semibold text-gray-900 mb-3">Write a Review</p>
+                    <div className="flex gap-1 mb-3">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <button key={s} type="button" onClick={() => setReviewRating(s)}>
+                          <Star className={`h-6 w-6 ${s <= reviewRating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
+                        </button>
+                      ))}
+                    </div>
+                    <input value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}
+                      placeholder="Title (optional)"
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <textarea value={reviewComment} onChange={(e) => setReviewComment(e.target.value)}
+                      rows={3} placeholder="Share your experience with this product..."
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <button onClick={handleSubmitReview} disabled={submittingReview}
+                      className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm disabled:opacity-60">
+                      {submittingReview ? "Submitting..." : "Submit Review"}
+                    </button>
+                  </div>
+                ) : eligibility && !eligibility.canReview ? (
+                  <p className="text-center py-4 text-sm text-gray-500 bg-gray-50 rounded-xl">{eligibility.reason}</p>
+                ) : null}
+
+                {/* Reviews list */}
+                {reviews.length === 0 ? (
+                  <div className="text-center py-8">
+                    <Star className="h-10 w-10 text-gray-200 mx-auto mb-2" />
+                    <p className="text-gray-400 text-sm">No reviews yet. Be the first to review this product.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {reviews.map((r) => (
+                      <div key={r.id} className="border-b border-gray-50 pb-4">
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="font-semibold text-gray-900 text-sm">{r.user.name}</p>
+                          <span className="text-xs text-gray-400">{formatDate(r.createdAt)}</span>
+                        </div>
+                        <div className="flex mb-1.5">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`h-3.5 w-3.5 ${i < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-200"}`} />
+                          ))}
+                        </div>
+                        {r.title && <p className="font-medium text-gray-800 text-sm mb-1">{r.title}</p>}
+                        <p className="text-gray-600 text-sm leading-relaxed">{r.comment}</p>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             )}

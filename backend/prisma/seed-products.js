@@ -96,7 +96,7 @@ async function main() {
       tags: "micahs,lithium,lifepo4,2.5kw,wall mount,zero maintenance,6 year warranty,mani agencies",
       seoTitle: "MICAH'S 2.5 kW Lithium Inverter — Wall Mount | Smart Inverter's Ravulapalem",
       seoDescription: "Buy MICAH'S 2.5 kW Lithium Inverter at ₹78,000. 2.4 kW LiFePO4 battery, wall mount, 6-year warranty. Available at Smart Inverter's, Ravulapalem.",
-      rating: 4.8,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["commercial-inverters"],
@@ -127,7 +127,7 @@ async function main() {
       tags: "micahs,lithium,lifepo4,1kv,wall mount,floor mount,zero maintenance,6 year warranty",
       seoTitle: "MICAH'S 1 kV Lithium Inverter — Wall & Floor Mount | Smart Inverter's",
       seoDescription: "MICAH'S 1 kV Lithium Inverter with 1.2 kW battery. Wall mount and floor mountable. 6-year warranty. Available at Smart Inverter's, Ravulapalem.",
-      rating: 4.8,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["home-inverters"],
@@ -159,7 +159,7 @@ async function main() {
       tags: "terranova,lithium,5kv,7.2kwh,high capacity,commercial,maximum backup",
       seoTitle: "Terranova 5 kW Inverter with 7.2 kW Battery | Smart Inverter's",
       seoDescription: "Terranova 5 kW Inverter with 7.2 kW LiFePO4 battery. Maximum backup for large establishments. Available at Smart Inverter's, Ravulapalem.",
-      rating: 5.0,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["commercial-inverters"],
@@ -190,7 +190,7 @@ async function main() {
       tags: "terranova,lithium,4.8kw,3kwh,high capacity,home,commercial",
       seoTitle: "Terranova 4.8 kW Inverter with 3 kW Battery | Smart Inverter's",
       seoDescription: "Terranova 4.8 kW Inverter with 3 kW LiFePO4 battery. 5-year battery + 2-year inverter warranty. Smart Inverter's, Ravulapalem.",
-      rating: 4.9,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["commercial-inverters"],
@@ -222,7 +222,7 @@ async function main() {
       tags: "terranova,lithium,lifepo4,home inverter,floor mount,800va,zero maintenance",
       seoTitle: "Terranova T-1000 Gen 1 Floor Mount Lithium Inverter | Smart Inverter's",
       seoDescription: "Buy Terranova T-1000 Gen 1 800VA LiFePO4 lithium inverter at ₹34,000. Zero maintenance, 5-year battery warranty. Available at Smart Inverter's, Ravulapalem.",
-      rating: 4.8,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["home-inverters"],
@@ -270,7 +270,7 @@ async function main() {
       tags: "terranova,lithium,lifepo4,home inverter,wall mount,1000va,zero maintenance",
       seoTitle: "Terranova T-I 1150 Gen 1 Wall Mount Lithium UPS | Smart Inverter's",
       seoDescription: "Buy Terranova T-I 1150 Gen 1 1000VA LiFePO₄ wall mount home UPS with 5-year battery warranty. Zero maintenance and fast charging. Available at Smart Inverter's, Ravulapalem.",
-      rating: 4.9,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["home-inverters"],
@@ -297,7 +297,7 @@ async function main() {
       status: "ACTIVE",
       tags: "terranova,lithium,2kv,standalone,floor stand,large home,office",
       seoTitle: "Terranova 2kV Standalone Lithium Inverter | Smart Inverter's",
-      rating: 4.8,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["commercial-inverters"],
@@ -324,7 +324,7 @@ async function main() {
       status: "ACTIVE",
       tags: "terranova,lithium,2kv,wall mount,home,office",
       seoTitle: "Terranova 2kV Wall Mount Lithium Inverter | Smart Inverter's",
-      rating: 4.8,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["commercial-inverters"],
@@ -350,7 +350,7 @@ async function main() {
       status: "ACTIVE",
       tags: "terranova,lithium,3kv,high capacity,commercial",
       seoTitle: "Terranova 3kV Lithium Inverter | Smart Inverter's",
-      rating: 4.9,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["commercial-inverters"],
@@ -376,7 +376,7 @@ async function main() {
       status: "ACTIVE",
       tags: "terranova,lithium,5kv,industrial,commercial,heavy duty",
       seoTitle: "Terranova 5kV Industrial Lithium Inverter | Smart Inverter's",
-      rating: 5.0,
+      rating: 0,
       reviewCount: 0,
       salesCount: 0,
       categoryId: catMap["commercial-inverters"],
@@ -398,6 +398,20 @@ async function main() {
         console.log("Updated:", p.name);
       }
     }
+  }
+
+  // Ratings must always reflect real, approved customer reviews — never seeded/fake numbers
+  const allProducts = await prisma.product.findMany({ select: { id: true } });
+  for (const { id } of allProducts) {
+    const agg = await prisma.review.aggregate({
+      where: { productId: id, isApproved: true },
+      _avg: { rating: true },
+      _count: { rating: true },
+    });
+    await prisma.product.update({
+      where: { id },
+      data: { rating: agg._avg.rating || 0, reviewCount: agg._count.rating },
+    });
   }
 
   console.log("\n✅ Terranova products seeded successfully!");
