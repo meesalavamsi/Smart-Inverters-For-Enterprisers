@@ -28,6 +28,7 @@ app.use(cors({
     if (!origin) return callback(null, true);
     if (allowed.includes(origin)) return callback(null, true);
     if (origin.endsWith(".vercel.app") || origin.endsWith(".onrender.com")) return callback(null, true);
+    if (origin.endsWith(".smartinverters.in") || origin === "https://smartinverters.in") return callback(null, true);
     callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
