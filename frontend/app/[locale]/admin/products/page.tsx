@@ -15,18 +15,20 @@ interface Product {
   description?: string; features?: string; specifications?: string;
   tags?: string; seoTitle?: string; seoDescription?: string;
   category: { id: string; name: string };
-  images: { url: string; isPrimary: boolean }[];
+  images: { id: string; url: string; isPrimary: boolean }[];
   _count: { orderItems: number };
 }
 
 interface Category { id: string; name: string; }
+
+const MAX_IMAGES = 5;
 
 const defaultForm = {
   name: "", model: "", description: "", price: "",
   originalPrice: "", warranty: "", capacity: "",
   batteryType: "Tubular", features: "", specifications: "",
   stockQuantity: "0", status: "ACTIVE", tags: "",
-  seoTitle: "", seoDescription: "", categoryId: "", imageUrl: "",
+  seoTitle: "", seoDescription: "", categoryId: "",
 };
 
 export default function AdminProductsPage() {
@@ -37,6 +39,7 @@ export default function AdminProductsPage() {
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [form, setForm] = useState(defaultForm);
   const [files, setFiles] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([""]);
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,7 +58,7 @@ export default function AdminProductsPage() {
     productsApi.getCategories().then(r => setCategories(r.data.data || [])).catch(() => {});
   }, [search]);
 
-  const openAdd = () => { setForm(defaultForm); setFiles([]); setEditProduct(null); setShowForm(true); };
+  const openAdd = () => { setForm(defaultForm); setFiles([]); setImageUrls([""]); setEditProduct(null); setShowForm(true); };
   const openEdit = (p: Product) => {
     setEditProduct(p);
     setForm({
@@ -75,10 +78,25 @@ export default function AdminProductsPage() {
       seoTitle: p.seoTitle || "",
       seoDescription: p.seoDescription || "",
       categoryId: p.category?.id || "",
-      imageUrl: "",
     });
     setFiles([]);
+    setImageUrls([""]);
     setShowForm(true);
+  };
+
+  const handleDeleteImage = async (imageId: string) => {
+    if (!editProduct) return;
+    try {
+      await productsApi.deleteImage(editProduct.id, imageId);
+      setEditProduct(prev => {
+        if (!prev) return prev;
+        const wasPrimary = prev.images.find(i => i.id === imageId)?.isPrimary;
+        const remaining = prev.images.filter(i => i.id !== imageId);
+        if (wasPrimary && remaining.length) remaining[0] = { ...remaining[0], isPrimary: true };
+        return { ...prev, images: remaining };
+      });
+      toast.success("Image removed");
+    } catch { toast.error("Failed to remove image"); }
   };
 
   const handleSave = async () => {
@@ -91,6 +109,7 @@ export default function AdminProductsPage() {
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
       files.forEach(f => fd.append("images", f));
+      imageUrls.filter(u => u.trim()).forEach(u => fd.append("imageUrls", u.trim()));
 
       if (editProduct) {
         await productsApi.update(editProduct.id, fd);
@@ -307,15 +326,17 @@ export default function AdminProductsPage() {
 
               {/* Images */}
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Product Image</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Product Images <span className="text-gray-400 font-normal">(up to {MAX_IMAGES})</span>
+                </label>
 
                 {/* Show existing images when editing */}
                 {editProduct?.images?.length ? (
                   <div>
-                    <p className="text-xs text-gray-500 mb-2">Current image:</p>
+                    <p className="text-xs text-gray-500 mb-2">Current images ({editProduct.images.length}/{MAX_IMAGES}):</p>
                     <div className="flex flex-wrap gap-2">
-                      {editProduct.images.map((img, i) => (
-                        <div key={i} className="relative">
+                      {editProduct.images.map((img) => (
+                        <div key={img.id} className="relative">
                           <img
                             src={getProductImageSrc(img.url)}
                             alt="" className="h-20 w-20 object-cover rounded-lg border-2 border-gray-200"
@@ -323,28 +344,51 @@ export default function AdminProductsPage() {
                           {img.isPrimary && (
                             <span className="absolute -top-1.5 -left-1.5 bg-blue-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">MAIN</span>
                           )}
+                          <button onClick={() => handleDeleteImage(img.id)} type="button"
+                            className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
+                            ×
+                          </button>
                         </div>
                       ))}
                     </div>
                   </div>
                 ) : null}
 
-                {/* Paste image URL — permanent, doesn't get wiped */}
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">
-                    Paste Image URL <span className="text-green-600 font-semibold">(Recommended — image stays permanent)</span>
-                  </label>
-                  <input
-                    type="url"
-                    value={form.imageUrl}
-                    onChange={e => setForm(f => ({ ...f, imageUrl: e.target.value }))}
-                    placeholder="https://i.ibb.co/... or any public image link"
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <p className="text-xs text-gray-400 mt-1">
-                    Upload your image to <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">imgbb.com</a> (free) → copy the Direct link → paste here
-                  </p>
-                </div>
+                {/* Paste image URLs — permanent, doesn't get wiped */}
+                {(() => {
+                  const remainingSlots = Math.max(0, MAX_IMAGES - (editProduct?.images?.length || 0));
+                  return (
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">
+                        Paste Image URLs <span className="text-green-600 font-semibold">(Recommended — image stays permanent)</span>
+                      </label>
+                      {imageUrls.slice(0, remainingSlots).map((url, i) => (
+                        <div key={i} className="flex gap-2 mb-2">
+                          <input
+                            type="url"
+                            value={url}
+                            onChange={e => setImageUrls(prev => prev.map((u, j) => j === i ? e.target.value : u))}
+                            placeholder="https://i.ibb.co/... or any public image link"
+                            className="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                          {imageUrls.length > 1 && (
+                            <button type="button" onClick={() => setImageUrls(prev => prev.filter((_, j) => j !== i))}
+                              className="px-3 text-red-500 hover:text-red-700 text-lg">×</button>
+                          )}
+                        </div>
+                      ))}
+                      {imageUrls.length < remainingSlots && (
+                        <button type="button" onClick={() => setImageUrls(prev => [...prev, ""])}
+                          className="text-sm text-blue-600 hover:underline font-medium">
+                          + Add another image URL
+                        </button>
+                      )}
+                      <p className="text-xs text-gray-400 mt-1">
+                        Upload your image to <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">imgbb.com</a> (free) → copy the Direct link → paste here
+                      </p>
+                    </div>
+                  );
+                })()}
 
                 {/* Or upload file */}
                 <div>

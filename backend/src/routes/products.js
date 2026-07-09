@@ -150,10 +150,15 @@ router.post("/", authenticate, authorize("ADMIN"), upload.array("images", 10), a
       },
     });
 
-    if (req.files?.length) {
-      const imageData = req.files.map((file, index) => ({
+    const urlImages = (Array.isArray(req.body.imageUrls) ? req.body.imageUrls : req.body.imageUrls ? [req.body.imageUrls] : [])
+      .map((u) => u && u.trim()).filter(Boolean);
+    const fileImages = (req.files || []).map((file) => `/uploads/products/${file.filename}`);
+    const allImages = [...fileImages, ...urlImages].slice(0, 5);
+
+    if (allImages.length) {
+      const imageData = allImages.map((url, index) => ({
         id: uuidv4(),
-        url: `/uploads/products/${file.filename}`,
+        url,
         alt: name,
         isPrimary: index === 0,
         order: index,
@@ -211,27 +216,29 @@ router.put("/:id", authenticate, authorize("ADMIN"), upload.array("images", 10),
 
     const product = await prisma.product.update({ where: { id }, data: updateData });
 
-    // Handle image URL paste (persists without disk)
-    const { imageUrl } = req.body;
-    if (imageUrl && imageUrl.trim()) {
-      await prisma.productImage.updateMany({ where: { productId: id }, data: { isPrimary: false } });
-      await prisma.productImage.create({
-        data: { id: uuidv4(), url: imageUrl.trim(), alt: product.name, isPrimary: true, order: 0, productId: id },
-      });
-    }
+    // Handle new images (pasted URLs and/or uploaded files), respecting the 5-image cap
+    const urlImages = (Array.isArray(req.body.imageUrls) ? req.body.imageUrls : req.body.imageUrls ? [req.body.imageUrls] : [])
+      .map((u) => u && u.trim()).filter(Boolean);
+    const fileImages = (req.files || []).map((file) => `/uploads/products/${file.filename}`);
+    const allNewImages = [...fileImages, ...urlImages];
 
-    if (req.files?.length) {
-      // Un-set existing primary so the first new upload becomes primary
-      await prisma.productImage.updateMany({ where: { productId: id }, data: { isPrimary: false } });
-      const imageData = req.files.map((file, index) => ({
-        id: uuidv4(),
-        url: `/uploads/products/${file.filename}`,
-        alt: product.name,
-        isPrimary: index === 0,
-        order: index,
-        productId: product.id,
-      }));
-      await prisma.productImage.createMany({ data: imageData });
+    if (allNewImages.length) {
+      const existingCount = await prisma.productImage.count({ where: { productId: id } });
+      const newImages = allNewImages.slice(0, Math.max(0, 5 - existingCount));
+
+      if (newImages.length) {
+        // Un-set existing primary so the first new image becomes primary
+        await prisma.productImage.updateMany({ where: { productId: id }, data: { isPrimary: false } });
+        const imageData = newImages.map((url, index) => ({
+          id: uuidv4(),
+          url,
+          alt: product.name,
+          isPrimary: index === 0,
+          order: existingCount + index,
+          productId: id,
+        }));
+        await prisma.productImage.createMany({ data: imageData });
+      }
     }
 
     await prisma.auditLog.create({
@@ -263,7 +270,14 @@ router.delete("/:id", authenticate, authorize("ADMIN"), async (req, res) => {
 // ADMIN: Delete product image
 router.delete("/:id/images/:imageId", authenticate, authorize("ADMIN"), async (req, res) => {
   try {
-    await prisma.productImage.delete({ where: { id: req.params.imageId } });
+    const { id, imageId } = req.params;
+    const deleted = await prisma.productImage.delete({ where: { id: imageId } });
+
+    if (deleted.isPrimary) {
+      const next = await prisma.productImage.findFirst({ where: { productId: id }, orderBy: { order: "asc" } });
+      if (next) await prisma.productImage.update({ where: { id: next.id }, data: { isPrimary: true } });
+    }
+
     res.json({ success: true, message: "Image deleted" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to delete image" });
