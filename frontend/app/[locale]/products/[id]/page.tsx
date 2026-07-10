@@ -1,418 +1,118 @@
-"use client";
+import type { Metadata } from "next";
+import ProductDetailClient from "./ProductDetailClient";
+import { getProductImageSrc } from "@/lib/utils";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Star, ShoppingCart, MessageCircle, Shield, Zap, ArrowLeft,
-  CheckCircle, Package, Truck, ChevronLeft, ChevronRight, ClipboardList
-} from "lucide-react";
-import { productsApi, reviewsApi } from "@/lib/api";
-import { useCartStore, useAuthStore } from "@/lib/store";
-import { formatCurrency, getWhatsAppUrl, getProductImageSrc, formatDate } from "@/lib/utils";
-import { toast } from "sonner";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.smartinverters.in";
 
-interface Product {
-  id: string;
+interface ProductData {
   name: string;
   model: string;
   slug: string;
   description: string;
   price: number;
-  originalPrice?: number;
-  warranty: string;
   capacity: string;
   batteryType: string;
-  features: string;
-  specifications: string;
+  warranty: string;
+  tags?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   rating: number;
   reviewCount: number;
   stockQuantity: number;
-  tags?: string;
-  images: { id: string; url: string; alt?: string; isPrimary: boolean }[];
+  images: { url: string }[];
   category: { name: string };
 }
 
-interface Review {
-  id: string;
-  rating: number;
-  title?: string;
-  comment: string;
-  createdAt: string;
-  user: { name: string };
+async function getProduct(slug: string): Promise<ProductData | null> {
+  try {
+    const res = await fetch(`${API_URL}/api/products/${slug}`, { next: { revalidate: 3600 } });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data;
+  } catch {
+    return null;
+  }
 }
 
-export default function ProductDetailPage() {
-  const params = useParams();
-  const router = useRouter();
-  const { addItem } = useCartStore();
-  const { user } = useAuthStore();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [imageIdx, setImageIdx] = useState(0);
-  const [qty, setQty] = useState(1);
-  const [activeTab, setActiveTab] = useState<"specs" | "features" | "reviews">("specs");
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProduct(id);
 
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [eligibility, setEligibility] = useState<{ canReview: boolean; alreadyReviewed: boolean; reason?: string } | null>(null);
-  const [reviewRating, setReviewRating] = useState(5);
-  const [reviewTitle, setReviewTitle] = useState("");
-  const [reviewComment, setReviewComment] = useState("");
-  const [submittingReview, setSubmittingReview] = useState(false);
-
-  useEffect(() => {
-    const id = params.id as string;
-    productsApi.getBySlug(id).then((res) => {
-      setProduct(res.data.data);
-      reviewsApi.getForProduct(res.data.data.id).then(r => setReviews(r.data.data || [])).catch(() => {});
-    }).catch(() => {
-      toast.error("Product not found");
-      router.back();
-    }).finally(() => setLoading(false));
-  }, [params.id, router]);
-
-  useEffect(() => {
-    if (!product || !user) { setEligibility(null); return; }
-    reviewsApi.getEligibility(product.id).then(r => setEligibility(r.data)).catch(() => {});
-  }, [product, user]);
-
-  const handleSubmitReview = async () => {
-    if (!product || !reviewComment.trim()) {
-      toast.error("Please write a comment for your review");
-      return;
-    }
-    setSubmittingReview(true);
-    try {
-      await reviewsApi.create({ productId: product.id, rating: reviewRating, title: reviewTitle.trim() || undefined, comment: reviewComment.trim() });
-      toast.success("Review submitted! It will appear once approved.");
-      setReviewComment("");
-      setReviewTitle("");
-      setEligibility(prev => prev ? { ...prev, canReview: false, alreadyReviewed: true } : prev);
-    } catch (err: unknown) {
-      const error = err as { response?: { data?: { message?: string } } };
-      toast.error(error.response?.data?.message || "Failed to submit review");
-    } finally { setSubmittingReview(false); }
-  };
-
-  const handleAddToCart = () => {
-    if (!product) return;
-    const img = product.images.find(i => i.isPrimary)?.url || product.images[0]?.url;
-    addItem({ productId: product.id, name: product.name, price: product.price, quantity: qty, image: img, model: product.model });
-    toast.success(`${product.name} added to cart!`);
-  };
-
-  const handleBookNow = () => {
-    if (!product) return;
-    const img = product.images.find(i => i.isPrimary)?.url || product.images[0]?.url;
-    addItem({ productId: product.id, name: product.name, price: product.price, quantity: qty, image: img, model: product.model });
-    toast.success("Redirecting to order...");
-    router.push("/cart");
-  };
-
-  const whatsappMsg = product
-    ? `Hi! I'm interested in ${product.name} (Model: ${product.model}). Price: ${formatCurrency(product.price)}. Please share more details.`
-    : "";
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 pt-24">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="bg-white rounded-2xl aspect-square animate-pulse" />
-          <div className="space-y-4">
-            {[...Array(6)].map((_, i) => <div key={i} className="h-6 bg-gray-200 rounded animate-pulse" />)}
-          </div>
-        </div>
-      </div>
-    );
+  if (!product) {
+    return { title: "Product Not Found | Smart Inverter's Ravulapalem" };
   }
 
-  if (!product) return null;
+  const title = product.seoTitle?.trim() || `${product.name} (${product.model}) | Smart Inverter's Ravulapalem`;
+  const description =
+    product.seoDescription?.trim() ||
+    `Buy ${product.name} — ${product.capacity}, ${product.batteryType} battery, ${product.warranty} warranty. Authorized Terranova LiFePO4 lithium inverter dealer in Ravulapalem, Andhra Pradesh. ${product.description || ""}`.slice(0, 300);
+  const url = `${SITE_URL}/en/products/${product.slug}`;
+  const image = product.images?.[0]?.url
+    ? getProductImageSrc(product.images[0].url).startsWith("http")
+      ? getProductImageSrc(product.images[0].url)
+      : `${SITE_URL}${product.images[0].url}`
+    : `${SITE_URL}/og-image.png`;
 
-  const images = product.images.length > 0 ? product.images : [{ id: "1", url: "/placeholder-product.jpg", isPrimary: true }];
-  const discount = product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
+  return {
+    title,
+    description,
+    keywords: product.tags ? product.tags.split(",").map((t) => t.trim()) : undefined,
+    alternates: { canonical: url },
+    openGraph: {
+      title, description, url,
+      siteName: "Smart Inverter's Ravulapalem",
+      images: [{ url: image, width: 800, height: 800, alt: product.name }],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title, description,
+      images: [image],
+    },
+  };
+}
 
-  let specs: Record<string, string> = {};
-  let features: string[] = [];
-  try { specs = JSON.parse(product.specifications); } catch { specs = { Capacity: product.capacity, Type: product.batteryType, Warranty: product.warranty }; }
-  try { features = JSON.parse(product.features); } catch { features = [product.features]; }
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const product = await getProduct(id);
+
+  const productSchema = product ? {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    model: product.model,
+    description: product.description,
+    category: product.category?.name,
+    image: product.images?.[0]?.url
+      ? (getProductImageSrc(product.images[0].url).startsWith("http") ? getProductImageSrc(product.images[0].url) : `${SITE_URL}${product.images[0].url}`)
+      : `${SITE_URL}/og-image.png`,
+    brand: { "@type": "Brand", name: "Terranova" },
+    offers: {
+      "@type": "Offer",
+      url: `${SITE_URL}/en/products/${product.slug}`,
+      priceCurrency: "INR",
+      price: product.price,
+      availability: product.stockQuantity > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+    ...(product.reviewCount > 0 ? {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: product.rating,
+        reviewCount: product.reviewCount,
+      },
+    } : {}),
+  } : null;
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
-      {/* Breadcrumb */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-gray-500">
-          <Link href="/" className="hover:text-blue-600">Home</Link>
-          <span>/</span>
-          <Link href="/products" className="hover:text-blue-600">Products</Link>
-          <span>/</span>
-          <span className="text-gray-900 font-medium">{product.name}</span>
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <button onClick={() => router.back()} className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 mb-6">
-          <ArrowLeft className="h-4 w-4" /> Back
-        </button>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
-          {/* Image Gallery */}
-          <div>
-            <div className="relative bg-white rounded-2xl overflow-hidden aspect-square border border-gray-100 shadow-sm">
-              <Image
-                src={getProductImageSrc(images[imageIdx]?.url)}
-                alt={images[imageIdx]?.alt || product.name}
-                fill className="object-contain p-6"
-                onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=Product"; }}
-              />
-              {discount > 0 && (
-                <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  {discount}% OFF
-                </span>
-              )}
-              {images.length > 1 && (
-                <>
-                  <button onClick={() => setImageIdx(i => Math.max(0, i - 1))}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50">
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                  <button onClick={() => setImageIdx(i => Math.min(images.length - 1, i + 1))}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50">
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                </>
-              )}
-            </div>
-            {images.length > 1 && (
-              <div className="flex gap-2 mt-3">
-                {images.map((img, i) => (
-                  <button key={img.id} onClick={() => setImageIdx(i)}
-                    className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition-colors ${i === imageIdx ? "border-blue-500" : "border-gray-200"}`}>
-                    <Image
-                      src={getProductImageSrc(img.url)}
-                      alt="" fill className="object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/64x64?text=Img"; }}
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Product Info */}
-          <div>
-            <span className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-3">
-              {product.category.name}
-            </span>
-            <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 mb-2">{product.name}</h1>
-            <p className="text-gray-500 text-sm mb-3">Model: <span className="font-mono text-gray-700">{product.model}</span></p>
-
-            {product.reviewCount > 0 ? (
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                  ))}
-                </div>
-                <span className="text-sm text-gray-500">{product.rating.toFixed(1)} ({product.reviewCount} reviews)</span>
-              </div>
-            ) : (
-              <p className="text-sm text-gray-400 mb-4">No reviews yet</p>
-            )}
-
-            <div className="flex items-end gap-3 mb-5">
-              <span className="text-3xl font-extrabold text-blue-700">{formatCurrency(product.price)}</span>
-              {product.originalPrice && (
-                <span className="text-gray-600 line-through text-lg">{formatCurrency(product.originalPrice)}</span>
-              )}
-            </div>
-
-            <p className="text-gray-600 leading-relaxed mb-5">{product.description}</p>
-
-            {/* Quick specs */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3">
-                <Zap className="h-4 w-4 text-blue-600" />
-                <div>
-                  <p className="text-xs text-gray-400">Capacity</p>
-                  <p className="text-sm font-semibold">{product.capacity}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3">
-                <Shield className="h-4 w-4 text-green-600" />
-                <div>
-                  <p className="text-xs text-gray-400">Warranty</p>
-                  <p className="text-sm font-semibold">{product.warranty}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3">
-                <Package className="h-4 w-4 text-purple-600" />
-                <div>
-                  <p className="text-xs text-gray-400">Type</p>
-                  <p className="text-sm font-semibold">{product.batteryType}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3">
-                <Truck className="h-4 w-4 text-orange-600" />
-                <div>
-                  <p className="text-xs text-gray-400">Stock</p>
-                  <p className={`text-sm font-semibold ${product.stockQuantity > 0 ? "text-green-600" : "text-red-500"}`}>
-                    {product.stockQuantity > 0 ? `${product.stockQuantity} Available` : "Out of Stock"}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Quantity + buttons */}
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden">
-                <button onClick={() => setQty(q => Math.max(1, q - 1))} className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors">−</button>
-                <span className="px-4 py-2 font-semibold">{qty}</span>
-                <button onClick={() => setQty(q => Math.min(product.stockQuantity, q + 1))} className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors">+</button>
-              </div>
-            </div>
-
-            {/* Order path — clear steps */}
-            <div className="flex items-center gap-2 bg-blue-50 rounded-xl px-4 py-3 mb-4 text-xs text-blue-700 font-semibold">
-              <span className="bg-blue-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">1</span> Review Details
-              <span className="text-blue-300">→</span>
-              <span className="bg-blue-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">2</span> Book Your Order
-              <span className="text-blue-300">→</span>
-              <span className="bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">3</span> We Deliver &amp; Install
-            </div>
-
-            <div className="flex flex-col gap-2.5">
-              <button
-                onClick={handleBookNow}
-                disabled={product.stockQuantity === 0}
-                className="flex items-center justify-center gap-2 bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-md"
-              >
-                <ClipboardList className="h-5 w-5" /> Book Your Order
-              </button>
-              <button
-                onClick={handleAddToCart}
-                disabled={product.stockQuantity === 0}
-                className="flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              >
-                <ShoppingCart className="h-4 w-4" /> Add to Cart (Continue Shopping)
-              </button>
-            </div>
-
-            <div className="mt-3">
-              <a
-                href={getWhatsAppUrl(whatsappMsg)}
-                target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-colors text-sm"
-              >
-                <MessageCircle className="h-5 w-5" /> Ask on WhatsApp Before Ordering
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="flex border-b border-gray-100">
-            {(["specs", "features", "reviews"] as const).map((tab) => (
-              <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-4 text-sm font-semibold capitalize transition-colors ${
-                  activeTab === tab ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-800"
-                }`}>
-                {tab === "specs" ? "Specifications" : tab === "features" ? "Features" : `Reviews (${product.reviewCount})`}
-              </button>
-            ))}
-          </div>
-
-          <div className="p-6">
-            {activeTab === "specs" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {Object.entries(specs).map(([key, val]) => (
-                  <div key={key} className="flex justify-between py-3 border-b border-gray-50">
-                    <span className="text-gray-500 text-sm">{key}</span>
-                    <span className="font-semibold text-gray-900 text-sm">{val}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeTab === "features" && (
-              <ul className="space-y-3">
-                {features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                    <span className="text-gray-700">{f}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {activeTab === "reviews" && (
-              <div className="space-y-6">
-                {/* Write a review */}
-                {!user ? (
-                  <div className="text-center py-6 bg-gray-50 rounded-xl">
-                    <p className="text-gray-500 text-sm mb-3">Login to write a review after your order is delivered.</p>
-                    <Link href={`/login?redirect=/products/${product.slug}`} className="inline-block px-5 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm">
-                      Login
-                    </Link>
-                  </div>
-                ) : eligibility?.alreadyReviewed ? (
-                  <p className="text-center py-4 text-sm text-gray-500 bg-gray-50 rounded-xl">You've already reviewed this product. Thank you!</p>
-                ) : eligibility?.canReview ? (
-                  <div className="bg-gray-50 rounded-xl p-5">
-                    <p className="font-semibold text-gray-900 mb-3">Write a Review</p>
-                    <div className="flex gap-1 mb-3">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <button key={s} type="button" onClick={() => setReviewRating(s)}>
-                          <Star className={`h-6 w-6 ${s <= reviewRating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                        </button>
-                      ))}
-                    </div>
-                    <input value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}
-                      placeholder="Title (optional)"
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    <textarea value={reviewComment} onChange={(e) => setReviewComment(e.target.value)}
-                      rows={3} placeholder="Share your experience with this product..."
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    <button onClick={handleSubmitReview} disabled={submittingReview}
-                      className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm disabled:opacity-60">
-                      {submittingReview ? "Submitting..." : "Submit Review"}
-                    </button>
-                  </div>
-                ) : eligibility && !eligibility.canReview ? (
-                  <p className="text-center py-4 text-sm text-gray-500 bg-gray-50 rounded-xl">{eligibility.reason}</p>
-                ) : null}
-
-                {/* Reviews list */}
-                {reviews.length === 0 ? (
-                  <div className="text-center py-8">
-                    <Star className="h-10 w-10 text-gray-200 mx-auto mb-2" />
-                    <p className="text-gray-400 text-sm">No reviews yet. Be the first to review this product.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {reviews.map((r) => (
-                      <div key={r.id} className="border-b border-gray-50 pb-4">
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="font-semibold text-gray-900 text-sm">{r.user.name}</p>
-                          <span className="text-xs text-gray-400">{formatDate(r.createdAt)}</span>
-                        </div>
-                        <div className="flex mb-1.5">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`h-3.5 w-3.5 ${i < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-200"}`} />
-                          ))}
-                        </div>
-                        {r.title && <p className="font-medium text-gray-800 text-sm mb-1">{r.title}</p>}
-                        <p className="text-gray-600 text-sm leading-relaxed">{r.comment}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      {productSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
+      <ProductDetailClient />
+    </>
   );
 }
