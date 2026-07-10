@@ -4,7 +4,7 @@ import ProductsListClient from "./ProductsListClient";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.smartinverters.in";
 
 export const metadata: Metadata = {
-  title: "Lithium & Smart Inverters | LiFePO4 Inverter Batteries — Terranova Dealer Ravulapalem",
+  title: "Lithium & Smart Inverters | LiFePO4 Inverter Batteries",
   description:
     "Shop Terranova smart inverters and LiFePO4 lithium inverter batteries — zero maintenance, 5-year warranty, expert installation & 24/7 support. Authorized dealer in Ravulapalem, Andhra Pradesh.",
   keywords: [

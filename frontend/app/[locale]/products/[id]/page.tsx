@@ -40,10 +40,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const product = await getProduct(id);
 
   if (!product) {
-    return { title: "Product Not Found | Smart Inverter's Ravulapalem" };
+    return { title: "Product Not Found" };
   }
 
-  const title = product.seoTitle?.trim() || `${product.name} (${product.model}) | Smart Inverter's Ravulapalem`;
+  const title = product.seoTitle?.trim() || `${product.name} (${product.model})`;
+  const fullTitle = `${title} | Smart Inverter's Ravulapalem`;
   const description =
     product.seoDescription?.trim() ||
     `Buy ${product.name} — ${product.capacity}, ${product.batteryType} battery, ${product.warranty} warranty. Authorized Terranova LiFePO4 lithium inverter dealer in Ravulapalem, Andhra Pradesh. ${product.description || ""}`.slice(0, 300);
@@ -60,14 +61,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     keywords: product.tags ? product.tags.split(",").map((t) => t.trim()) : undefined,
     alternates: { canonical: url },
     openGraph: {
-      title, description, url,
+      title: fullTitle, description, url,
       siteName: "Smart Inverter's Ravulapalem",
       images: [{ url: image, width: 800, height: 800, alt: product.name }],
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title, description,
+      title: fullTitle, description,
       images: [image],
     },
   };
