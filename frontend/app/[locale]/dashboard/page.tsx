@@ -139,6 +139,10 @@ export default function CustomerDashboard() {
                       <span className="text-sm text-gray-500">{t("total")}</span>
                       <span className="font-extrabold text-blue-700">{formatCurrency(order.totalAmount)}</span>
                     </div>
+                    <Link href={`/invoice/${order.orderNumber}`}
+                      className="block text-center text-sm text-blue-600 hover:underline font-semibold mt-3 pt-3 border-t border-gray-100">
+                      View / Download Invoice
+                    </Link>
                   </div>
                 ))}
               </div>

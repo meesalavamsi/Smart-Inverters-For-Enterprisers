@@ -88,8 +88,12 @@ export default function CartPage() {
             <p className="text-xl font-mono font-extrabold text-blue-700">{ordered}</p>
           </div>
           <div className="space-y-3">
-            <Link href="/order-tracking"
+            <Link href={`/invoice/${ordered}`}
               className="block w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors text-center">
+              View / Download Invoice
+            </Link>
+            <Link href="/order-tracking"
+              className="block w-full border-2 border-blue-600 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-50 transition-colors text-center">
               Track My Order
             </Link>
             <a

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { Search, Package, Truck, CheckCircle, Clock, XCircle, Loader2 } from "lucide-react";
 import { ordersApi } from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -161,6 +162,10 @@ export default function OrderTrackingPage() {
                   <p className="font-bold text-gray-900">Total</p>
                   <p className="font-extrabold text-blue-700 text-lg">{formatCurrency(order.totalAmount)}</p>
                 </div>
+                <Link href={`/invoice/${order.orderNumber}`}
+                  className="block text-center mt-4 text-blue-600 font-semibold text-sm hover:underline">
+                  View / Download Invoice
+                </Link>
               </div>
             </motion.div>
           )}
