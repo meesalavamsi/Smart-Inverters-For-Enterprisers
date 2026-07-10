@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ordersApi } from "@/lib/api";
 import { formatCurrency, formatDate, ORDER_STATUS_COLORS } from "@/lib/utils";
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -112,9 +113,11 @@ export default function AdminOrdersPage() {
                   </td>
                   <td className="px-4 py-3.5 text-xs text-gray-400">{formatDate(order.createdAt)}</td>
                   <td className="px-4 py-3.5">
-                    <button className="text-blue-600 hover:text-blue-700 p-1.5 rounded hover:bg-blue-50 transition-colors">
+                    <Link href={`/invoice/${order.orderNumber}`} target="_blank" rel="noopener noreferrer"
+                      title="View Invoice"
+                      className="inline-flex text-blue-600 hover:text-blue-700 p-1.5 rounded hover:bg-blue-50 transition-colors">
                       <Eye className="h-4 w-4" />
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}
