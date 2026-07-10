@@ -142,8 +142,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "@type": "OfferCatalog",
                 name: "Inverter & Battery Products",
                 itemListElement: [
-                  { "@type": "Offer", itemOffered: { "@type": "Product", name: "Terranova LiFePO4 Lithium Inverter Battery" } },
-                  { "@type": "Offer", itemOffered: { "@type": "Product", name: "Smart Inverter 1kV–5kV" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Terranova LiFePO4 Lithium Inverter Battery" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Smart Inverter 1kV–5kV" } },
                   { "@type": "Offer", itemOffered: { "@type": "Service", name: "Inverter Installation Service" } },
                   { "@type": "Offer", itemOffered: { "@type": "Service", name: "Battery Repair & Maintenance" } },
                 ],
