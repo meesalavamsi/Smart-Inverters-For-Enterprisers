@@ -226,6 +226,8 @@
     "whatsappLabel": "WhatsApp",
     "emailLabel": "ईमेल",
     "addressLabel": "कार्यालय का पता",
+    "locationLabel": "स्थान",
+    "getDirections": "Google Maps पर दिशा-निर्देश देखें",
     "hoursLabel": "काम के घंटे",
     "workingLine1": "सोम – शनि: सुबह 9:00 – रात 10:00",
     "workingLine2": "रविवार: छुट्टी (कार्यालय बंद)",

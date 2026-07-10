@@ -226,6 +226,8 @@
     "whatsappLabel": "WhatsApp",
     "emailLabel": "Email",
     "addressLabel": "Office Address",
+    "locationLabel": "Location",
+    "getDirections": "Get Directions on Google Maps",
     "hoursLabel": "Working Hours",
     "workingLine1": "Mon – Sat: 9:00 AM – 10:00 PM",
     "workingLine2": "Sunday: Holiday (Office Closed)",

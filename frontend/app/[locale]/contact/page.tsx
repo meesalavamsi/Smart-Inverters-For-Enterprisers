@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Phone, Mail, MapPin, Clock, MessageCircle, ExternalLink, Zap } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageCircle, ExternalLink, Zap, Navigation } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { SERVICE_CITIES } from "@/components/home/ServiceArea";
@@ -23,6 +23,11 @@ export default async function ContactPage() {
     { icon: MessageCircle, label: t("whatsappLabel"), value: "9133639888", href: WHATSAPP_URL, color: "text-green-600 bg-green-50" },
     { icon: Mail, label: t("emailLabel"), value: "maniagency.rvpm@gmail.com", href: "mailto:maniagency.rvpm@gmail.com", color: "text-purple-600 bg-purple-50" },
     { icon: MapPin, label: t("addressLabel"), value: "Indira Colony (Near Community Hall), Ravulapalem, Andhra Pradesh, India", href: "#map", color: "text-red-600 bg-red-50" },
+    {
+      icon: Navigation, label: t("locationLabel"), value: t("getDirections"),
+      href: "https://www.google.com/maps/dir/?api=1&destination=Indira+Colony+Ravulapalem+Andhra+Pradesh",
+      color: "text-teal-600 bg-teal-50",
+    },
     {
       icon: Clock, label: t("hoursLabel"), value: null, href: null, color: "text-orange-600 bg-orange-50",
       lines: [

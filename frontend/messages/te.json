@@ -226,6 +226,8 @@
     "whatsappLabel": "WhatsApp",
     "emailLabel": "ఇమెయిల్",
     "addressLabel": "కార్యాలయ చిరునామా",
+    "locationLabel": "లొకేషన్",
+    "getDirections": "Google Maps లో దారి చూడండి",
     "hoursLabel": "పని గంటలు",
     "workingLine1": "సోమ – శని: ఉ.9:00 – రా.10:00",
     "workingLine2": "ఆదివారం: సెలవు (ఆఫీస్ మూసివుంటుంది)",
