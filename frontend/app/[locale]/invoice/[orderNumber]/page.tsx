@@ -96,6 +96,7 @@ export default function InvoicePage() {
                 <p className="font-extrabold text-lg text-gray-900">Smart Inverter&apos;s</p>
                 <p className="text-xs text-gray-500">Indira Colony (Near Community Hall)<br />Ravulapalem, Andhra Pradesh, India</p>
                 <p className="text-xs text-gray-500 mt-1">9133639888 · maniagency.rvpm@gmail.com</p>
+                <p className="text-xs text-gray-500 mt-1">GSTIN: 37DBKPR7589M1ZD</p>
               </div>
             </div>
             <div className="text-right">
