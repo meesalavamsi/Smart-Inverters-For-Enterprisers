@@ -75,6 +75,7 @@ app.use("/api/bookings", require("./routes/bookings"));
 app.use("/api/issues", require("./routes/issues"));
 app.use("/api/feedback", require("./routes/feedback"));
 app.use("/api/reviews", require("./routes/reviews"));
+app.use("/api/payments", require("./routes/payments"));
 app.use("/api/videos", require("./routes/videos"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/analytics", require("./routes/analytics"));

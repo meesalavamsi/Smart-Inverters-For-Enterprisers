@@ -62,6 +62,13 @@ export const ordersApi = {
   updateStatus: (id: string, data: { status: string; paymentStatus?: string }) => api.put(`/api/orders/${id}/status`, data),
 };
 
+// Payments (Razorpay)
+export const paymentsApi = {
+  createOrder: (amount: number) => api.post("/api/payments/create-order", { amount }),
+  verify: (data: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string; orderId: string }) =>
+    api.post("/api/payments/verify", data),
+};
+
 // Bookings
 export const bookingsApi = {
   create: (data: Record<string, string>) => api.post("/api/bookings", data),

@@ -4,18 +4,33 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle, Smartphone, Building2 } from "lucide-react";
+import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle, Smartphone, Building2, CreditCard } from "lucide-react";
 import { useCartStore, useAuthStore } from "@/lib/store";
-import { ordersApi } from "@/lib/api";
+import { ordersApi, paymentsApi } from "@/lib/api";
 import { formatCurrency, getWhatsAppUrl, getProductImageSrc } from "@/lib/utils";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+declare global {
+  interface Window { Razorpay: new (options: Record<string, unknown>) => { open: () => void }; }
+}
+
+function loadRazorpayScript(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
 const checkoutSchema = z.object({
   shippingAddress: z.string().min(20, "Please enter a complete address (min 20 characters)"),
-  paymentMethod: z.enum(["UPI", "BANK_TRANSFER"]),
+  paymentMethod: z.enum(["RAZORPAY", "UPI", "BANK_TRANSFER"]),
   notes: z.string().optional(),
 });
 
@@ -32,9 +47,38 @@ export default function CartPage() {
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: { paymentMethod: "UPI" },
+    defaultValues: { paymentMethod: "RAZORPAY" },
   });
   const selectedPayment = watch("paymentMethod");
+
+  const payWithRazorpay = (dbOrderId: string, orderNumber: string) => {
+    return new Promise<void>((resolve, reject) => {
+      paymentsApi.createOrder(totalPrice).then((res) => {
+        const { orderId, amount, currency, keyId } = res.data;
+        const rzp = new window.Razorpay({
+          key: keyId,
+          amount,
+          currency,
+          name: "Smart Inverter's",
+          description: `Order ${orderNumber}`,
+          order_id: orderId,
+          prefill: { name: user?.name, email: user?.email, contact: user?.phone },
+          theme: { color: "#2563eb" },
+          handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
+            try {
+              await paymentsApi.verify({ ...response, orderId: dbOrderId });
+              resolve();
+            } catch {
+              toast.error("Payment received but verification failed. We'll confirm manually — please contact us.");
+              resolve();
+            }
+          },
+          modal: { ondismiss: () => reject(new Error("Payment cancelled")) },
+        });
+        rzp.open();
+      }).catch(() => reject(new Error("Could not start payment")));
+    });
+  };
 
   const handleOrder = async (data: CheckoutForm) => {
     if (!user) {
@@ -54,9 +98,25 @@ export default function CartPage() {
         totalAmount: totalPrice,
       });
       const orderNumber = res.data.data?.orderNumber || "ORDER";
+      const dbOrderId = res.data.data?.id;
+
+      if (data.paymentMethod === "RAZORPAY") {
+        const scriptLoaded = await loadRazorpayScript();
+        if (!scriptLoaded) {
+          toast.error("Could not load payment gateway. Please try UPI or contact us on WhatsApp.");
+        } else {
+          try {
+            await payWithRazorpay(dbOrderId, orderNumber);
+            toast.success("Payment successful!");
+          } catch {
+            toast.info("Payment not completed — your order is saved, you can pay later or contact us.");
+          }
+        }
+      }
+
       clearCart();
       setOrdered(orderNumber);
-      toast.success("Order placed successfully!");
+      if (data.paymentMethod !== "RAZORPAY") toast.success("Order placed successfully!");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } }; code?: string };
       const msg = error?.response?.data?.message;
@@ -231,15 +291,28 @@ export default function CartPage() {
                 <label className="text-xs font-bold text-gray-700 mb-2 block">Payment Method</label>
                 <div className="space-y-2">
 
-                  {/* UPI */}
+                  {/* Razorpay — recommended */}
+                  <label className={`flex items-start gap-3 cursor-pointer rounded-xl border px-3 py-2.5 transition-colors ${selectedPayment === "RAZORPAY" ? "border-blue-400 bg-blue-50" : "border-gray-200 bg-white hover:border-blue-200"}`}>
+                    <input type="radio" {...register("paymentMethod")} value="RAZORPAY" className="mt-0.5 accent-blue-600" />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <CreditCard className="h-4 w-4 text-blue-600" />
+                        <p className="text-sm font-semibold text-gray-800">Pay Online — Cards / UPI / Netbanking</p>
+                        <span className="text-[10px] bg-green-100 text-green-700 font-bold px-1.5 py-0.5 rounded-full">Recommended</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-0.5">Secure checkout via Razorpay — payment confirmed instantly</p>
+                    </div>
+                  </label>
+
+                  {/* UPI (manual QR) */}
                   <label className={`flex items-start gap-3 cursor-pointer rounded-xl border px-3 py-2.5 transition-colors ${selectedPayment === "UPI" ? "border-blue-400 bg-blue-50" : "border-gray-200 bg-white hover:border-blue-200"}`}>
                     <input type="radio" {...register("paymentMethod")} value="UPI" className="mt-0.5 accent-blue-600" />
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <Smartphone className="h-4 w-4 text-blue-600" />
-                        <p className="text-sm font-semibold text-gray-800">UPI / Google Pay / PhonePe</p>
+                        <p className="text-sm font-semibold text-gray-800">UPI / Google Pay / PhonePe (Manual)</p>
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">Instant digital payment</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Scan QR and confirm via WhatsApp</p>
                     </div>
                   </label>
 
