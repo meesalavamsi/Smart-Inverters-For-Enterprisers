@@ -37,6 +37,8 @@ const checkoutSchema = z.object({
   recipientName: z.string().min(2, "Name is required"),
   doorNo: z.string().min(2, "Door No / Street is required"),
   mandal: z.string().min(2, "Mandal is required"),
+  district: z.string().min(2, "District is required"),
+  state: z.string().min(2, "State is required"),
   landmark: z.string().min(2, "Landmark is required"),
   pincode: z.string().regex(/^\d{6}$/, "Enter a valid 6-digit pincode"),
   phone: z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit phone number"),
@@ -56,7 +58,7 @@ export default function CartPage() {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: { recipientName: user?.name || "", phone: user?.phone || "" },
+    defaultValues: { recipientName: user?.name || "", phone: user?.phone || "", state: "Andhra Pradesh" },
   });
 
   useEffect(() => {
@@ -117,7 +119,7 @@ export default function CartPage() {
       }
 
       // Payment succeeded — now create the order and mark it paid
-      const shippingAddress = `${data.doorNo}, ${data.mandal}, Near ${data.landmark} - ${data.pincode}\nRecipient: ${data.recipientName}, Phone: ${data.phone}`;
+      const shippingAddress = `${data.doorNo}, ${data.mandal}, ${data.district}, ${data.state}, Near ${data.landmark} - ${data.pincode}\nRecipient: ${data.recipientName}, Phone: ${data.phone}`;
       const res = await ordersApi.create({
         items: items.map((i) => ({ productId: i.productId, quantity: i.quantity, price: i.price })),
         shippingAddress,
@@ -332,6 +334,25 @@ export default function CartPage() {
                       className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                     {errors.pincode && <p className="text-red-500 text-xs mt-1">{errors.pincode.message}</p>}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <input
+                      {...register("district")}
+                      placeholder="District *"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                    {errors.district && <p className="text-red-500 text-xs mt-1">{errors.district.message}</p>}
+                  </div>
+                  <div>
+                    <input
+                      {...register("state")}
+                      placeholder="State *"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                    {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state.message}</p>}
                   </div>
                 </div>
 
