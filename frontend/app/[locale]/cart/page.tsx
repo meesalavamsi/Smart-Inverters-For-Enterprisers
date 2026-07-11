@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -34,7 +34,12 @@ function loadRazorpayScript(): Promise<boolean> {
 }
 
 const checkoutSchema = z.object({
-  shippingAddress: z.string().min(20, "Please enter a complete address (min 20 characters)"),
+  recipientName: z.string().min(2, "Name is required"),
+  doorNo: z.string().min(2, "Door No / Street is required"),
+  mandal: z.string().min(2, "Mandal is required"),
+  landmark: z.string().min(2, "Landmark is required"),
+  pincode: z.string().regex(/^\d{6}$/, "Enter a valid 6-digit pincode"),
+  phone: z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit phone number"),
   notes: z.string().optional(),
 });
 
@@ -49,9 +54,14 @@ export default function CartPage() {
 
   const totalPrice = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<CheckoutForm>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
+    defaultValues: { recipientName: user?.name || "", phone: user?.phone || "" },
   });
+
+  useEffect(() => {
+    if (user) reset((prev) => ({ ...prev, recipientName: prev.recipientName || user.name, phone: prev.phone || user.phone || "" }));
+  }, [user, reset]);
 
   // Opens Razorpay checkout and resolves with the verified payment response once paid
   const collectPayment = () => {
@@ -107,9 +117,10 @@ export default function CartPage() {
       }
 
       // Payment succeeded — now create the order and mark it paid
+      const shippingAddress = `${data.doorNo}, ${data.mandal}, Near ${data.landmark} - ${data.pincode}\nRecipient: ${data.recipientName}, Phone: ${data.phone}`;
       const res = await ordersApi.create({
         items: items.map((i) => ({ productId: i.productId, quantity: i.quantity, price: i.price })),
-        shippingAddress: data.shippingAddress,
+        shippingAddress,
         paymentMethod: "RAZORPAY",
         notes: data.notes || "",
         totalAmount: totalPrice,
@@ -281,18 +292,68 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {/* Shipping Address */}
-              <div className="mb-4">
-                <label className="text-xs font-bold text-gray-700 mb-1 block">Delivery Address *</label>
-                <textarea
-                  {...register("shippingAddress")}
-                  rows={3}
-                  placeholder="House No, Street, Area, City, Pincode..."
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
-                />
-                {errors.shippingAddress && (
-                  <p className="text-red-500 text-xs mt-1">{errors.shippingAddress.message}</p>
-                )}
+              {/* Delivery Details */}
+              <div className="mb-4 space-y-3">
+                <label className="text-xs font-bold text-gray-700 block -mb-1">Delivery Details *</label>
+
+                <div>
+                  <input
+                    {...register("recipientName")}
+                    placeholder="Full Name *"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  {errors.recipientName && <p className="text-red-500 text-xs mt-1">{errors.recipientName.message}</p>}
+                </div>
+
+                <div>
+                  <input
+                    {...register("doorNo")}
+                    placeholder="Door No / Street / Area *"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  {errors.doorNo && <p className="text-red-500 text-xs mt-1">{errors.doorNo.message}</p>}
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <input
+                      {...register("mandal")}
+                      placeholder="Mandal *"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                    {errors.mandal && <p className="text-red-500 text-xs mt-1">{errors.mandal.message}</p>}
+                  </div>
+                  <div>
+                    <input
+                      {...register("pincode")}
+                      placeholder="Pincode *"
+                      inputMode="numeric"
+                      maxLength={6}
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                    {errors.pincode && <p className="text-red-500 text-xs mt-1">{errors.pincode.message}</p>}
+                  </div>
+                </div>
+
+                <div>
+                  <input
+                    {...register("landmark")}
+                    placeholder="Landmark *"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  {errors.landmark && <p className="text-red-500 text-xs mt-1">{errors.landmark.message}</p>}
+                </div>
+
+                <div>
+                  <input
+                    {...register("phone")}
+                    placeholder="Phone Number *"
+                    inputMode="numeric"
+                    maxLength={10}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                </div>
               </div>
 
               {/* Payment */}
