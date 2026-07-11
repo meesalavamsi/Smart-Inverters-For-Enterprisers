@@ -17,12 +17,13 @@ const razorpay = new Razorpay({
 router.post("/create-order", authenticate, async (req, res) => {
   try {
     const { amount } = req.body;
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ success: false, message: "Valid amount is required" });
+    const amountPaise = Math.round((amount || 0) * 100);
+    if (!amount || amountPaise < 100) {
+      return res.status(400).json({ success: false, message: "Amount must be at least ₹1" });
     }
 
     const razorpayOrder = await razorpay.orders.create({
-      amount: Math.round(amount * 100), // paise
+      amount: amountPaise,
       currency: "INR",
       receipt: `rcpt_${Date.now()}`,
     });

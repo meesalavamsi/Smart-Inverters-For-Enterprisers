@@ -14,7 +14,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 declare global {
-  interface Window { Razorpay: new (options: Record<string, unknown>) => { open: () => void }; }
+  interface Window {
+    Razorpay: new (options: Record<string, unknown>) => {
+      open: () => void;
+      on: (event: string, handler: (response: { error: { description?: string } }) => void) => void;
+    };
+  }
 }
 
 function loadRazorpayScript(): Promise<boolean> {
@@ -75,6 +80,10 @@ export default function CartPage() {
           },
           modal: { ondismiss: () => reject(new Error("Payment cancelled")) },
         });
+        rzp.on("payment.failed", (response) => {
+          toast.error(response.error?.description || "Payment failed. Please try again.");
+          reject(new Error("Payment failed"));
+        });
         rzp.open();
       }).catch(() => reject(new Error("Could not start payment")));
     });
@@ -108,8 +117,11 @@ export default function CartPage() {
           try {
             await payWithRazorpay(dbOrderId, orderNumber);
             toast.success("Payment successful!");
-          } catch {
-            toast.info("Payment not completed — your order is saved, you can pay later or contact us.");
+          } catch (err) {
+            // "payment.failed" already shows its own specific error toast
+            if (err instanceof Error && err.message === "Payment cancelled") {
+              toast.info("Payment not completed — your order is saved, you can pay later or contact us.");
+            }
           }
         }
       }
