@@ -19,8 +19,18 @@ export default function OfferTicker() {
     }).catch(() => {});
   }, []);
 
-  // Admin pages have their own layout math (pt-16, exactly matches navbar height) — skip there.
-  if (!text || /\/admin(\/|$)/.test(pathname)) return null;
+  const isAdmin = /\/admin(\/|$)/.test(pathname);
+  const showing = !!text && !isAdmin;
+
+  useEffect(() => {
+    // Every page reserves top padding assuming only the navbar is above it. The ticker
+    // adds its own clearance (margin-top) plus height, which would double-count that
+    // padding — this negative margin on <main> (see layout.tsx) cancels the navbar's
+    // portion back out so each page's existing padding stays correct either way.
+    document.documentElement.style.setProperty("--ticker-correction", showing ? "-4rem" : "0px");
+  }, [showing]);
+
+  if (!showing) return null;
 
   const item = (key: string) => (
     <span key={key} className="flex items-center gap-2 mx-6 shrink-0">
@@ -29,19 +39,15 @@ export default function OfferTicker() {
     </span>
   );
 
+  // Normal document flow (not fixed) — sits right below the fixed navbar on load, then
+  // scrolls away naturally with the rest of the page, and pushes page content down by
+  // exactly its own height with no manual spacing/gap math needed.
   return (
-    <>
-      {/* Spacer — reserves just enough flow space to close the gap between the ticker and
-          each page's own top padding (most pages use pt-20, which already has ~16px of
-          buffer beyond the 64px navbar; the ticker itself is 36px tall, so a 20px spacer
-          exactly closes that gap: 20 + 80 = 64 (navbar) + 36 (ticker) = 100px). */}
-      <div className="h-5" aria-hidden />
-      <div className="fixed top-16 inset-x-0 z-40 h-9 w-full overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 flex items-center shadow-md">
-        <div className="flex whitespace-nowrap animate-marquee w-max text-white text-sm font-bold">
-          {[0, 1, 2, 3, 4, 5].map((i) => item(String(i)))}
-          {[6, 7, 8, 9, 10, 11].map((i) => item(String(i)))}
-        </div>
+    <div className="mt-16 h-9 w-full overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 flex items-center shadow-md">
+      <div className="flex whitespace-nowrap animate-marquee w-max text-white text-sm font-bold">
+        {[0, 1, 2, 3, 4, 5].map((i) => item(String(i)))}
+        {[6, 7, 8, 9, 10, 11].map((i) => item(String(i)))}
       </div>
-    </>
+    </div>
   );
 }
