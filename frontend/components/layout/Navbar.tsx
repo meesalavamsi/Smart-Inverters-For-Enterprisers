@@ -58,39 +58,47 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-400",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-400 relative",
         scrolled
-          ? "bg-white/80 backdrop-blur-2xl shadow-sm border-b border-white/60"
-          : "bg-white/60 backdrop-blur-xl border-b border-white/30"
+          ? "bg-white/80 backdrop-blur-2xl shadow-md"
+          : "bg-white/60 backdrop-blur-xl"
       )}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-green-600 to-green-800 group-hover:from-green-700 group-hover:to-green-900 transition-all shadow-md shadow-green-200">
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-green-700 group-hover:from-green-600 group-hover:to-green-800 transition-all duration-300 shadow-lg shadow-green-300/50 group-hover:scale-105 group-hover:shadow-green-400/60">
               <Zap className="h-5 w-5 text-white" />
+              <span className="absolute inset-0 rounded-xl ring-2 ring-green-400/0 group-hover:ring-green-400/40 transition-all duration-300" />
             </div>
-            <span className="font-extrabold text-xl text-gray-900">
+            <span className="font-extrabold text-xl text-gray-900 tracking-tight">
               Smart <span className="gradient-text-blue">Inverter's</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <ul className="hidden lg:flex items-center gap-1">
+          <ul className="hidden lg:flex items-center gap-1 bg-gray-50/80 rounded-full p-1 border border-gray-100">
             {navLinks.map((link) => (
-              <li key={link.key}>
+              <li key={link.key} className="relative">
                 <Link
                   href={link.href}
                   className={cn(
-                    "px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200",
+                    "relative z-10 block px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200",
                     pathname === link.href
-                      ? "text-green-600 bg-green-50 shadow-sm"
-                      : "text-gray-600 hover:text-green-600 hover:bg-green-50"
+                      ? "text-white"
+                      : "text-gray-600 hover:text-green-700"
                   )}
                 >
                   {t(link.key)}
                 </Link>
+                {pathname === link.href && (
+                  <motion.span
+                    layoutId="navbar-active-pill"
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-green-600 to-green-700 shadow-md shadow-green-300/50"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
               </li>
             ))}
           </ul>
@@ -132,11 +140,11 @@ export default function Navbar() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="relative flex items-center gap-1 px-3 py-2 rounded-md text-gray-600 hover:text-green-600 hover:bg-green-50 transition-colors"
+              className="relative flex items-center gap-1 px-3 py-2 rounded-full text-gray-600 hover:text-green-700 hover:bg-green-50 transition-all duration-200 hover:scale-105"
             >
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-600 text-white text-[10px] font-bold">
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-600 text-white text-[10px] font-bold shadow-md shadow-green-400/50 animate-pulse">
                   {cartCount}
                 </span>
               )}
@@ -184,11 +192,11 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="hidden sm:flex items-center gap-2">
-                <Link href="/login" className="px-4 py-2 text-sm font-medium text-green-600 hover:bg-green-50 rounded-md transition-colors">
+                <Link href="/login" className="px-4 py-2 text-sm font-semibold text-green-700 border border-green-200 hover:border-green-400 hover:bg-green-50 rounded-full transition-all duration-200">
                   {t("login")}
                 </Link>
                 <Link href="/register"
-                  className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors shadow-sm">
+                  className="px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 rounded-full transition-all duration-200 shadow-md shadow-green-300/50 hover:shadow-lg hover:shadow-green-400/50 hover:scale-105">
                   {t("register")}
                 </Link>
               </div>
@@ -204,6 +212,9 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
+
+      {/* Brand accent stripe */}
+      <div className="h-[3px] w-full bg-gradient-to-r from-green-400 via-green-600 to-green-400" />
 
       {/* Mobile menu */}
       <AnimatePresence>
