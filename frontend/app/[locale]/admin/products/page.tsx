@@ -26,10 +26,20 @@ const MAX_IMAGES = 5;
 const defaultForm = {
   name: "", model: "", description: "", price: "",
   originalPrice: "", warranty: "", capacity: "",
-  batteryType: "Tubular", features: "", specifications: "",
+  batteryType: "Tubular", specifications: "",
   stockQuantity: "0", status: "ACTIVE", tags: "",
   seoTitle: "", seoDescription: "", categoryId: "",
 };
+
+function parseFeatures(raw?: string): string[] {
+  if (!raw) return [""];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length) return parsed;
+  } catch { /* not JSON — fall back to splitting raw text */ }
+  const lines = raw.split(/\r?\n|,/).map(l => l.trim()).filter(Boolean);
+  return lines.length ? lines : [""];
+}
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -40,6 +50,7 @@ export default function AdminProductsPage() {
   const [form, setForm] = useState(defaultForm);
   const [files, setFiles] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([""]);
+  const [features, setFeatures] = useState<string[]>([""]);
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -58,7 +69,7 @@ export default function AdminProductsPage() {
     productsApi.getCategories().then(r => setCategories(r.data.data || [])).catch(() => {});
   }, [search]);
 
-  const openAdd = () => { setForm(defaultForm); setFiles([]); setImageUrls([""]); setEditProduct(null); setShowForm(true); };
+  const openAdd = () => { setForm(defaultForm); setFiles([]); setImageUrls([""]); setFeatures([""]); setEditProduct(null); setShowForm(true); };
   const openEdit = (p: Product) => {
     setEditProduct(p);
     setForm({
@@ -70,7 +81,6 @@ export default function AdminProductsPage() {
       warranty: p.warranty || "",
       capacity: p.capacity || "",
       batteryType: p.batteryType || "Tubular",
-      features: p.features || "",
       specifications: p.specifications || "",
       stockQuantity: String(p.stockQuantity),
       status: p.status,
@@ -81,6 +91,7 @@ export default function AdminProductsPage() {
     });
     setFiles([]);
     setImageUrls([""]);
+    setFeatures(parseFeatures(p.features));
     setShowForm(true);
   };
 
@@ -108,6 +119,7 @@ export default function AdminProductsPage() {
     try {
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+      fd.append("features", JSON.stringify(features.map(f => f.trim()).filter(Boolean)));
       files.forEach(f => fd.append("images", f));
       imageUrls.filter(u => u.trim()).forEach(u => fd.append("imageUrls", u.trim()));
 
@@ -312,9 +324,26 @@ export default function AdminProductsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Features</label>
-                <textarea value={form.features} onChange={e => setForm(f => ({ ...f, features: e.target.value }))}
-                  rows={3} placeholder="Key features (one per line or comma separated)..."
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+                <div className="space-y-2">
+                  {features.map((f, i) => (
+                    <div key={i} className="flex gap-2">
+                      <input
+                        value={f}
+                        onChange={e => setFeatures(prev => prev.map((x, j) => j === i ? e.target.value : x))}
+                        placeholder="e.g. Zero maintenance — no water topping ever"
+                        className="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      {features.length > 1 && (
+                        <button type="button" onClick={() => setFeatures(prev => prev.filter((_, j) => j !== i))}
+                          className="px-3 text-red-500 hover:text-red-700 text-lg">×</button>
+                      )}
+                    </div>
+                  ))}
+                  <button type="button" onClick={() => setFeatures(prev => [...prev, ""])}
+                    className="text-sm text-blue-600 hover:underline font-medium">
+                    + Add another feature
+                  </button>
+                </div>
               </div>
 
               <div>
