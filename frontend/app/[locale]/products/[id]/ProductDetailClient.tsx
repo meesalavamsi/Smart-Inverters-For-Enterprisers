@@ -119,11 +119,12 @@ export default function ProductDetailClient() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 pt-24">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="bg-white rounded-2xl aspect-square animate-pulse" />
-          <div className="space-y-4">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-5 bg-white rounded-2xl aspect-square animate-pulse" />
+          <div className="lg:col-span-4 space-y-4">
             {[...Array(6)].map((_, i) => <div key={i} className="h-6 bg-gray-200 rounded animate-pulse" />)}
           </div>
+          <div className="lg:col-span-3 bg-white rounded-2xl h-80 animate-pulse" />
         </div>
       </div>
     );
@@ -143,50 +144,68 @@ export default function ProductDetailClient() {
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-gray-500">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-gray-500 overflow-x-auto whitespace-nowrap">
           <Link href="/" className="hover:text-green-600">Home</Link>
           <span>/</span>
           <Link href="/products" className="hover:text-green-600">Products</Link>
+          <span>/</span>
+          <span className="hover:text-green-600">{product.category.name}</span>
           <span>/</span>
           <span className="text-gray-900 font-medium">{product.name}</span>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         <button onClick={() => router.back()} className="flex items-center gap-1 text-sm text-gray-500 hover:text-green-600 mb-6">
           <ArrowLeft className="h-4 w-4" /> Back
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10 items-start">
           {/* Image Gallery */}
-          <div>
-            <div className="relative bg-white rounded-2xl overflow-hidden aspect-square border border-gray-100 shadow-sm">
-              <Image
-                src={getProductImageSrc(images[imageIdx]?.url)}
-                alt={images[imageIdx]?.alt || product.name}
-                fill className="object-contain p-6"
-                onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=Product"; }}
-              />
-              {discount > 0 && (
-                <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  {discount}% OFF
-                </span>
-              )}
+          <div className="lg:col-span-5">
+            <div className="flex gap-3">
               {images.length > 1 && (
-                <>
-                  <button onClick={() => setImageIdx(i => Math.max(0, i - 1))}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50">
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                  <button onClick={() => setImageIdx(i => Math.min(images.length - 1, i + 1))}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50">
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                </>
+                <div className="hidden sm:flex flex-col gap-2 shrink-0">
+                  {images.map((img, i) => (
+                    <button key={img.id} onClick={() => setImageIdx(i)}
+                      className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition-colors ${i === imageIdx ? "border-green-500" : "border-gray-200"}`}>
+                      <Image
+                        src={getProductImageSrc(img.url)}
+                        alt="" fill className="object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/64x64?text=Img"; }}
+                      />
+                    </button>
+                  ))}
+                </div>
               )}
+              <div className="relative bg-white rounded-2xl overflow-hidden aspect-square border border-gray-100 shadow-sm flex-1">
+                <Image
+                  src={getProductImageSrc(images[imageIdx]?.url)}
+                  alt={images[imageIdx]?.alt || product.name}
+                  fill className="object-contain p-6"
+                  onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=Product"; }}
+                />
+                {discount > 0 && (
+                  <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    {discount}% OFF
+                  </span>
+                )}
+                {images.length > 1 && (
+                  <>
+                    <button onClick={() => setImageIdx(i => Math.max(0, i - 1))}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50">
+                      <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    <button onClick={() => setImageIdx(i => Math.min(images.length - 1, i + 1))}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50">
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
             {images.length > 1 && (
-              <div className="flex gap-2 mt-3">
+              <div className="flex sm:hidden gap-2 mt-3">
                 {images.map((img, i) => (
                   <button key={img.id} onClick={() => setImageIdx(i)}
                     className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition-colors ${i === imageIdx ? "border-green-500" : "border-gray-200"}`}>
@@ -202,7 +221,7 @@ export default function ProductDetailClient() {
           </div>
 
           {/* Product Info */}
-          <div>
+          <div className="lg:col-span-4">
             <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-3">
               {product.category.name}
             </span>
@@ -222,24 +241,12 @@ export default function ProductDetailClient() {
               <p className="text-sm text-gray-400 mb-4">No reviews yet</p>
             )}
 
-            <div className="flex items-end gap-3 mb-5">
-              <span className="text-3xl font-extrabold text-green-700">{formatCurrency(product.price)}</span>
-              {product.originalPrice && (
-                <span className="text-gray-600 line-through text-lg">{formatCurrency(product.originalPrice)}</span>
-              )}
-            </div>
-
-            {exchangeOffer && (
-              <div className="mb-5 flex items-center gap-2 text-sm font-semibold text-green-700 bg-green-50 border border-green-200 rounded-xl px-3 py-2 w-fit">
-                <Repeat className="h-4 w-4 shrink-0" />
-                <span>{exchangeOffer.text}</span>
-              </div>
-            )}
+            <hr className="border-gray-100 mb-5" />
 
             <p className="text-gray-600 leading-relaxed mb-5">{product.description}</p>
 
             {/* Quick specs */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="grid grid-cols-2 gap-3">
               <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3">
                 <Zap className="h-4 w-4 text-green-600" />
                 <div>
@@ -271,49 +278,72 @@ export default function ProductDetailClient() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Quantity + buttons */}
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden">
+          {/* Buy Box */}
+          <div className="lg:col-span-3">
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sticky top-24 space-y-4">
+              <div>
+                <div className="flex items-end gap-2 flex-wrap">
+                  <span className="text-3xl font-extrabold text-green-700">{formatCurrency(product.price)}</span>
+                  {product.originalPrice && (
+                    <span className="text-gray-500 line-through text-base">{formatCurrency(product.originalPrice)}</span>
+                  )}
+                </div>
+                {discount > 0 && <p className="text-xs text-red-500 font-semibold mt-0.5">You save {discount}%</p>}
+                <p className="text-xs text-gray-400 mt-1">Inclusive of all taxes</p>
+              </div>
+
+              {exchangeOffer && (
+                <div className="flex items-center gap-2 text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-xl px-3 py-2">
+                  <Repeat className="h-3.5 w-3.5 shrink-0" />
+                  <span className="line-clamp-2">{exchangeOffer.text}</span>
+                </div>
+              )}
+
+              <p className={`text-sm font-semibold ${product.stockQuantity > 0 ? "text-green-600" : "text-red-500"}`}>
+                {product.stockQuantity > 0 ? `In Stock — ${product.stockQuantity} available` : "Out of Stock"}
+              </p>
+
+              {/* Quantity */}
+              <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden w-fit">
                 <button onClick={() => setQty(q => Math.max(1, q - 1))} className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors">−</button>
                 <span className="px-4 py-2 font-semibold">{qty}</span>
                 <button onClick={() => setQty(q => Math.min(product.stockQuantity, q + 1))} className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors">+</button>
               </div>
-            </div>
 
-            {/* Order path — clear steps */}
-            <div className="flex items-center gap-2 bg-green-50 rounded-xl px-4 py-3 mb-4 text-xs text-green-700 font-semibold">
-              <span className="bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">1</span> Review Details
-              <span className="text-green-300">→</span>
-              <span className="bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">2</span> Book Your Order
-              <span className="text-green-300">→</span>
-              <span className="bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">3</span> We Deliver &amp; Install
-            </div>
+              {/* Order path — clear steps */}
+              <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 bg-green-50 rounded-xl px-3 py-2.5 text-[11px] text-green-700 font-semibold">
+                <span className="bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] shrink-0">1</span> Review
+                <span className="text-green-300">→</span>
+                <span className="bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] shrink-0">2</span> Book
+                <span className="text-green-300">→</span>
+                <span className="bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] shrink-0">3</span> Deliver
+              </div>
 
-            <div className="flex flex-col gap-2.5">
-              <button
-                onClick={handleBookNow}
-                disabled={product.stockQuantity === 0}
-                className="flex items-center justify-center gap-2 bg-green-600 text-white font-bold py-3.5 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-md"
-              >
-                <ClipboardList className="h-5 w-5" /> Book Your Order
-              </button>
-              <button
-                onClick={handleAddToCart}
-                disabled={product.stockQuantity === 0}
-                className="flex items-center justify-center gap-2 border-2 border-green-600 text-green-600 font-bold py-3 rounded-xl hover:bg-green-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              >
-                <ShoppingCart className="h-4 w-4" /> Add to Cart (Continue Shopping)
-              </button>
-            </div>
+              <div className="flex flex-col gap-2.5">
+                <button
+                  onClick={handleBookNow}
+                  disabled={product.stockQuantity === 0}
+                  className="flex items-center justify-center gap-2 bg-green-600 text-white font-bold py-3.5 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-md"
+                >
+                  <ClipboardList className="h-5 w-5" /> Book Your Order
+                </button>
+                <button
+                  onClick={handleAddToCart}
+                  disabled={product.stockQuantity === 0}
+                  className="flex items-center justify-center gap-2 border-2 border-green-600 text-green-600 font-bold py-3 rounded-xl hover:bg-green-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                >
+                  <ShoppingCart className="h-4 w-4" /> Add to Cart
+                </button>
+              </div>
 
-            <div className="mt-3">
               <a
                 href={getWhatsAppUrl(whatsappMsg)}
                 target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-colors text-sm"
               >
-                <MessageCircle className="h-5 w-5" /> Ask on WhatsApp Before Ordering
+                <MessageCircle className="h-5 w-5" /> Ask on WhatsApp
               </a>
             </div>
           </div>
