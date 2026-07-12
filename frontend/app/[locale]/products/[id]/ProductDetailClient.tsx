@@ -52,6 +52,7 @@ export default function ProductDetailClient() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [imageIdx, setImageIdx] = useState(0);
+  const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({});
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState<"specs" | "features" | "reviews">("specs");
   const exchangeOffer = useExchangeOffer();
@@ -178,11 +179,21 @@ export default function ProductDetailClient() {
                   ))}
                 </div>
               )}
-              <div className="relative bg-white rounded-2xl overflow-hidden aspect-square border border-gray-100 shadow-sm flex-1">
+              <div
+                className="relative bg-white rounded-2xl overflow-hidden aspect-square border border-gray-100 shadow-sm flex-1 cursor-zoom-in"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = ((e.clientX - rect.left) / rect.width) * 100;
+                  const y = ((e.clientY - rect.top) / rect.height) * 100;
+                  setZoomStyle({ transformOrigin: `${x}% ${y}%`, transform: "scale(2)" });
+                }}
+                onMouseLeave={() => setZoomStyle({ transform: "scale(1)" })}
+              >
                 <Image
                   src={getProductImageSrc(images[imageIdx]?.url)}
                   alt={images[imageIdx]?.alt || product.name}
-                  fill className="object-contain p-6"
+                  fill className="object-contain p-6 transition-transform duration-200 ease-out"
+                  style={zoomStyle}
                   onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=Product"; }}
                 />
                 {discount > 0 && (
