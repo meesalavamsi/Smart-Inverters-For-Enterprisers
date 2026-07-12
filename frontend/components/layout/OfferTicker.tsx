@@ -22,6 +22,14 @@ export default function OfferTicker() {
   const isAdmin = /\/admin(\/|$)/.test(pathname);
   const showing = !!text && !isAdmin;
 
+  useEffect(() => {
+    // Each page's own top-level wrapper reserves padding to clear the fixed navbar
+    // (e.g. pt-20). When the ticker is showing, it already clears the navbar itself,
+    // so that reserved padding becomes a redundant visible gap — this flag lets
+    // globals.css zero out just that one padding value, scoped to page wrappers only.
+    document.documentElement.toggleAttribute("data-ticker-active", showing);
+  }, [showing]);
+
   if (!showing) return null;
 
   const item = (key: string) => (

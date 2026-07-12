@@ -142,3 +142,13 @@
   100% { transform: translateX(-50%); }
 }
 .animate-marquee { animation: marquee 50s linear infinite; }
+
+/* When the ticker is showing, it already clears the fixed navbar itself, so each
+   page's own top-level wrapper no longer needs its own navbar-clearance padding.
+   Scoped to a direct child of <main> so it can't affect unrelated pt-* elements
+   elsewhere on the page. */
+html[data-ticker-active] main > .pt-16,
+html[data-ticker-active] main > .pt-20,
+html[data-ticker-active] main > .pt-24 {
+  padding-top: 0;
+}
