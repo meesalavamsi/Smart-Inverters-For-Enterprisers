@@ -117,7 +117,7 @@ export default function AdminDashboard() {
             </button>
             {(data?.unreadNotifications ?? 0) > 0 && (
               <button
-                className="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
+                className="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition-colors"
                 onClick={() => router.push("/admin/notifications")}
               >
                 <Bell className="h-4 w-4" />
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
             {/* Stats grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
               <StatCard icon={Users} title="Total Customers" value={data.customers.total}
-                sub={`+${data.customers.thisMonth} this month`} color="bg-blue-100 text-blue-600" />
+                sub={`+${data.customers.thisMonth} this month`} color="bg-green-100 text-green-600" />
               <StatCard icon={ShoppingBag} title="Total Orders" value={data.orders.total}
                 sub={`${data.orders.thisMonth} this month`} color="bg-green-100 text-green-600" />
               <StatCard icon={DollarSign} title="Total Revenue"
@@ -175,15 +175,15 @@ export default function AdminDashboard() {
                     <AreaChart data={chartData}>
                       <defs>
                         <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                          <stop offset="5%" stopColor="#22c55e" stopOpacity={0.2} />
+                          <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                       <XAxis dataKey="month" tick={{ fontSize: 11 }} />
                       <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `₹${(v/1000).toFixed(0)}k`} />
                       <Tooltip formatter={(v: number) => formatCurrency(v)} />
-                      <Area type="monotone" dataKey="revenue" stroke="#3b82f6" strokeWidth={2}
+                      <Area type="monotone" dataKey="revenue" stroke="#22c55e" strokeWidth={2}
                         fill="url(#revenueGrad)" name="Revenue" />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -215,7 +215,7 @@ export default function AdminDashboard() {
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="font-bold text-gray-900">Recent Orders</h2>
-                  <button onClick={() => router.push("/admin/orders")} className="text-blue-600 text-sm hover:underline">View All</button>
+                  <button onClick={() => router.push("/admin/orders")} className="text-green-600 text-sm hover:underline">View All</button>
                 </div>
                 <div className="divide-y divide-gray-50">
                   {data.recentOrders.map((order) => (
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
                         <p className="text-xs text-gray-500">{order.user?.name} · {formatDate(order.createdAt)}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-blue-700 text-sm">{formatCurrency(order.totalAmount)}</p>
+                        <p className="font-bold text-green-700 text-sm">{formatCurrency(order.totalAmount)}</p>
                         <span className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium mt-0.5 ${
                           order.status === "DELIVERED" ? "bg-green-100 text-green-700"
                             : order.status === "CANCELLED" ? "bg-red-100 text-red-700"
@@ -244,12 +244,12 @@ export default function AdminDashboard() {
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="font-bold text-gray-900">Top Products</h2>
-                  <button onClick={() => router.push("/admin/products")} className="text-blue-600 text-sm hover:underline">Manage</button>
+                  <button onClick={() => router.push("/admin/products")} className="text-green-600 text-sm hover:underline">Manage</button>
                 </div>
                 <div className="divide-y divide-gray-50">
                   {data.topProducts.map((product, i) => (
                     <div key={product.id} className="px-6 py-3.5 flex items-center gap-4">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-100 text-blue-700 font-bold text-sm">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-100 text-green-700 font-bold text-sm">
                         {i + 1}
                       </span>
                       <div className="flex-1">

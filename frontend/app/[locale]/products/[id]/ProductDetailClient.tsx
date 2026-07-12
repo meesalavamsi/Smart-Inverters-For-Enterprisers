@@ -142,16 +142,16 @@ export default function ProductDetailClient() {
       {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-gray-500">
-          <Link href="/" className="hover:text-blue-600">Home</Link>
+          <Link href="/" className="hover:text-green-600">Home</Link>
           <span>/</span>
-          <Link href="/products" className="hover:text-blue-600">Products</Link>
+          <Link href="/products" className="hover:text-green-600">Products</Link>
           <span>/</span>
           <span className="text-gray-900 font-medium">{product.name}</span>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <button onClick={() => router.back()} className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 mb-6">
+        <button onClick={() => router.back()} className="flex items-center gap-1 text-sm text-gray-500 hover:text-green-600 mb-6">
           <ArrowLeft className="h-4 w-4" /> Back
         </button>
 
@@ -187,7 +187,7 @@ export default function ProductDetailClient() {
               <div className="flex gap-2 mt-3">
                 {images.map((img, i) => (
                   <button key={img.id} onClick={() => setImageIdx(i)}
-                    className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition-colors ${i === imageIdx ? "border-blue-500" : "border-gray-200"}`}>
+                    className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition-colors ${i === imageIdx ? "border-green-500" : "border-gray-200"}`}>
                     <Image
                       src={getProductImageSrc(img.url)}
                       alt="" fill className="object-cover"
@@ -201,7 +201,7 @@ export default function ProductDetailClient() {
 
           {/* Product Info */}
           <div>
-            <span className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-3">
+            <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-3">
               {product.category.name}
             </span>
             <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 mb-2">{product.name}</h1>
@@ -221,7 +221,7 @@ export default function ProductDetailClient() {
             )}
 
             <div className="flex items-end gap-3 mb-5">
-              <span className="text-3xl font-extrabold text-blue-700">{formatCurrency(product.price)}</span>
+              <span className="text-3xl font-extrabold text-green-700">{formatCurrency(product.price)}</span>
               {product.originalPrice && (
                 <span className="text-gray-600 line-through text-lg">{formatCurrency(product.originalPrice)}</span>
               )}
@@ -232,7 +232,7 @@ export default function ProductDetailClient() {
             {/* Quick specs */}
             <div className="grid grid-cols-2 gap-3 mb-6">
               <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3">
-                <Zap className="h-4 w-4 text-blue-600" />
+                <Zap className="h-4 w-4 text-green-600" />
                 <div>
                   <p className="text-xs text-gray-400">Capacity</p>
                   <p className="text-sm font-semibold">{product.capacity}</p>
@@ -273,11 +273,11 @@ export default function ProductDetailClient() {
             </div>
 
             {/* Order path — clear steps */}
-            <div className="flex items-center gap-2 bg-blue-50 rounded-xl px-4 py-3 mb-4 text-xs text-blue-700 font-semibold">
-              <span className="bg-blue-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">1</span> Review Details
-              <span className="text-blue-300">→</span>
-              <span className="bg-blue-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">2</span> Book Your Order
-              <span className="text-blue-300">→</span>
+            <div className="flex items-center gap-2 bg-green-50 rounded-xl px-4 py-3 mb-4 text-xs text-green-700 font-semibold">
+              <span className="bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">1</span> Review Details
+              <span className="text-green-300">→</span>
+              <span className="bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">2</span> Book Your Order
+              <span className="text-green-300">→</span>
               <span className="bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px] shrink-0">3</span> We Deliver &amp; Install
             </div>
 
@@ -285,14 +285,14 @@ export default function ProductDetailClient() {
               <button
                 onClick={handleBookNow}
                 disabled={product.stockQuantity === 0}
-                className="flex items-center justify-center gap-2 bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-md"
+                className="flex items-center justify-center gap-2 bg-green-600 text-white font-bold py-3.5 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-md"
               >
                 <ClipboardList className="h-5 w-5" /> Book Your Order
               </button>
               <button
                 onClick={handleAddToCart}
                 disabled={product.stockQuantity === 0}
-                className="flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="flex items-center justify-center gap-2 border-2 border-green-600 text-green-600 font-bold py-3 rounded-xl hover:bg-green-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
                 <ShoppingCart className="h-4 w-4" /> Add to Cart (Continue Shopping)
               </button>
@@ -316,7 +316,7 @@ export default function ProductDetailClient() {
             {(["specs", "features", "reviews"] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-4 text-sm font-semibold capitalize transition-colors ${
-                  activeTab === tab ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-800"
+                  activeTab === tab ? "border-b-2 border-green-600 text-green-600" : "text-gray-500 hover:text-gray-800"
                 }`}>
                 {tab === "specs" ? "Specifications" : tab === "features" ? "Features" : `Reviews (${product.reviewCount})`}
               </button>
@@ -352,7 +352,7 @@ export default function ProductDetailClient() {
                 {!user ? (
                   <div className="text-center py-6 bg-gray-50 rounded-xl">
                     <p className="text-gray-500 text-sm mb-3">Login to write a review after your order is delivered.</p>
-                    <Link href={`/login?redirect=/products/${product.slug}`} className="inline-block px-5 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm">
+                    <Link href={`/login?redirect=/products/${product.slug}`} className="inline-block px-5 py-2 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors text-sm">
                       Login
                     </Link>
                   </div>
@@ -370,12 +370,12 @@ export default function ProductDetailClient() {
                     </div>
                     <input value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}
                       placeholder="Title (optional)"
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-green-500" />
                     <textarea value={reviewComment} onChange={(e) => setReviewComment(e.target.value)}
                       rows={3} placeholder="Share your experience with this product..."
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm mb-3 resize-none focus:outline-none focus:ring-2 focus:ring-green-500" />
                     <button onClick={handleSubmitReview} disabled={submittingReview}
-                      className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm disabled:opacity-60">
+                      className="px-5 py-2.5 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors text-sm disabled:opacity-60">
                       {submittingReview ? "Submitting..." : "Submit Review"}
                     </button>
                   </div>

@@ -16,7 +16,7 @@ export default function FAQ() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-bold px-4 py-2 rounded-full mb-4 border border-blue-100"
+            className="inline-flex items-center gap-2 bg-green-50 text-green-700 text-xs font-bold px-4 py-2 rounded-full mb-4 border border-green-100"
           >
             <HelpCircle className="h-3.5 w-3.5" /> Frequently Asked Questions
           </motion.span>
@@ -47,7 +47,7 @@ export default function FAQ() {
               >
                 <span className="font-semibold text-gray-900 text-sm pr-4">{faq.q}</span>
                 <ChevronDown
-                  className={`h-5 w-5 text-blue-500 shrink-0 transition-transform duration-200 ${open === i ? "rotate-180" : ""}`}
+                  className={`h-5 w-5 text-green-500 shrink-0 transition-transform duration-200 ${open === i ? "rotate-180" : ""}`}
                 />
               </button>
               <AnimatePresence initial={false}>

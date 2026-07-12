@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, BadgeCheck, Star, Wrench, Home, HeartHandshake, CreditCard, Leaf } from "lucide-react";
 
 const BADGES = [
-  { icon: BadgeCheck, label: "Authorized Terranova Dealer", color: "text-blue-700 bg-blue-50 border-blue-100" },
+  { icon: BadgeCheck, label: "Authorized Terranova Dealer", color: "text-green-700 bg-green-50 border-green-100" },
   { icon: ShieldCheck, label: "GST Registered", color: "text-green-700 bg-green-50 border-green-100" },
   { icon: Star, label: "5-Year Warranty", color: "text-yellow-700 bg-yellow-50 border-yellow-100" },
   { icon: BadgeCheck, label: "100% Genuine Products", color: "text-purple-700 bg-purple-50 border-purple-100" },

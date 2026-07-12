@@ -100,15 +100,15 @@ export default function AdminIssuesPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by report number, customer, or type..."
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
             />
           </div>
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+            className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-400">
             {STATUSES.map((s) => <option key={s} value={s}>{s === "ALL" ? "All Statuses" : s.replace(/_/g, " ")}</option>)}
           </select>
           <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}
-            className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+            className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-400">
             {PRIORITIES.map((p) => <option key={p} value={p}>{p === "ALL" ? "All Priorities" : p}</option>)}
           </select>
         </div>
@@ -131,12 +131,12 @@ export default function AdminIssuesPage() {
                   <button
                     key={issue.id}
                     onClick={() => { setSelected(issue); setResolution(issue.resolution || ""); }}
-                    className={`w-full text-left px-5 py-4 hover:bg-gray-50 transition-colors ${selected?.id === issue.id ? "bg-blue-50" : ""}`}
+                    className={`w-full text-left px-5 py-4 hover:bg-gray-50 transition-colors ${selected?.id === issue.id ? "bg-green-50" : ""}`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-mono text-xs font-bold text-blue-700">{issue.reportNumber}</span>
+                          <span className="font-mono text-xs font-bold text-green-700">{issue.reportNumber}</span>
                           <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                             PRIORITY_COLORS[issue.priority as keyof typeof PRIORITY_COLORS] || "bg-gray-100 text-gray-600"
                           }`}>{issue.priority}</span>
@@ -148,7 +148,7 @@ export default function AdminIssuesPage() {
                       <div className="text-right shrink-0">
                         <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
                           issue.status === "RESOLVED" || issue.status === "CLOSED" ? "bg-green-100 text-green-700" :
-                          issue.status === "IN_PROGRESS" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"
+                          issue.status === "IN_PROGRESS" ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
                         }`}>{issue.status.replace(/_/g, " ")}</span>
                         <p className="text-xs text-gray-400 mt-1">{formatDate(issue.createdAt)}</p>
                       </div>
@@ -173,12 +173,12 @@ export default function AdminIssuesPage() {
                 <div className="space-y-3 mb-5">
                   <div>
                     <p className="text-xs text-gray-400">Report #</p>
-                    <p className="font-mono font-bold text-blue-700 text-sm">{selected.reportNumber}</p>
+                    <p className="font-mono font-bold text-green-700 text-sm">{selected.reportNumber}</p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-400">Customer</p>
                     <p className="font-semibold text-sm">{selected.customerName}</p>
-                    <a href={`tel:${selected.phone}`} className="flex items-center gap-1 text-xs text-blue-600 hover:underline">
+                    <a href={`tel:${selected.phone}`} className="flex items-center gap-1 text-xs text-green-600 hover:underline">
                       <Phone className="h-3 w-3" /> {selected.phone}
                     </a>
                   </div>
@@ -199,7 +199,7 @@ export default function AdminIssuesPage() {
                     <select
                       value={selected.status}
                       onChange={(e) => handleUpdate(selected.id, { status: e.target.value })}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                     >
                       {["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"].map((s) => (
                         <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
@@ -211,7 +211,7 @@ export default function AdminIssuesPage() {
                     <select
                       value={selected.priority}
                       onChange={(e) => handleUpdate(selected.id, { priority: e.target.value })}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                     >
                       {["LOW", "MEDIUM", "HIGH", "CRITICAL"].map((p) => (
                         <option key={p} value={p}>{p}</option>
@@ -225,13 +225,13 @@ export default function AdminIssuesPage() {
                       onChange={(e) => setResolution(e.target.value)}
                       rows={3}
                       placeholder="Describe how the issue was resolved..."
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"
                     />
                   </div>
                   <button
                     onClick={() => handleUpdate(selected.id, { resolution })}
                     disabled={updating}
-                    className="w-full bg-blue-600 text-white text-sm font-bold py-2.5 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-60"
+                    className="w-full bg-green-600 text-white text-sm font-bold py-2.5 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-60"
                   >
                     {updating ? "Saving..." : "Save Resolution"}
                   </button>

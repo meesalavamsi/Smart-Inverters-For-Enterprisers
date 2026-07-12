@@ -9,7 +9,7 @@ function HighlightTerranova({ text }: { text: string }) {
     <>
       {parts.flatMap((part, i) => {
         if (i === parts.length - 1) return [part];
-        return [part, <span key={i} className="font-bold text-blue-700">Terranova</span>];
+        return [part, <span key={i} className="font-bold text-green-700">Terranova</span>];
       })}
     </>
   );
@@ -33,7 +33,7 @@ export default async function AboutPage() {
   ];
 
   const values = [
-    { icon: Shield, titleKey: "value1Title", descKey: "value1Desc", color: "bg-blue-100 text-blue-600" },
+    { icon: Shield, titleKey: "value1Title", descKey: "value1Desc", color: "bg-green-100 text-green-600" },
     { icon: Heart, titleKey: "value2Title", descKey: "value2Desc", color: "bg-red-100 text-red-600" },
     { icon: Target, titleKey: "value3Title", descKey: "value3Desc", color: "bg-green-100 text-green-600" },
     { icon: Award, titleKey: "value4Title", descKey: "value4Desc", color: "bg-yellow-100 text-yellow-600" },
@@ -48,13 +48,13 @@ export default async function AboutPage() {
 
   return (
     <div className="min-h-screen bg-white pt-20">
-      <div className="bg-gradient-to-br from-blue-900 to-blue-700 text-white py-20">
+      <div className="bg-gradient-to-br from-green-900 to-green-700 text-white py-6">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white/20 mb-6">
             <Zap className="h-9 w-9 text-yellow-400" />
           </div>
           <h1 className="text-5xl font-extrabold mb-4">{t("heroTitle")}</h1>
-          <p className="text-xl text-blue-200 max-w-2xl mx-auto leading-relaxed">{t("heroDesc")}</p>
+          <p className="text-xl text-green-200 max-w-2xl mx-auto leading-relaxed">{t("heroDesc")}</p>
         </div>
       </div>
 
@@ -62,7 +62,7 @@ export default async function AboutPage() {
         <div className="mx-auto max-w-5xl px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-block bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">{t("storyBadge")}</span>
+              <span className="inline-block bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">{t("storyBadge")}</span>
               <h2 className="text-4xl font-extrabold text-gray-900 mb-5">{t("storyTitle")}</h2>
               <p className="text-gray-600 leading-relaxed mb-4"><HighlightTerranova text={t("storyP1")} /></p>
               <p className="text-gray-600 leading-relaxed mb-4"><HighlightTerranova text={t("storyP2")} /></p>
@@ -70,8 +70,8 @@ export default async function AboutPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               {stats.map(stat => (
-                <div key={stat.labelKey} className="bg-blue-50 rounded-2xl p-6 text-center border border-blue-100">
-                  <p className="text-4xl font-extrabold text-blue-700">{stat.value}</p>
+                <div key={stat.labelKey} className="bg-green-50 rounded-2xl p-6 text-center border border-green-100">
+                  <p className="text-4xl font-extrabold text-green-700">{stat.value}</p>
                   <p className="text-gray-500 text-sm mt-1">{t(stat.labelKey as any)}</p>
                 </div>
               ))}
@@ -105,7 +105,7 @@ export default async function AboutPage() {
             <h2 className="text-4xl font-extrabold text-gray-900">{t("journeyTitle")}</h2>
           </div>
           <div className="relative">
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-blue-100 -translate-x-1/2" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-green-100 -translate-x-1/2" />
             {milestones.map((m, i) => (
               <div key={m.titleKey} className={`flex items-center gap-8 mb-10 ${i % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}>
                 <div className={`flex-1 ${i % 2 === 0 ? "text-right" : "text-left"}`}>
@@ -114,7 +114,7 @@ export default async function AboutPage() {
                     <p className="text-gray-500 text-sm">{t(m.descKey as any)}</p>
                   </div>
                 </div>
-                <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm shrink-0">
+                <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white font-bold text-sm shrink-0">
                   {i + 1}
                 </div>
                 <div className="flex-1" />
@@ -124,12 +124,12 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-blue-700">
+      <section className="py-16 bg-green-700">
         <div className="mx-auto max-w-3xl px-4 text-center">
           <h2 className="text-4xl font-extrabold text-white mb-4">{t("ctaTitle")}</h2>
-          <p className="text-blue-200 mb-8">{t("ctaDesc")}</p>
+          <p className="text-green-200 mb-8">{t("ctaDesc")}</p>
           <div className="flex justify-center gap-4">
-            <Link href="/products" className="bg-yellow-400 text-blue-900 px-8 py-3.5 rounded-xl font-bold hover:bg-yellow-300 transition-colors">
+            <Link href="/products" className="bg-yellow-400 text-green-900 px-8 py-3.5 rounded-xl font-bold hover:bg-yellow-300 transition-colors">
               {t("ctaBtn1")}
             </Link>
             <Link href="/contact" className="border-2 border-white text-white px-8 py-3.5 rounded-xl font-bold hover:bg-white/10 transition-colors">

@@ -119,7 +119,7 @@ export default function AdminSettingsPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-extrabold text-gray-900 flex items-center gap-2">
-              <Settings className="h-6 w-6 text-blue-600" />
+              <Settings className="h-6 w-6 text-green-600" />
               Settings
             </h1>
             <p className="text-gray-500 text-sm mt-0.5">Configure your business platform settings</p>
@@ -128,7 +128,7 @@ export default function AdminSettingsPage() {
             onClick={handleSave}
             disabled={saving || loading}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-              saved ? "bg-green-600 text-white" : "bg-blue-600 text-white hover:bg-blue-700"
+              saved ? "bg-green-600 text-white" : "bg-green-600 text-white hover:bg-green-700"
             } disabled:opacity-60`}
           >
             {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : saved ? <CheckCircle className="h-4 w-4" /> : <Save className="h-4 w-4" />}
@@ -150,7 +150,7 @@ export default function AdminSettingsPage() {
                 <button
                   onClick={() => setEdits((prev) => ({ ...prev, popup_enabled: prev.popup_enabled === "true" ? "false" : "true" }))}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    edits.popup_enabled === "true" ? "bg-blue-600" : "bg-gray-200"
+                    edits.popup_enabled === "true" ? "bg-green-600" : "bg-gray-200"
                   }`}
                 >
                   <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
@@ -169,7 +169,7 @@ export default function AdminSettingsPage() {
                     value={edits.popup_title || ""}
                     onChange={(e) => setEdits((prev) => ({ ...prev, popup_title: e.target.value }))}
                     placeholder="e.g. Independence Day Sale!"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                 </div>
                 <div>
@@ -178,7 +178,7 @@ export default function AdminSettingsPage() {
                     value={edits.popup_image || ""}
                     onChange={(e) => setEdits((prev) => ({ ...prev, popup_image: e.target.value }))}
                     placeholder="https://i.ibb.co/..."
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                 </div>
               </div>
@@ -190,7 +190,7 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setEdits((prev) => ({ ...prev, popup_message: e.target.value }))}
                   rows={3}
                   placeholder="e.g. Get 10% off on all lithium inverters this week only!"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"
                 />
               </div>
 
@@ -201,7 +201,7 @@ export default function AdminSettingsPage() {
                     value={edits.popup_button_text || ""}
                     onChange={(e) => setEdits((prev) => ({ ...prev, popup_button_text: e.target.value }))}
                     placeholder="e.g. Shop Now"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                 </div>
                 <div>
@@ -210,7 +210,7 @@ export default function AdminSettingsPage() {
                     value={edits.popup_button_link || ""}
                     onChange={(e) => setEdits((prev) => ({ ...prev, popup_button_link: e.target.value }))}
                     placeholder="/products"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default function AdminSettingsPage() {
             <Settings className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500 text-lg font-semibold">No settings found</p>
             <p className="text-gray-400 text-sm mt-2">Settings will appear here once configured in the database.</p>
-            <button onClick={fetchSettings} className="mt-4 px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-sm font-medium hover:bg-blue-100 inline-flex items-center gap-2">
+            <button onClick={fetchSettings} className="mt-4 px-4 py-2 bg-green-50 text-green-700 rounded-xl text-sm font-medium hover:bg-green-100 inline-flex items-center gap-2">
               <RefreshCw className="h-4 w-4" /> Refresh
             </button>
           </div>
@@ -280,7 +280,7 @@ export default function AdminSettingsPage() {
                                     }))
                                   }
                                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                                    val === "true" ? "bg-blue-600" : "bg-gray-200"
+                                    val === "true" ? "bg-green-600" : "bg-gray-200"
                                   }`}
                                 >
                                   <span
@@ -299,7 +299,7 @@ export default function AdminSettingsPage() {
                                 onChange={(e) =>
                                   setEdits((prev) => ({ ...prev, [key]: e.target.value }))
                                 }
-                                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
+                                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition-shadow"
                                 placeholder={`Enter ${labelOf(key).toLowerCase()}`}
                               />
                             )}

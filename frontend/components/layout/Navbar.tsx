@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 group-hover:from-blue-700 group-hover:to-blue-900 transition-all shadow-md shadow-blue-200">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-green-600 to-green-800 group-hover:from-green-700 group-hover:to-green-900 transition-all shadow-md shadow-green-200">
               <Zap className="h-5 w-5 text-white" />
             </div>
             <span className="font-extrabold text-xl text-gray-900">
@@ -85,8 +85,8 @@ export default function Navbar() {
                   className={cn(
                     "px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200",
                     pathname === link.href
-                      ? "text-blue-600 bg-blue-50 shadow-sm"
-                      : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                      ? "text-green-600 bg-green-50 shadow-sm"
+                      : "text-gray-600 hover:text-green-600 hover:bg-green-50"
                   )}
                 >
                   {t(link.key)}
@@ -101,7 +101,7 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
-                className="flex items-center gap-1 px-3 py-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-blue-50 text-sm transition-colors"
+                className="flex items-center gap-1 px-3 py-2 rounded-md text-gray-600 hover:text-green-600 hover:bg-green-50 text-sm transition-colors"
               >
                 <Globe className="h-4 w-4" />
                 <ChevronDown className="h-3 w-3" />
@@ -118,7 +118,7 @@ export default function Navbar() {
                       <button
                         key={loc.code}
                         onClick={() => handleLocale(loc.code)}
-                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
                       >
                         <span>{loc.flag}</span>
                         <span>{loc.label}</span>
@@ -132,11 +132,11 @@ export default function Navbar() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="relative flex items-center gap-1 px-3 py-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+              className="relative flex items-center gap-1 px-3 py-2 rounded-md text-gray-600 hover:text-green-600 hover:bg-green-50 transition-colors"
             >
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 text-white text-[10px] font-bold">
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-600 text-white text-[10px] font-bold">
                   {cartCount}
                 </span>
               )}
@@ -147,9 +147,9 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setUserOpen(!userOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 text-sm transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-green-50 text-sm transition-colors"
                 >
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-semibold text-sm">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-green-100 text-green-700 font-semibold text-sm">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
                   <span className="hidden sm:block max-w-[80px] truncate font-medium">{user.name.split(" ")[0]}</span>
@@ -165,12 +165,12 @@ export default function Navbar() {
                     >
                       {user.role === "ADMIN" && (
                         <Link href="/admin" onClick={() => setUserOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                          className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">
                           <Settings className="h-4 w-4" />Admin Dashboard
                         </Link>
                       )}
                       <Link href="/dashboard" onClick={() => setUserOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">
                         <LayoutDashboard className="h-4 w-4" />My Account
                       </Link>
                       <hr className="border-gray-100" />
@@ -184,11 +184,11 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="hidden sm:flex items-center gap-2">
-                <Link href="/login" className="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-md transition-colors">
+                <Link href="/login" className="px-4 py-2 text-sm font-medium text-green-600 hover:bg-green-50 rounded-md transition-colors">
                   {t("login")}
                 </Link>
                 <Link href="/register"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors shadow-sm">
+                  className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors shadow-sm">
                   {t("register")}
                 </Link>
               </div>
@@ -197,7 +197,7 @@ export default function Navbar() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-green-600 hover:bg-green-50 transition-colors"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -222,7 +222,7 @@ export default function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className={cn(
                     "block px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-                    pathname === link.href ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                    pathname === link.href ? "text-green-600 bg-green-50" : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   )}
                 >
                   {t(link.key)}
@@ -231,11 +231,11 @@ export default function Navbar() {
               {!user && (
                 <div className="flex gap-2 pt-2">
                   <Link href="/login" onClick={() => setIsOpen(false)}
-                    className="flex-1 text-center py-2 text-sm font-medium border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors">
+                    className="flex-1 text-center py-2 text-sm font-medium border border-green-600 text-green-600 rounded-md hover:bg-green-50 transition-colors">
                     {t("login")}
                   </Link>
                   <Link href="/register" onClick={() => setIsOpen(false)}
-                    className="flex-1 text-center py-2 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                    className="flex-1 text-center py-2 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
                     {t("register")}
                   </Link>
                 </div>

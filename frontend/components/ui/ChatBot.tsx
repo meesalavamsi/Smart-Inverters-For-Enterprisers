@@ -140,7 +140,7 @@ export default function ChatBot() {
       {/* Floating chat button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-24 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-xl hover:bg-blue-700 transition-all hover:scale-110"
+        className="fixed bottom-24 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-600 text-white shadow-xl hover:bg-green-700 transition-all hover:scale-110"
         aria-label="Open chatbot"
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
@@ -155,12 +155,12 @@ export default function ChatBot() {
       {open && (
         <div className="fixed bottom-44 right-6 z-50 w-80 sm:w-96 flex flex-col rounded-2xl shadow-2xl border border-gray-200 overflow-hidden bg-white">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-700 to-blue-500 px-4 py-3 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-green-700 to-green-500 px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">⚡</div>
               <div>
                 <p className="text-white font-bold text-sm leading-tight">Smart Inverter's Bot</p>
-                <p className="text-blue-200 text-xs">Always here to help</p>
+                <p className="text-green-200 text-xs">Always here to help</p>
               </div>
             </div>
             <button onClick={() => setOpen(false)} className="text-white/70 hover:text-white">
@@ -175,7 +175,7 @@ export default function ChatBot() {
                 <div
                   className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap leading-relaxed ${
                     msg.from === "user"
-                      ? "bg-blue-600 text-white rounded-br-none"
+                      ? "bg-green-600 text-white rounded-br-none"
                       : "bg-white text-gray-800 border border-gray-200 rounded-bl-none shadow-sm"
                   }`}
                 >
@@ -191,7 +191,7 @@ export default function ChatBot() {
             {showLangPick && (
               <div className="flex gap-2">
                 <button onClick={() => handleLangSelect("en")}
-                  className="flex-1 py-2 text-sm font-semibold bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 transition-colors">
+                  className="flex-1 py-2 text-sm font-semibold bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-colors">
                   🇬🇧 English
                 </button>
                 <button onClick={() => handleLangSelect("te")}
@@ -207,7 +207,7 @@ export default function ChatBot() {
                   <button
                     key={i}
                     onClick={() => { setShowFAQs(false); setShowEscalate(false); handleFAQ(faq); }}
-                    className="w-full text-left text-xs text-gray-700 bg-gray-50 hover:bg-blue-50 hover:text-blue-700 border border-gray-200 rounded-xl px-3 py-2 transition-colors"
+                    className="w-full text-left text-xs text-gray-700 bg-gray-50 hover:bg-green-50 hover:text-green-700 border border-gray-200 rounded-xl px-3 py-2 transition-colors"
                   >
                     {lang === "te" ? faq.q_te : faq.q_en}
                   </button>
@@ -218,7 +218,7 @@ export default function ChatBot() {
             {showEscalate && !showFAQs && (
               <div className="space-y-2">
                 <button onClick={handleReset}
-                  className="w-full py-2 text-sm font-semibold bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 transition-colors">
+                  className="w-full py-2 text-sm font-semibold bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-colors">
                   {lang === "te" ? "🔁 మరో ప్రశ్న అడగండి" : "🔁 Ask another question"}
                 </button>
                 <a href={managerWAUrl} target="_blank" rel="noopener noreferrer"

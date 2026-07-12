@@ -31,16 +31,16 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       {/* CTA Strip */}
-      <div className="bg-blue-700">
+      <div className="bg-green-700">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <h3 className="text-xl font-bold">Need expert help with your inverter?</h3>
-              <p className="text-blue-200 text-sm mt-1">Call us or WhatsApp for instant assistance</p>
+              <p className="text-green-200 text-sm mt-1">Call us or WhatsApp for instant assistance</p>
             </div>
             <div className="flex gap-3">
               <a href={`tel:${tc("phone")}`}
-                className="flex items-center gap-2 bg-white text-blue-700 px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors">
+                className="flex items-center gap-2 bg-white text-green-700 px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-green-50 transition-colors">
                 <Phone className="h-4 w-4" />Call Now
               </a>
               <a href={waUrl} target="_blank" rel="noopener noreferrer"
@@ -57,15 +57,15 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-600">
                 <Zap className="h-5 w-5 text-white" />
               </div>
-              <span className="font-bold text-xl">Smart <span className="text-blue-400">Inverter's</span></span>
+              <span className="font-bold text-xl">Smart <span className="text-green-400">Inverter's</span></span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">{t("description")}</p>
             <div className="mt-4 flex gap-3">
               <a href={process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://facebook.com"} target="_blank" rel="noopener noreferrer"
-                className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-800 text-gray-400 hover:bg-blue-600 hover:text-white transition-all">
+                className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-800 text-gray-400 hover:bg-green-600 hover:text-white transition-all">
                 <FacebookIcon />
               </a>
               <a href={process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com"} target="_blank" rel="noopener noreferrer"
@@ -92,7 +92,7 @@ export default function Footer() {
                 { href: "/feedback", label: "Feedback" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-gray-400 hover:text-blue-400 text-sm transition-colors">
+                  <Link href={link.href} className="text-gray-400 hover:text-green-400 text-sm transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -113,7 +113,7 @@ export default function Footer() {
                 "Battery Recycling",
               ].map((s) => (
                 <li key={s}>
-                  <Link href="/service-booking" className="text-gray-400 hover:text-blue-400 text-sm transition-colors">
+                  <Link href="/service-booking" className="text-gray-400 hover:text-green-400 text-sm transition-colors">
                     {s}
                   </Link>
                 </li>
@@ -127,7 +127,7 @@ export default function Footer() {
             <ul className="grid grid-cols-2 gap-2 text-sm text-gray-400">
               {SERVICE_CITIES.map((city) => (
                 <li key={city} className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-blue-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
                   {city}
                 </li>
               ))}

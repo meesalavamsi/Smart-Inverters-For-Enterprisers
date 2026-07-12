@@ -56,14 +56,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-green-700 flex items-center justify-center px-4 py-12">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-white/20 mb-4">
             <Zap className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-extrabold text-white">Smart Inverter's</h1>
-          <p className="text-blue-200 mt-1">{t("register")}</p>
+          <p className="text-green-200 mt-1">{t("register")}</p>
         </div>
 
         <div className="bg-white rounded-2xl p-8 shadow-2xl">
@@ -79,7 +79,7 @@ export default function RegisterPage() {
                   {...form.register(key as keyof RegisterForm)}
                   type={type}
                   placeholder={placeholder}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
                 />
                 {form.formState.errors[key as keyof RegisterForm] && (
                   <p className="text-red-500 text-xs mt-1">{form.formState.errors[key as keyof RegisterForm]?.message}</p>
@@ -94,7 +94,7 @@ export default function RegisterPage() {
                   {...form.register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="Minimum 8 characters"
-                  className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                  className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -112,7 +112,7 @@ export default function RegisterPage() {
                 {...form.register("confirmPassword")}
                 type="password"
                 placeholder="Repeat password"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
               />
               {form.formState.errors.confirmPassword && (
                 <p className="text-red-500 text-xs mt-1">{form.formState.errors.confirmPassword.message}</p>
@@ -120,14 +120,14 @@ export default function RegisterPage() {
             </div>
 
             <button type="submit" disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-3.5 rounded-xl font-bold text-base transition-colors">
+              className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white py-3.5 rounded-xl font-bold text-base transition-colors">
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               {t("signUp")}
             </button>
 
             <p className="text-center text-sm text-gray-500">
               {t("hasAccount")}{" "}
-              <Link href="/login" className="text-blue-600 font-semibold hover:underline">{t("signIn")}</Link>
+              <Link href="/login" className="text-green-600 font-semibold hover:underline">{t("signIn")}</Link>
             </p>
           </form>
         </div>

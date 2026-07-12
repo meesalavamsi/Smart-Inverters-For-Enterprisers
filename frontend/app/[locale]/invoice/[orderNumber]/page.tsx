@@ -51,7 +51,7 @@ export default function InvoicePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 pt-24 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
+        <Loader2 className="h-8 w-8 text-green-600 animate-spin" />
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function InvoicePage() {
         <div className="text-center">
           <XCircle className="h-12 w-12 text-red-400 mx-auto mb-3" />
           <p className="font-semibold text-gray-700">Invoice not found</p>
-          <Link href="/order-tracking" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+          <Link href="/order-tracking" className="text-green-600 hover:underline text-sm mt-2 inline-block">
             Track an order instead →
           </Link>
         </div>
@@ -75,10 +75,10 @@ export default function InvoicePage() {
       <div className="mx-auto max-w-3xl px-4 py-8 print:p-0">
         {/* Actions (hidden when printing) */}
         <div className="flex justify-between items-center mb-4 print:hidden">
-          <Link href="/order-tracking" className="text-sm text-gray-500 hover:text-blue-600">← Back to Order Tracking</Link>
+          <Link href="/order-tracking" className="text-sm text-gray-500 hover:text-green-600">← Back to Order Tracking</Link>
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 bg-green-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-green-700 transition-colors"
           >
             <Printer className="h-4 w-4" /> Print / Save as PDF
           </button>
@@ -89,7 +89,7 @@ export default function InvoicePage() {
           {/* Header */}
           <div className="flex items-start justify-between pb-6 border-b border-gray-100">
             <div className="flex items-center gap-3">
-              <div className="h-11 w-11 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+              <div className="h-11 w-11 rounded-xl bg-green-600 flex items-center justify-center shrink-0">
                 <Zap className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -102,7 +102,7 @@ export default function InvoicePage() {
             <div className="text-right">
               <h1 className="text-2xl font-extrabold text-gray-900">INVOICE</h1>
               <p className="text-sm text-gray-500 mt-1">Order #</p>
-              <p className="font-mono font-bold text-blue-700">{order.orderNumber}</p>
+              <p className="font-mono font-bold text-green-700">{order.orderNumber}</p>
               <p className="text-sm text-gray-500 mt-1">{formatDate(order.createdAt)}</p>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function InvoicePage() {
             <div className="w-56">
               <div className="flex justify-between py-2 border-t border-gray-200 mt-2">
                 <span className="font-bold text-gray-900">Total</span>
-                <span className="font-extrabold text-blue-700 text-lg">{formatCurrency(order.totalAmount)}</span>
+                <span className="font-extrabold text-green-700 text-lg">{formatCurrency(order.totalAmount)}</span>
               </div>
             </div>
           </div>

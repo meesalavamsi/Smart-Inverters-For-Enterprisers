@@ -160,7 +160,7 @@ export default function AdminProductsPage() {
             </p>
           </div>
           <button onClick={openAdd}
-            className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors shadow-sm">
+            className="flex items-center gap-2 bg-green-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-green-700 transition-colors shadow-sm">
             <Plus className="h-4 w-4" />Add Product
           </button>
         </div>
@@ -171,7 +171,7 @@ export default function AdminProductsPage() {
           <input
             type="text" placeholder="Search products by name or model..."
             value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full max-w-md pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full max-w-md pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
@@ -217,7 +217,7 @@ export default function AdminProductsPage() {
                     </div>
                   </td>
                   <td className="px-5 py-4 text-sm text-gray-600">{p.category?.name}</td>
-                  <td className="px-5 py-4 text-sm font-bold text-blue-700">{formatCurrency(p.price)}</td>
+                  <td className="px-5 py-4 text-sm font-bold text-green-700">{formatCurrency(p.price)}</td>
                   <td className="px-5 py-4 text-sm">
                     <span className={p.stockQuantity <= 5 ? "text-red-600 font-semibold" : "text-gray-700"}>
                       {p.stockQuantity}
@@ -235,7 +235,7 @@ export default function AdminProductsPage() {
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-2">
                       <button onClick={() => openEdit(p)}
-                        className="text-blue-600 hover:text-blue-700 p-1.5 rounded-lg hover:bg-blue-50 transition-colors">
+                        className="text-green-600 hover:text-green-700 p-1.5 rounded-lg hover:bg-green-50 transition-colors">
                         <Edit className="h-4 w-4" />
                       </button>
                       <button onClick={() => handleDelete(p.id, p.name)}
@@ -283,7 +283,7 @@ export default function AdminProductsPage() {
                     <input type={type || "text"} placeholder={placeholder}
                       value={form[key as keyof typeof form]}
                       onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                   </div>
                 ))}
               </div>
@@ -291,7 +291,7 @@ export default function AdminProductsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
                 <select value={form.categoryId} onChange={e => setForm(f => ({ ...f, categoryId: e.target.value }))}
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                   <option value="">Select category</option>
                   {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
@@ -300,7 +300,7 @@ export default function AdminProductsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Battery Type</label>
                 <select value={form.batteryType} onChange={e => setForm(f => ({ ...f, batteryType: e.target.value }))}
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                   {["Tubular", "Flat Plate", "Gel", "AGM", "Lithium", "VRLA"].map(t => (
                     <option key={t} value={t}>{t}</option>
                   ))}
@@ -310,7 +310,7 @@ export default function AdminProductsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                   {["ACTIVE", "INACTIVE", "OUT_OF_STOCK"].map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
@@ -319,7 +319,7 @@ export default function AdminProductsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                   rows={3} placeholder="Product description..."
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none" />
               </div>
 
               <div>
@@ -331,7 +331,7 @@ export default function AdminProductsPage() {
                         value={f}
                         onChange={e => setFeatures(prev => prev.map((x, j) => j === i ? e.target.value : x))}
                         placeholder="e.g. Zero maintenance — no water topping ever"
-                        className="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                       />
                       {features.length > 1 && (
                         <button type="button" onClick={() => setFeatures(prev => prev.filter((_, j) => j !== i))}
@@ -340,7 +340,7 @@ export default function AdminProductsPage() {
                     </div>
                   ))}
                   <button type="button" onClick={() => setFeatures(prev => [...prev, ""])}
-                    className="text-sm text-blue-600 hover:underline font-medium">
+                    className="text-sm text-green-600 hover:underline font-medium">
                     + Add another feature
                   </button>
                 </div>
@@ -350,7 +350,7 @@ export default function AdminProductsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Tags (SEO)</label>
                 <input value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
                   placeholder="inverter battery, 150ah, tubular..."
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
               </div>
 
               {/* Images */}
@@ -371,7 +371,7 @@ export default function AdminProductsPage() {
                             alt="" className="h-20 w-20 object-cover rounded-lg border-2 border-gray-200"
                           />
                           {img.isPrimary && (
-                            <span className="absolute -top-1.5 -left-1.5 bg-blue-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">MAIN</span>
+                            <span className="absolute -top-1.5 -left-1.5 bg-green-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">MAIN</span>
                           )}
                           <button onClick={() => handleDeleteImage(img.id)} type="button"
                             className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
@@ -398,7 +398,7 @@ export default function AdminProductsPage() {
                             value={url}
                             onChange={e => setImageUrls(prev => prev.map((u, j) => j === i ? e.target.value : u))}
                             placeholder="https://i.ibb.co/... or any public image link"
-                            className="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                           />
                           {imageUrls.length > 1 && (
                             <button type="button" onClick={() => setImageUrls(prev => prev.filter((_, j) => j !== i))}
@@ -408,12 +408,12 @@ export default function AdminProductsPage() {
                       ))}
                       {imageUrls.length < remainingSlots && (
                         <button type="button" onClick={() => setImageUrls(prev => [...prev, ""])}
-                          className="text-sm text-blue-600 hover:underline font-medium">
+                          className="text-sm text-green-600 hover:underline font-medium">
                           + Add another image URL
                         </button>
                       )}
                       <p className="text-xs text-gray-400 mt-1">
-                        Upload your image to <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">imgbb.com</a> (free) → copy the Direct link → paste here
+                        Upload your image to <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-green-500 underline">imgbb.com</a> (free) → copy the Direct link → paste here
                       </p>
                     </div>
                   );
@@ -424,7 +424,7 @@ export default function AdminProductsPage() {
                   <label className="block text-xs font-medium text-gray-600 mb-1">Or upload a file</label>
                   <div
                     onClick={() => fileInputRef.current?.click()}
-                    className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-colors"
+                    className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer hover:border-green-400 hover:bg-green-50/30 transition-colors"
                   >
                     <Upload className="h-6 w-6 text-gray-300 mx-auto mb-1" />
                     <p className="text-sm text-gray-500">Click to upload</p>
@@ -459,7 +459,7 @@ export default function AdminProductsPage() {
                 Cancel
               </button>
               <button onClick={handleSave} disabled={saving}
-                className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:opacity-60 transition-colors">
+                className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-green-700 disabled:opacity-60 transition-colors">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
                 {editProduct ? "Update Product" : "Create & Publish"}
               </button>

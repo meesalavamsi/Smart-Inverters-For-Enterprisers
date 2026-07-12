@@ -71,10 +71,10 @@ export default function ServiceBookingPage() {
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 pt-20">
-        <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-12">
+        <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
           <div className="mx-auto max-w-4xl px-4">
             <h1 className="text-4xl font-extrabold mb-2">{t("title")}</h1>
-            <p className="text-blue-200">{t("subtitle")}</p>
+            <p className="text-green-200">{t("subtitle")}</p>
           </div>
         </div>
 
@@ -91,8 +91,8 @@ export default function ServiceBookingPage() {
             </div>
 
             <div className="p-8 text-center">
-              <div className="h-20 w-20 rounded-full bg-blue-50 border-4 border-blue-100 flex items-center justify-center mx-auto mb-5">
-                <Lock className="h-9 w-9 text-blue-600" />
+              <div className="h-20 w-20 rounded-full bg-green-50 border-4 border-green-100 flex items-center justify-center mx-auto mb-5">
+                <Lock className="h-9 w-9 text-green-600" />
               </div>
 
               <h2 className="text-2xl font-extrabold text-gray-900 mb-3">
@@ -106,15 +106,15 @@ export default function ServiceBookingPage() {
               </p>
 
               {/* Benefits */}
-              <div className="bg-blue-50 rounded-xl p-4 mb-8 text-left space-y-2">
+              <div className="bg-green-50 rounded-xl p-4 mb-8 text-left space-y-2">
                 {[
                   "Track your booking status anytime",
                   "Get SMS & email updates on your service",
                   "Easy rebooking with saved details",
                   "Secure — your data is protected",
                 ].map((point) => (
-                  <div key={point} className="flex items-center gap-2 text-sm text-blue-800">
-                    <CheckCircle className="h-4 w-4 text-blue-500 shrink-0" />
+                  <div key={point} className="flex items-center gap-2 text-sm text-green-800">
+                    <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
                     {point}
                   </div>
                 ))}
@@ -124,14 +124,14 @@ export default function ServiceBookingPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/register"
-                  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-green-700 transition-colors"
                 >
                   <UserPlus className="h-4 w-4" />
                   Register Now (Free)
                 </Link>
                 <Link
                   href={`/login?redirect=/service-booking`}
-                  className="flex-1 flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 py-3.5 rounded-xl font-bold text-sm hover:bg-blue-50 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 border-2 border-green-600 text-green-600 py-3.5 rounded-xl font-bold text-sm hover:bg-green-50 transition-colors"
                 >
                   <LogIn className="h-4 w-4" />
                   Already have account? Login
@@ -158,13 +158,13 @@ export default function ServiceBookingPage() {
           </div>
           <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Booking Confirmed!</h2>
           <p className="text-gray-500 mb-3">Your booking number is:</p>
-          <div className="bg-blue-50 rounded-xl px-6 py-3 mb-5">
-            <p className="text-2xl font-extrabold text-blue-700 tracking-wide">{bookingNumber}</p>
+          <div className="bg-green-50 rounded-xl px-6 py-3 mb-5">
+            <p className="text-2xl font-extrabold text-green-700 tracking-wide">{bookingNumber}</p>
           </div>
           <p className="text-gray-500 text-sm mb-6">Our team will call you shortly to confirm the appointment.</p>
           <div className="flex gap-3 justify-center">
             <a href={`tel:9133639888`}
-              className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors">
+              className="flex items-center gap-2 bg-green-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-green-700 transition-colors">
               <Phone className="h-4 w-4" />Call Us
             </a>
             <a href={getWhatsAppUrl(`My booking number is ${bookingNumber}. Please confirm.`)}
@@ -180,10 +180,10 @@ export default function ServiceBookingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-12">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
         <div className="mx-auto max-w-4xl px-4">
           <h1 className="text-4xl font-extrabold mb-2">{t("title")}</h1>
-          <p className="text-blue-200">{t("subtitle")}</p>
+          <p className="text-green-200">{t("subtitle")}</p>
         </div>
       </div>
 
@@ -200,8 +200,8 @@ export default function ServiceBookingPage() {
                     <label key={s.value}
                       className={`relative flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
                         selectedType === s.value
-                          ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200 hover:border-blue-200"
+                          ? "border-green-500 bg-green-50"
+                          : "border-gray-200 hover:border-green-200"
                       }`}
                     >
                       <input type="radio" value={s.value} {...form.register("serviceType")} className="sr-only" />
@@ -211,7 +211,7 @@ export default function ServiceBookingPage() {
                         <p className="text-xs text-gray-500">{s.desc}</p>
                       </div>
                       {selectedType === s.value && (
-                        <CheckCircle className="absolute top-2 right-2 h-4 w-4 text-blue-600" />
+                        <CheckCircle className="absolute top-2 right-2 h-4 w-4 text-green-600" />
                       )}
                     </label>
                   ))}
@@ -223,7 +223,7 @@ export default function ServiceBookingPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t("name")} *</label>
                   <input {...form.register("customerName")} placeholder="Your full name"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" />
                   {form.formState.errors.customerName && (
                     <p className="text-red-500 text-xs mt-1">{form.formState.errors.customerName.message}</p>
                   )}
@@ -231,7 +231,7 @@ export default function ServiceBookingPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t("phone")} *</label>
                   <input {...form.register("phone")} type="tel" placeholder="9876543210"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" />
                   {form.formState.errors.phone && (
                     <p className="text-red-500 text-xs mt-1">{form.formState.errors.phone.message}</p>
                   )}
@@ -239,7 +239,7 @@ export default function ServiceBookingPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t("email")}</label>
                   <input {...form.register("email")} type="email" placeholder="you@example.com (optional)"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" />
                 </div>
               </div>
 
@@ -247,7 +247,7 @@ export default function ServiceBookingPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t("address")} *</label>
                 <textarea {...form.register("address")} rows={2}
                   placeholder="Full address with landmark, street, and area"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none" />
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm resize-none" />
                 {form.formState.errors.address && (
                   <p className="text-red-500 text-xs mt-1">{form.formState.errors.address.message}</p>
                 )}
@@ -257,11 +257,11 @@ export default function ServiceBookingPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t("notes")}</label>
                 <textarea {...form.register("notes")} rows={2}
                   placeholder="Any special instructions or details about the issue..."
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none" />
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm resize-none" />
               </div>
 
               <button type="submit" disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base transition-colors shadow-md">
+                className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base transition-colors shadow-md">
                 {loading && <Loader2 className="h-5 w-5 animate-spin" />}
                 {t("submit")}
               </button>
@@ -274,8 +274,8 @@ export default function ServiceBookingPage() {
               <h3 className="font-bold text-gray-900 mb-4">Contact Us Directly</h3>
               <div className="space-y-3">
                 <a href="tel:9133639888"
-                  className="flex items-center gap-3 text-gray-700 hover:text-blue-600 transition-colors">
-                  <Phone className="h-5 w-5 text-blue-600" />
+                  className="flex items-center gap-3 text-gray-700 hover:text-green-600 transition-colors">
+                  <Phone className="h-5 w-5 text-green-600" />
                   <span className="font-semibold">9133639888</span>
                 </a>
                 <a href={getWhatsAppUrl(waMsg)} target="_blank" rel="noopener noreferrer"
@@ -288,7 +288,7 @@ export default function ServiceBookingPage() {
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
               <div className="p-5 border-b border-gray-100 flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-blue-600" />
+                <MapPin className="h-5 w-5 text-green-600" />
                 <h3 className="font-bold text-gray-900">Service Area Map</h3>
               </div>
               <iframe
@@ -300,12 +300,12 @@ export default function ServiceBookingPage() {
               />
             </div>
 
-            <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
-              <h3 className="font-bold text-blue-900 mb-3">Service Area</h3>
-              <ul className="space-y-1.5 text-sm text-blue-700">
+            <div className="bg-green-50 rounded-2xl p-6 border border-green-100">
+              <h3 className="font-bold text-green-900 mb-3">Service Area</h3>
+              <ul className="space-y-1.5 text-sm text-green-700">
                 {SERVICE_CITIES.map((area) => (
                   <li key={area} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />{area}
+                    <span className="h-1.5 w-1.5 rounded-full bg-green-500" />{area}
                   </li>
                 ))}
               </ul>

@@ -71,7 +71,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-green-700 flex items-center justify-center px-4 py-12">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function LoginPage() {
             <Zap className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-extrabold text-white">Smart Inverter's</h1>
-          <p className="text-blue-200 mt-1">{mfaRequired ? t("verifyOtp") : t("login")}</p>
+          <p className="text-green-200 mt-1">{mfaRequired ? t("verifyOtp") : t("login")}</p>
         </div>
 
         <div className="bg-white rounded-2xl p-8 shadow-2xl">
@@ -94,7 +94,7 @@ export default function LoginPage() {
                   {...form.register("email")}
                   type="email"
                   placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
                 />
                 {form.formState.errors.email && (
                   <p className="text-red-500 text-xs mt-1">{form.formState.errors.email.message}</p>
@@ -108,7 +108,7 @@ export default function LoginPage() {
                     {...form.register("password")}
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter password"
-                    className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -125,7 +125,7 @@ export default function LoginPage() {
                   <input type="checkbox" {...form.register("rememberMe")} className="rounded" />
                   {t("rememberMe")}
                 </label>
-                <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline">
+                <Link href="/forgot-password" className="text-sm text-green-600 hover:underline">
                   {t("forgotPassword")}
                 </Link>
               </div>
@@ -133,7 +133,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-3.5 rounded-xl font-bold text-base transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white py-3.5 rounded-xl font-bold text-base transition-colors"
               >
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                 {t("signIn")}
@@ -141,7 +141,7 @@ export default function LoginPage() {
 
               <p className="text-center text-sm text-gray-500">
                 {t("noAccount")}{" "}
-                <Link href="/register" className="text-blue-600 font-semibold hover:underline">{t("signUp")}</Link>
+                <Link href="/register" className="text-green-600 font-semibold hover:underline">{t("signUp")}</Link>
               </p>
             </form>
           ) : (
@@ -156,7 +156,7 @@ export default function LoginPage() {
                   type="text"
                   maxLength={6}
                   placeholder="000000"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-2xl font-bold tracking-[8px]"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-center text-2xl font-bold tracking-[8px]"
                 />
                 {otpForm.formState.errors.otp && (
                   <p className="text-red-500 text-xs mt-1 text-center">{otpForm.formState.errors.otp.message}</p>
@@ -164,7 +164,7 @@ export default function LoginPage() {
               </div>
               <button
                 type="submit" disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-3.5 rounded-xl font-bold text-base transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white py-3.5 rounded-xl font-bold text-base transition-colors"
               >
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                 {t("verifyOtp")}

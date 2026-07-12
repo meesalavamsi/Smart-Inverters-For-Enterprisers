@@ -17,12 +17,12 @@ function EnergyCoil() {
       <mesh ref={ref}>
         <torusKnotGeometry args={[1.6, 0.45, 200, 20]} />
         <meshPhysicalMaterial
-          color="#3b82f6"
+          color="#22c55e"
           metalness={1}
           roughness={0.02}
           clearcoat={1}
           clearcoatRoughness={0.03}
-          emissive="#2563eb"
+          emissive="#16a34a"
           emissiveIntensity={0.5}
         />
       </mesh>
@@ -40,19 +40,19 @@ function Ring({ radius, speed, tilt }: { radius: number; speed: number; tilt: nu
   return (
     <mesh ref={ref}>
       <torusGeometry args={[radius, 0.025, 16, 140]} />
-      <meshStandardMaterial color="#93c5fd" metalness={1} roughness={0} transparent opacity={0.5} emissive="#60a5fa" emissiveIntensity={0.3} />
+      <meshStandardMaterial color="#86efac" metalness={1} roughness={0} transparent opacity={0.5} emissive="#4ade80" emissiveIntensity={0.3} />
     </mesh>
   );
 }
 
 function Orbs() {
   const cfg: [number, number, number, number, string][] = [
-    [-3, 2, -1.5, 0.32, "#60a5fa"],
-    [3, -1.5, -2, 0.48, "#3b82f6"],
-    [-2, -2.5, -1, 0.22, "#93c5fd"],
-    [2, 2.8, -2, 0.38, "#2563eb"],
+    [-3, 2, -1.5, 0.32, "#4ade80"],
+    [3, -1.5, -2, 0.48, "#22c55e"],
+    [-2, -2.5, -1, 0.22, "#86efac"],
+    [2, 2.8, -2, 0.38, "#16a34a"],
     [3.5, 0.5, -2.5, 0.26, "#bfdbfe"],
-    [-3.2, -0.8, -3, 0.3, "#60a5fa"],
+    [-3.2, -0.8, -3, 0.3, "#4ade80"],
     [0.5, 3.2, -3, 0.2, "#dbeafe"],
   ];
   return (
@@ -73,7 +73,7 @@ function GridFloor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3.5, 0]}>
       <planeGeometry args={[20, 20, 20, 20]} />
-      <meshBasicMaterial color="#1d4ed8" wireframe transparent opacity={0.08} />
+      <meshBasicMaterial color="#15803d" wireframe transparent opacity={0.08} />
     </mesh>
   );
 }
@@ -86,10 +86,10 @@ export default function Hero3DScene() {
       style={{ background: "transparent" }}
     >
       <ambientLight intensity={0.4} />
-      <pointLight position={[8, 8, 8]} intensity={3} color="#3b82f6" />
-      <pointLight position={[-8, -4, 4]} intensity={1.5} color="#60a5fa" />
+      <pointLight position={[8, 8, 8]} intensity={3} color="#22c55e" />
+      <pointLight position={[-8, -4, 4]} intensity={1.5} color="#4ade80" />
       <pointLight position={[0, 0, 6]} intensity={1} color="#bfdbfe" />
-      <spotLight position={[0, 12, 0]} angle={0.4} penumbra={1} intensity={1.5} color="#93c5fd" />
+      <spotLight position={[0, 12, 0]} angle={0.4} penumbra={1} intensity={1.5} color="#86efac" />
 
       <Suspense fallback={null}>
         <EnergyCoil />

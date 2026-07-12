@@ -58,10 +58,10 @@ export default function AdminOrdersPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input type="text" placeholder="Search order number..." value={search}
               onChange={e => { setSearch(e.target.value); setPage(1); }}
-              className="pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64" />
+              className="pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-64" />
           </div>
           <select value={status} onChange={e => { setStatus(e.target.value); setPage(1); }}
-            className="px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            className="px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
             <option value="">All Statuses</option>
             {ORDER_STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
                 </td></tr>
               ) : orders.map(order => (
                 <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3.5 text-sm font-semibold text-blue-700">{order.orderNumber}</td>
+                  <td className="px-4 py-3.5 text-sm font-semibold text-green-700">{order.orderNumber}</td>
                   <td className="px-4 py-3.5">
                     <p className="text-sm font-medium text-gray-900">{order.user?.name}</p>
                     <p className="text-xs text-gray-400">{order.user?.phone}</p>
@@ -115,7 +115,7 @@ export default function AdminOrdersPage() {
                   <td className="px-4 py-3.5">
                     <Link href={`/invoice/${order.orderNumber}`} target="_blank" rel="noopener noreferrer"
                       title="View Invoice"
-                      className="inline-flex text-blue-600 hover:text-blue-700 p-1.5 rounded hover:bg-blue-50 transition-colors">
+                      className="inline-flex text-green-600 hover:text-green-700 p-1.5 rounded hover:bg-green-50 transition-colors">
                       <Eye className="h-4 w-4" />
                     </Link>
                   </td>

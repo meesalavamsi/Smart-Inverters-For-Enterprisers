@@ -28,7 +28,7 @@ function TiltCard({ children, className, style }: { children: React.ReactNode; c
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
     el.style.transform = `perspective(700px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) scale3d(1.03,1.03,1.03)`;
-    el.style.boxShadow = `${-x * 20}px ${-y * 20}px 50px rgba(37,99,235,0.25), 0 0 30px rgba(37,99,235,0.15)`;
+    el.style.boxShadow = `${-x * 20}px ${-y * 20}px 50px rgba(22,163,74,0.25), 0 0 30px rgba(22,163,74,0.15)`;
   };
   const onLeave = () => {
     const el = ref.current; if (!el) return;
@@ -78,7 +78,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             />
           ) : (
             <div className="h-full flex items-center justify-center">
-              <Package className="h-14 w-14 text-blue-800" />
+              <Package className="h-14 w-14 text-green-800" />
             </div>
           )}
           {discount > 0 && (
@@ -86,7 +86,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
               {discount}% OFF
             </span>
           )}
-          <span className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full border border-blue-500/40 text-blue-300" style={{ background: "rgba(37,99,235,0.2)" }}>
+          <span className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full border border-green-500/40 text-green-300" style={{ background: "rgba(22,163,74,0.2)" }}>
             {product.category.name}
           </span>
         </div>
@@ -94,9 +94,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         {/* Content */}
         <div className="p-5 flex flex-col flex-1">
           <h3 className="font-bold text-white text-base leading-tight line-clamp-2 mb-1">{product.name}</h3>
-          <p className="text-xs text-blue-400 mb-3">{t("model")} {product.model}</p>
+          <p className="text-xs text-green-400 mb-3">{t("model")} {product.model}</p>
           <div className="flex flex-wrap gap-1.5 mb-3">
-            <span className="text-xs px-2 py-0.5 rounded border border-blue-500/30 text-blue-300">{product.capacity}</span>
+            <span className="text-xs px-2 py-0.5 rounded border border-green-500/30 text-green-300">{product.capacity}</span>
             <span className="text-xs px-2 py-0.5 rounded border border-cyan-500/30 text-cyan-300">{product.batteryType}</span>
             <span className="text-xs px-2 py-0.5 rounded border border-green-500/30 text-green-300">🛡️ {product.warranty}</span>
           </div>
@@ -105,12 +105,12 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
               {[1,2,3,4,5].map(s => (
                 <Star key={s} className={`h-3.5 w-3.5 ${s <= product.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-700 fill-gray-700"}`} />
               ))}
-              <span className="text-xs text-blue-400 ml-1">({product.reviewCount})</span>
+              <span className="text-xs text-green-400 ml-1">({product.reviewCount})</span>
             </div>
           )}
           <div className="mt-auto">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl font-extrabold text-blue-400">{formatCurrency(product.price)}</span>
+              <span className="text-2xl font-extrabold text-green-400">{formatCurrency(product.price)}</span>
               {product.originalPrice && (
                 <span className="text-sm text-gray-600 line-through">{formatCurrency(product.originalPrice)}</span>
               )}
@@ -123,12 +123,12 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             )}
             <div className="flex gap-2">
               <Link href={`/products/${product.slug}`}
-                className="flex-1 text-center border border-blue-500/40 text-blue-300 hover:bg-blue-500/10 hover:text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-200">
+                className="flex-1 text-center border border-green-500/40 text-green-300 hover:bg-green-500/10 hover:text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-200">
                 {t("details")}
               </Link>
               <button onClick={handleBook}
                 className="flex-1 flex items-center justify-center gap-1.5 text-white py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:brightness-110"
-                style={{ background: "linear-gradient(135deg, #2563eb, #1d4ed8)", boxShadow: "0 0 15px rgba(37,99,235,0.4)" }}>
+                style={{ background: "linear-gradient(135deg, #16a34a, #15803d)", boxShadow: "0 0 15px rgba(22,163,74,0.4)" }}>
                 <ShoppingCart className="h-3.5 w-3.5" /> {t("order")}
               </button>
             </div>
@@ -156,7 +156,7 @@ export default function FeaturedProducts() {
   return (
     <section className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #020818 0%, #050d24 100%)" }}>
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[200px]" style={{ background: "radial-gradient(ellipse, rgba(37,99,235,0.12) 0%, transparent 70%)" }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[200px]" style={{ background: "radial-gradient(ellipse, rgba(22,163,74,0.12) 0%, transparent 70%)" }} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -166,8 +166,8 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="inline-block text-xs font-bold px-4 py-2 rounded-full mb-4 border border-blue-500/40 text-blue-300"
-              style={{ background: "rgba(37,99,235,0.15)" }}
+              className="inline-block text-xs font-bold px-4 py-2 rounded-full mb-4 border border-green-500/40 text-green-300"
+              style={{ background: "rgba(22,163,74,0.15)" }}
             >
               {t("badge")}
             </motion.span>
@@ -177,13 +177,13 @@ export default function FeaturedProducts() {
               viewport={{ once: true }}
               className="text-4xl lg:text-5xl font-extrabold text-white"
             >
-              <span style={{ background: "linear-gradient(135deg,#60a5fa,#3b82f6,#06b6d4)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
+              <span style={{ background: "linear-gradient(135deg,#4ade80,#22c55e,#10b981)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
                 {t("title")}
               </span>
             </motion.h2>
-            <p className="mt-2 text-blue-300/70">{t("subtitle")}</p>
+            <p className="mt-2 text-green-300/70">{t("subtitle")}</p>
           </div>
-          <Link href="/products" className="hidden sm:flex items-center gap-2 text-blue-400 font-semibold hover:text-blue-300 hover:gap-3 transition-all duration-200">
+          <Link href="/products" className="hidden sm:flex items-center gap-2 text-green-400 font-semibold hover:text-green-300 hover:gap-3 transition-all duration-200">
             {t("viewAll")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -193,7 +193,7 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="text-center mt-8 sm:hidden">
-          <Link href="/products" className="inline-flex items-center gap-2 text-blue-400 font-semibold">
+          <Link href="/products" className="inline-flex items-center gap-2 text-green-400 font-semibold">
             {t("viewAllMobile")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

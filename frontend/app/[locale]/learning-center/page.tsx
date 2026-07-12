@@ -51,20 +51,20 @@ export default function LearningCenterPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-blue-700 to-blue-900 text-white py-14">
+      <div className="bg-gradient-to-br from-green-700 to-green-900 text-white py-6">
         <div className="max-w-5xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm font-medium mb-4">
             <BookOpen className="h-4 w-4" /> {t("badge")}
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold mb-3">{t("title")}</h1>
-          <p className="text-blue-100 max-w-xl mx-auto">{t("description")}</p>
+          <p className="text-green-100 max-w-xl mx-auto">{t("description")}</p>
           <div className="relative max-w-md mx-auto mt-6">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("searchPlaceholder")}
-              className="w-full pl-11 pr-4 py-3 rounded-xl text-gray-900 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="w-full pl-11 pr-4 py-3 rounded-xl text-gray-900 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-300"
             />
           </div>
         </div>
@@ -79,8 +79,8 @@ export default function LearningCenterPage() {
               onClick={() => setCategory(key)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
                 category === key
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:text-blue-600"
+                  ? "bg-green-600 text-white shadow-md"
+                  : "bg-white text-gray-600 border border-gray-200 hover:border-green-300 hover:text-green-600"
               }`}
             >
               <Icon className="h-4 w-4" /> {label}
@@ -126,7 +126,7 @@ export default function LearningCenterPage() {
                   />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="h-14 w-14 rounded-full bg-white/90 flex items-center justify-center">
-                      <Play className="h-6 w-6 text-blue-700 fill-blue-700 ml-1" />
+                      <Play className="h-6 w-6 text-green-700 fill-green-700 ml-1" />
                     </div>
                   </div>
                   {video.duration && (
@@ -134,18 +134,18 @@ export default function LearningCenterPage() {
                       {video.duration}
                     </span>
                   )}
-                  <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full capitalize">
+                  <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-0.5 rounded-full capitalize">
                     {(video.category || "").replace(/_/g, " ").toLowerCase()}
                   </span>
                 </div>
                 <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-green-600 transition-colors">
                     {video.title}
                   </h3>
                   {video.description && (
                     <p className="text-sm text-gray-500 mt-1 line-clamp-2">{video.description}</p>
                   )}
-                  <div className="flex items-center gap-1 mt-3 text-blue-600 text-sm font-medium">
+                  <div className="flex items-center gap-1 mt-3 text-green-600 text-sm font-medium">
                     <Play className="h-3.5 w-3.5" /> {t("watchNow")}
                   </div>
                 </div>

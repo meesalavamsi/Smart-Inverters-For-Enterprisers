@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Wrench, Zap, Settings, Battery, AlertTriangle, ArrowRight, Phone } from "lucide-react";
 
 const services = [
-  { icon: Zap, titleKey: "installation", descKey: "installationDesc", gradient: "from-blue-500 to-blue-700", glow: "shadow-blue-200", href: "/service-booking?type=INSTALLATION", num: "01" },
+  { icon: Zap, titleKey: "installation", descKey: "installationDesc", gradient: "from-green-500 to-green-700", glow: "shadow-green-200", href: "/service-booking?type=INSTALLATION", num: "01" },
   { icon: Wrench, titleKey: "repair", descKey: "repairDesc", gradient: "from-orange-400 to-red-500", glow: "shadow-orange-200", href: "/service-booking?type=REPAIR", num: "02" },
   { icon: Settings, titleKey: "maintenance", descKey: "maintenanceDesc", gradient: "from-green-500 to-emerald-700", glow: "shadow-green-200", href: "/service-booking?type=MAINTENANCE", num: "03" },
   { icon: Battery, titleKey: "replacement", descKey: "replacementDesc", gradient: "from-purple-500 to-violet-700", glow: "shadow-purple-200", href: "/service-booking?type=BATTERY_REPLACEMENT", num: "04" },
@@ -20,7 +20,7 @@ export default function Services() {
     <section className="py-28 bg-gray-950 relative overflow-hidden">
       {/* Background 3D depth decorations */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-blue-900/30 blur-[120px]" />
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-green-900/30 blur-[120px]" />
         <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full bg-indigo-900/30 blur-[100px]" />
         {/* Grid lines */}
         <div className="absolute inset-0 opacity-5"
@@ -38,7 +38,7 @@ export default function Services() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-block bg-blue-500/20 border border-blue-500/40 text-blue-300 px-6 py-2 rounded-full text-sm font-bold mb-5"
+            className="inline-block bg-green-500/20 border border-green-500/40 text-green-300 px-6 py-2 rounded-full text-sm font-bold mb-5"
           >
             Our Services
           </motion.span>
@@ -92,7 +92,7 @@ export default function Services() {
                 <p className="text-gray-400 text-sm leading-relaxed mb-6">{t(service.descKey)}</p>
 
                 {/* CTA */}
-                <span className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 group-hover:text-blue-300 group-hover:gap-3 transition-all duration-300">
+                <span className="inline-flex items-center gap-2 text-sm font-bold text-green-400 group-hover:text-green-300 group-hover:gap-3 transition-all duration-300">
                   {t("bookNow")} <ArrowRight className="h-4 w-4" />
                 </span>
 
@@ -109,22 +109,22 @@ export default function Services() {
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 0.5 }}
             whileHover={{ y: -8, transition: { duration: 0.25 } }}
-            className="relative bg-gradient-to-br from-blue-600 to-blue-900 rounded-3xl p-7 overflow-hidden shadow-2xl shadow-blue-900/50"
+            className="relative bg-gradient-to-br from-green-600 to-green-900 rounded-3xl p-7 overflow-hidden shadow-2xl shadow-green-900/50"
           >
             {/* Glow orb inside card */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-blue-400/20 blur-2xl" />
+            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-green-400/20 blur-2xl" />
             <div className="relative z-10">
               <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-white/20 text-yellow-300 mb-6 border border-white/20">
                 <AlertTriangle className="h-7 w-7" />
               </div>
               <h3 className="font-extrabold text-xl text-white mb-3">Emergency? Call Now!</h3>
-              <p className="text-blue-200 text-sm leading-relaxed mb-6">
+              <p className="text-green-200 text-sm leading-relaxed mb-6">
                 Power outage at night or on holidays? We&apos;re available 24/7 across the region.
               </p>
               <div className="flex flex-col gap-3">
                 <a
                   href="tel:9951447358"
-                  className="inline-flex items-center gap-2 bg-white text-blue-700 px-6 py-3 rounded-xl font-extrabold text-sm hover:bg-yellow-300 hover:text-blue-900 transition-all duration-300 shadow-lg"
+                  className="inline-flex items-center gap-2 bg-white text-green-700 px-6 py-3 rounded-xl font-extrabold text-sm hover:bg-yellow-300 hover:text-green-900 transition-all duration-300 shadow-lg"
                 >
                   <Phone className="h-4 w-4" /> 9951447358 (Call)
                 </a>

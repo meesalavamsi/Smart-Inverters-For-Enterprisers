@@ -92,7 +92,7 @@ export default function AdminAnalyticsPage() {
               {PERIODS.map(({ key, label }) => (
                 <button key={key} onClick={() => setPeriod(key)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                    period === key ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-800"
+                    period === key ? "bg-green-600 text-white" : "text-gray-500 hover:text-gray-800"
                   }`}>
                   {label}
                 </button>
@@ -114,7 +114,7 @@ export default function AdminAnalyticsPage() {
             {/* KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               {[
-                { icon: DollarSign, label: "Total Revenue", value: formatCurrency(Number(d?.revenue?.total) || 0), sub: `Last month: ${formatCurrency(Number(d?.revenue?.lastMonth) || 0)}`, color: "bg-blue-100 text-blue-600" },
+                { icon: DollarSign, label: "Total Revenue", value: formatCurrency(Number(d?.revenue?.total) || 0), sub: `Last month: ${formatCurrency(Number(d?.revenue?.lastMonth) || 0)}`, color: "bg-green-100 text-green-600" },
                 { icon: ShoppingBag, label: "Total Orders", value: d?.orders?.total || 0, sub: `${d?.orders?.thisMonth || 0} this month`, color: "bg-green-100 text-green-600" },
                 { icon: Users, label: "Customers", value: d?.customers?.total || 0, sub: `+${d?.customers?.thisMonth || 0} new`, color: "bg-purple-100 text-purple-600" },
                 { icon: Star, label: "Avg Rating", value: `${d?.feedback?.avgRating || 0}/5`, sub: `${d?.feedback?.total || 0} reviews`, color: "bg-yellow-100 text-yellow-600" },
@@ -137,7 +137,7 @@ export default function AdminAnalyticsPage() {
             {/* Revenue Chart */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
               <div className="flex items-center gap-2 mb-5">
-                <TrendingUp className="h-5 w-5 text-blue-600" />
+                <TrendingUp className="h-5 w-5 text-green-600" />
                 <h2 className="font-bold text-gray-900">Revenue & Orders Trend</h2>
               </div>
               {revenueChartData.length > 0 ? (

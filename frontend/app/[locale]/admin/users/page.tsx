@@ -92,7 +92,7 @@ export default function AdminUsersPage() {
 
   const roleColors: Record<string, string> = {
     ADMIN: "bg-red-100 text-red-700",
-    TECHNICIAN: "bg-blue-100 text-blue-700",
+    TECHNICIAN: "bg-green-100 text-green-700",
   };
 
   if (!user || user.role !== "ADMIN") return null;
@@ -108,7 +108,7 @@ export default function AdminUsersPage() {
           </div>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 transition-colors"
           >
             <Plus className="h-4 w-4" /> Add Technician
           </button>
@@ -116,7 +116,7 @@ export default function AdminUsersPage() {
 
         {/* Add Form */}
         {showForm && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 mb-6">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-green-100 mb-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-gray-900">Add New Technician</h3>
               <button onClick={() => setShowForm(false)}><X className="h-5 w-5 text-gray-400" /></button>
@@ -135,14 +135,14 @@ export default function AdminUsersPage() {
                     value={form[key as keyof typeof form]}
                     onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                     placeholder={placeholder}
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                 </div>
               ))}
             </div>
             <div className="flex gap-3 mt-4">
               <button onClick={handleAddTechnician} disabled={saving}
-                className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 disabled:opacity-60">
+                className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 disabled:opacity-60">
                 <Check className="h-4 w-4" /> {saving ? "Creating..." : "Create Technician"}
               </button>
               <button onClick={() => setShowForm(false)} className="px-5 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:bg-gray-50">Cancel</button>
@@ -157,7 +157,7 @@ export default function AdminUsersPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search staff users..."
-            className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-white"
           />
         </div>
 
@@ -186,7 +186,7 @@ export default function AdminUsersPage() {
                   <tr key={u.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                        <div className="h-9 w-9 rounded-full bg-gradient-to-br from-green-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
                           {u.name.charAt(0).toUpperCase()}
                         </div>
                         <div>

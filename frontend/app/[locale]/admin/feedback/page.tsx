@@ -104,7 +104,7 @@ export default function AdminFeedbackPage() {
         {/* Stats */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[
-            { label: "Total", value: feedbacks.length, color: "bg-blue-50 text-blue-700" },
+            { label: "Total", value: feedbacks.length, color: "bg-green-50 text-green-700" },
             { label: "Pending", value: pending, color: "bg-yellow-50 text-yellow-700" },
             { label: "Approved", value: feedbacks.filter(f => f.isApproved).length, color: "bg-green-50 text-green-700" },
             { label: "Avg Rating", value: `${avgRating}/5`, color: "bg-purple-50 text-purple-700" },
@@ -124,14 +124,14 @@ export default function AdminFeedbackPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search feedback..."
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
             />
           </div>
           <div className="flex gap-1 bg-white border border-gray-200 rounded-xl p-1">
             {(["ALL", "PENDING", "APPROVED", "DISPLAYED"] as const).map((f) => (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                  filter === f ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-800"
+                  filter === f ? "bg-green-600 text-white" : "text-gray-500 hover:text-gray-800"
                 }`}>
                 {f}
               </button>
@@ -153,7 +153,7 @@ export default function AdminFeedbackPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filtered.map((fb) => (
               <div key={fb.id} className={`bg-white rounded-2xl p-5 shadow-sm border transition-colors ${
-                fb.isDisplayed ? "border-green-200 bg-green-50/30" : fb.isApproved ? "border-blue-200" : "border-gray-100"
+                fb.isDisplayed ? "border-green-200 bg-green-50/30" : fb.isApproved ? "border-green-200" : "border-gray-100"
               }`}>
                 <div className="flex items-start justify-between mb-3">
                   <div>
@@ -184,7 +184,7 @@ export default function AdminFeedbackPage() {
                     onClick={() => handleToggle(fb, "isDisplayed")}
                     disabled={updating === fb.id || !fb.isApproved}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors disabled:opacity-40 ${
-                      fb.isDisplayed ? "bg-blue-100 text-blue-700 hover:bg-blue-200" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      fb.isDisplayed ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                     }`}
                   >
                     {fb.isDisplayed ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}

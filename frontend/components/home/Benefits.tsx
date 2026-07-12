@@ -47,7 +47,7 @@ export default function Benefits() {
   const t = useTranslations("benefits");
 
   const cards = [
-    { icon: Shield, titleKey: "card1Title", descKey: "card1Desc", gradient: "from-blue-500 to-blue-700", glow: "rgba(37,99,235,0.2)" },
+    { icon: Shield, titleKey: "card1Title", descKey: "card1Desc", gradient: "from-green-500 to-green-700", glow: "rgba(22,163,74,0.2)" },
     { icon: Zap, titleKey: "card2Title", descKey: "card2Desc", gradient: "from-amber-400 to-orange-500", glow: "rgba(251,146,60,0.2)" },
     { icon: Clock, titleKey: "card3Title", descKey: "card3Desc", gradient: "from-emerald-400 to-green-600", glow: "rgba(52,211,153,0.2)" },
     { icon: Headphones, titleKey: "card4Title", descKey: "card4Desc", gradient: "from-violet-500 to-purple-700", glow: "rgba(139,92,246,0.2)" },
@@ -56,14 +56,14 @@ export default function Benefits() {
   ];
 
   return (
-    <section className="py-28 bg-gradient-to-b from-white to-blue-50/60 overflow-hidden">
+    <section className="py-28 bg-gradient-to-b from-white to-green-50/60 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-block bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-5 shadow-md shadow-blue-200"
+            className="inline-block bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-5 shadow-md shadow-green-200"
           >
             {t("badge")}
           </motion.span>

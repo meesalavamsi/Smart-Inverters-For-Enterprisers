@@ -79,7 +79,7 @@ export default function AdminCustomersPage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
-            { label: "Total", value: customers.length, icon: Users, color: "bg-blue-50 text-blue-700" },
+            { label: "Total", value: customers.length, icon: Users, color: "bg-green-50 text-green-700" },
             { label: "Active", value: customers.filter(c => c.isActive).length, icon: UserCheck, color: "bg-green-50 text-green-700" },
             { label: "Verified", value: customers.filter(c => c.isVerified).length, icon: UserCheck, color: "bg-purple-50 text-purple-700" },
           ].map(({ label, value, icon: Icon, color }) => (
@@ -101,14 +101,14 @@ export default function AdminCustomersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, email, or phone..."
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
             />
           </div>
           <div className="flex gap-1 bg-white border border-gray-200 rounded-xl p-1">
             {(["ALL", "ACTIVE", "INACTIVE"] as const).map((f) => (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                  filter === f ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-800"
+                  filter === f ? "bg-green-600 text-white" : "text-gray-500 hover:text-gray-800"
                 }`}>
                 {f}
               </button>
@@ -141,7 +141,7 @@ export default function AdminCustomersPage() {
                   <tr key={customer.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                        <div className="h-9 w-9 rounded-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
                           {customer.name.charAt(0).toUpperCase()}
                         </div>
                         <div>

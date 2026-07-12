@@ -45,7 +45,7 @@ export default function ParticleCanvas() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(96,165,250,${p.a})`;
+        ctx.fillStyle = `rgba(74,222,128,${p.a})`;
         ctx.fill();
 
         for (let j = i + 1; j < particles.length; j++) {

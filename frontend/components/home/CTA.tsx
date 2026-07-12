@@ -13,7 +13,7 @@ export default function CTA() {
   return (
     <section className="py-28 relative overflow-hidden bg-white">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="orb absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-100 opacity-60" />
+        <div className="orb absolute top-0 left-1/4 w-[500px] h-[500px] bg-green-100 opacity-60" />
         <div className="orb absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-indigo-100 opacity-50" style={{ animationDelay: "5s" }} />
         <div className="absolute inset-0 grid-pattern opacity-60" />
       </div>
@@ -25,7 +25,7 @@ export default function CTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold mb-8 shadow-md shadow-blue-200">
+          <div className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-2.5 rounded-full text-sm font-bold mb-8 shadow-md shadow-green-200">
             <Zap className="h-4 w-4" />
             {t("badge")}
           </div>
@@ -41,14 +41,14 @@ export default function CTA() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
             <Link
               href="/products"
-              className="group inline-flex items-center justify-center gap-2.5 bg-blue-600 text-white px-10 py-[18px] rounded-2xl font-bold text-lg hover:bg-blue-700 transition-all duration-300 shadow-blue-glow-lg hover:-translate-y-1"
+              className="group inline-flex items-center justify-center gap-2.5 bg-green-600 text-white px-10 py-[18px] rounded-2xl font-bold text-lg hover:bg-green-700 transition-all duration-300 shadow-blue-glow-lg hover:-translate-y-1"
             >
               {t("browseProducts")}
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/service-booking"
-              className="inline-flex items-center justify-center gap-2 border-2 border-blue-200 text-blue-700 px-10 py-[18px] rounded-2xl font-bold text-lg hover:bg-blue-50 hover:border-blue-400 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 border-2 border-green-200 text-green-700 px-10 py-[18px] rounded-2xl font-bold text-lg hover:bg-green-50 hover:border-green-400 transition-all duration-300"
             >
               {t("bookService")}
             </Link>
@@ -64,13 +64,13 @@ export default function CTA() {
 
           <div className="glass-premium rounded-2xl px-8 py-6 inline-flex flex-col sm:flex-row items-center gap-8 shadow-blue-glow">
             <div className="flex items-center gap-3 text-gray-800">
-              <div className="h-12 w-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-md shadow-blue-200 shrink-0">
+              <div className="h-12 w-12 rounded-xl bg-green-600 flex items-center justify-center shadow-md shadow-green-200 shrink-0">
                 <Phone className="h-6 w-6 text-white" />
               </div>
               <div className="text-left">
                 <p className="text-xs text-gray-400 font-medium">{t("callLabel")}</p>
-                <a href="tel:9951447358" className="block text-2xl font-extrabold hover:text-blue-600 transition-colors">9951447358</a>
-                <a href="tel:9133639888" className="block text-sm font-semibold text-gray-500 hover:text-blue-500 transition-colors">9133639888 (WhatsApp)</a>
+                <a href="tel:9951447358" className="block text-2xl font-extrabold hover:text-green-600 transition-colors">9951447358</a>
+                <a href="tel:9133639888" className="block text-sm font-semibold text-gray-500 hover:text-green-500 transition-colors">9133639888 (WhatsApp)</a>
               </div>
             </div>
             <div className="w-px h-12 bg-gray-200 hidden sm:block" />

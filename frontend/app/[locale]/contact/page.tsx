@@ -19,7 +19,7 @@ export default async function ContactPage() {
   const t = await getTranslations("contact");
 
   const contactDetails = [
-    { icon: Phone, label: t("phoneLabel"), value: "9133639888 / 9951447358", href: "tel:9133639888", color: "text-blue-600 bg-blue-50" },
+    { icon: Phone, label: t("phoneLabel"), value: "9133639888 / 9951447358", href: "tel:9133639888", color: "text-green-600 bg-green-50" },
     { icon: MessageCircle, label: t("whatsappLabel"), value: "9133639888", href: WHATSAPP_URL, color: "text-green-600 bg-green-50" },
     { icon: Mail, label: t("emailLabel"), value: "maniagency.rvpm@gmail.com", href: "mailto:maniagency.rvpm@gmail.com", color: "text-purple-600 bg-purple-50" },
     { icon: MapPin, label: t("addressLabel"), value: "Indira Colony (Near Community Hall), Ravulapalem, Andhra Pradesh, India", href: "#map", color: "text-red-600 bg-red-50" },
@@ -40,13 +40,13 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-12">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
         <div className="mx-auto max-w-4xl px-4">
           <div className="flex items-center gap-2 mb-2">
             <Zap className="h-6 w-6 text-yellow-400" />
             <h1 className="text-4xl font-extrabold">{t("title")}</h1>
           </div>
-          <p className="text-blue-200">{t("subtitle")}</p>
+          <p className="text-green-200">{t("subtitle")}</p>
         </div>
       </div>
 
@@ -71,7 +71,7 @@ export default async function ContactPage() {
                     ) : detail.href ? (
                       <a href={detail.href} target={detail.href.startsWith("http") ? "_blank" : undefined}
                         rel="noopener noreferrer"
-                        className="text-sm text-gray-900 font-medium hover:text-blue-600 transition-colors mt-0.5 block">
+                        className="text-sm text-gray-900 font-medium hover:text-green-600 transition-colors mt-0.5 block">
                         {detail.value}
                       </a>
                     ) : (
@@ -98,10 +98,10 @@ export default async function ContactPage() {
             <div id="map" className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
               <div className="p-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-blue-600" /> {t("findMaps")}
+                  <MapPin className="h-5 w-5 text-green-600" /> {t("findMaps")}
                 </h3>
                 <a href="https://maps.google.com/?q=Andhra+Pradesh,India" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
+                  className="flex items-center gap-1 text-sm text-green-600 hover:underline">
                   {t("openMaps")} <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               </div>
@@ -119,7 +119,7 @@ export default async function ContactPage() {
               <h3 className="font-bold text-gray-900 mb-4">{t("quickActions")}</h3>
               <div className="grid grid-cols-2 gap-3">
                 <a href="tel:9133639888"
-                  className="flex items-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors justify-center">
+                  className="flex items-center gap-2 bg-green-600 text-white px-4 py-3 rounded-xl font-semibold text-sm hover:bg-green-700 transition-colors justify-center">
                   <Phone className="h-4 w-4" /> {t("callNow")}
                 </a>
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
@@ -127,7 +127,7 @@ export default async function ContactPage() {
                   <MessageCircle className="h-4 w-4" /> {t("whatsapp")}
                 </a>
                 <Link href="/service-booking"
-                  className="flex items-center gap-2 border-2 border-blue-600 text-blue-600 px-4 py-3 rounded-xl font-semibold text-sm hover:bg-blue-50 transition-colors justify-center">
+                  className="flex items-center gap-2 border-2 border-green-600 text-green-600 px-4 py-3 rounded-xl font-semibold text-sm hover:bg-green-50 transition-colors justify-center">
                   {t("bookService")}
                 </Link>
                 <Link href="/issue-report"
@@ -140,13 +140,13 @@ export default async function ContactPage() {
             {/* Service areas */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-blue-600" /> {t("serviceAreas")}
+                <MapPin className="h-5 w-5 text-green-600" /> {t("serviceAreas")}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {Object.entries(SERVICE_AREAS).map(([state, areas]) => (
                   <div key={state}>
                     <div className={`inline-flex items-center gap-1.5 text-xs font-extrabold px-3 py-1 rounded-full mb-3 ${
-                      state === "Andhra Pradesh" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"
+                      state === "Andhra Pradesh" ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
                     }`}>
                       <span>{state === "Andhra Pradesh" ? "🔵" : "🟠"}</span>
                       {state}
@@ -154,7 +154,7 @@ export default async function ContactPage() {
                     <div className="grid grid-cols-2 gap-1.5">
                       {areas.map(area => (
                         <div key={area} className="flex items-center gap-1.5 text-sm text-gray-600">
-                          <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${state === "Andhra Pradesh" ? "bg-blue-500" : "bg-orange-500"}`} />
+                          <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${state === "Andhra Pradesh" ? "bg-green-500" : "bg-orange-500"}`} />
                           {area}
                         </div>
                       ))}

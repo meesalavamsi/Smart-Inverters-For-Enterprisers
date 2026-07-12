@@ -35,7 +35,7 @@ export default function AdminSidebar() {
     <aside className="fixed left-0 top-16 bottom-0 w-64 bg-gray-900 flex flex-col z-40">
       <div className="px-4 py-5 border-b border-gray-800">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center">
+          <div className="h-8 w-8 rounded-lg bg-green-600 flex items-center justify-center">
             <Zap className="h-4 w-4 text-white" />
           </div>
           <div>
@@ -55,7 +55,7 @@ export default function AdminSidebar() {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-blue-600 text-white"
+                      ? "bg-green-600 text-white"
                       : "text-gray-400 hover:text-white hover:bg-gray-800"
                   )}
                 >
@@ -71,7 +71,7 @@ export default function AdminSidebar() {
       {/* Footer */}
       <div className="px-3 py-4 border-t border-gray-800">
         <div className="flex items-center gap-3 px-3 py-2 mb-2">
-          <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
+          <div className="h-8 w-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-sm">
             {user?.name?.charAt(0) || "A"}
           </div>
           <div className="min-w-0">

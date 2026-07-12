@@ -19,7 +19,7 @@ interface RecyclingCenter {
 
 const TIPS = [
   { icon: AlertTriangle, color: "text-red-500 bg-red-50", title: "Never Throw in Trash", body: "Old batteries contain lead and acid that harm soil and water. Never throw them in regular bins." },
-  { icon: Battery, color: "text-blue-500 bg-blue-50", title: "Store Safely Until Disposal", body: "Keep old batteries upright in a dry place, away from children. Use plastic bags to prevent leaks." },
+  { icon: Battery, color: "text-green-500 bg-green-50", title: "Store Safely Until Disposal", body: "Keep old batteries upright in a dry place, away from children. Use plastic bags to prevent leaks." },
   { icon: Recycle, color: "text-green-500 bg-green-50", title: "Return to Us", body: "Bring your old battery to our shop — we'll ensure it is responsibly recycled. We may even offer exchange discounts." },
   { icon: CheckCircle, color: "text-purple-500 bg-purple-50", title: "Choose Certified Recyclers", body: "Only hand over batteries to registered e-waste or battery recyclers with CPCB authorization." },
 ];
@@ -37,7 +37,7 @@ export default function RecyclingPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-green-600 to-emerald-800 text-white py-14">
+      <div className="bg-gradient-to-br from-green-600 to-emerald-800 text-white py-6">
         <div className="max-w-5xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm font-medium mb-4">
             <Leaf className="h-4 w-4" /> Eco Responsibility
@@ -141,19 +141,19 @@ export default function RecyclingPage() {
                     {center.phone && (
                       <div className="flex items-center gap-2">
                         <Phone className="h-4 w-4 shrink-0 text-gray-400" />
-                        <a href={`tel:${center.phone}`} className="hover:text-blue-600">{center.phone}</a>
+                        <a href={`tel:${center.phone}`} className="hover:text-green-600">{center.phone}</a>
                       </div>
                     )}
                     {center.email && (
                       <div className="flex items-center gap-2">
                         <Mail className="h-4 w-4 shrink-0 text-gray-400" />
-                        <a href={`mailto:${center.email}`} className="hover:text-blue-600">{center.email}</a>
+                        <a href={`mailto:${center.email}`} className="hover:text-green-600">{center.email}</a>
                       </div>
                     )}
                     {center.website && (
                       <div className="flex items-center gap-2">
                         <Globe className="h-4 w-4 shrink-0 text-gray-400" />
-                        <a href={center.website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 truncate">{center.website}</a>
+                        <a href={center.website} target="_blank" rel="noopener noreferrer" className="hover:text-green-600 truncate">{center.website}</a>
                       </div>
                     )}
                   </div>

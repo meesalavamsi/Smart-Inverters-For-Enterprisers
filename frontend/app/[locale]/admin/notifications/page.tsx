@@ -19,7 +19,7 @@ interface Notification {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  ORDER: "bg-blue-100 text-blue-700",
+  ORDER: "bg-green-100 text-green-700",
   BOOKING: "bg-purple-100 text-purple-700",
   ISSUE: "bg-red-100 text-red-700",
   FEEDBACK: "bg-yellow-100 text-yellow-700",
@@ -116,7 +116,7 @@ export default function AdminNotificationsPage() {
                 <div
                   key={n.id}
                   className={`flex items-start gap-4 px-5 py-4 transition-colors ${
-                    !n.isRead ? "bg-blue-50/50" : "hover:bg-gray-50/50"
+                    !n.isRead ? "bg-green-50/50" : "hover:bg-gray-50/50"
                   }`}
                 >
                   <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${TYPE_COLORS[n.type] || TYPE_COLORS.SYSTEM}`}>
@@ -127,7 +127,7 @@ export default function AdminNotificationsPage() {
                       <div>
                         <p className={`text-sm font-semibold ${!n.isRead ? "text-gray-900" : "text-gray-700"}`}>
                           {n.title}
-                          {!n.isRead && <span className="ml-2 inline-block h-2 w-2 bg-blue-500 rounded-full" />}
+                          {!n.isRead && <span className="ml-2 inline-block h-2 w-2 bg-green-500 rounded-full" />}
                         </p>
                         <p className="text-sm text-gray-500 mt-0.5 leading-relaxed">{n.message}</p>
                         <p className="text-xs text-gray-400 mt-1">{formatDate(n.createdAt)}</p>
@@ -135,7 +135,7 @@ export default function AdminNotificationsPage() {
                       {!n.isRead && (
                         <button
                           onClick={() => handleMarkRead(n.id)}
-                          className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium shrink-0 px-2 py-1 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="flex items-center gap-1 text-xs text-green-600 hover:text-green-700 font-medium shrink-0 px-2 py-1 hover:bg-green-50 rounded-lg transition-colors"
                         >
                           <Check className="h-3.5 w-3.5" /> Mark Read
                         </button>

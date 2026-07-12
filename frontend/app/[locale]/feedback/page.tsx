@@ -59,10 +59,10 @@ export default function FeedbackPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-12">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
         <div className="mx-auto max-w-2xl px-4">
           <h1 className="text-4xl font-extrabold mb-2">{t("title")}</h1>
-          <p className="text-blue-200">{t("subtitle")}</p>
+          <p className="text-green-200">{t("subtitle")}</p>
         </div>
       </div>
 
@@ -73,13 +73,13 @@ export default function FeedbackPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t("name")} *</label>
                 <input {...form.register("name")} placeholder="Your name"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" />
                 {form.formState.errors.name && <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t("email")} *</label>
                 <input {...form.register("email")} type="email" placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" />
                 {form.formState.errors.email && <p className="text-red-500 text-xs mt-1">{form.formState.errors.email.message}</p>}
               </div>
             </div>
@@ -112,12 +112,12 @@ export default function FeedbackPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">{t("message")} *</label>
               <textarea {...form.register("message")} rows={5}
                 placeholder="Tell us about your experience with our products and services..."
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none" />
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm resize-none" />
               {form.formState.errors.message && <p className="text-red-500 text-xs mt-1">{form.formState.errors.message.message}</p>}
             </div>
 
             <button type="submit" disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base transition-colors">
+              className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white py-4 rounded-xl font-bold text-base transition-colors">
               {loading && <Loader2 className="h-5 w-5 animate-spin" />}
               {t("submit")}
             </button>

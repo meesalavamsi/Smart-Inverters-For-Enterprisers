@@ -124,7 +124,7 @@ export default function AdminVideosPage() {
           </div>
           <button
             onClick={() => tab === "videos" ? setShowForm(true) : setShowCenterForm(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 transition-colors"
           >
             <Plus className="h-4 w-4" /> Add {tab === "videos" ? "Video" : "Center"}
           </button>
@@ -135,7 +135,7 @@ export default function AdminVideosPage() {
           {(["videos", "recycling"] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-colors ${
-                tab === t ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-800"
+                tab === t ? "bg-green-600 text-white" : "text-gray-500 hover:text-gray-800"
               }`}>
               {t === "videos" ? "YouTube Videos" : "Recycling Centers"}
             </button>
@@ -144,7 +144,7 @@ export default function AdminVideosPage() {
 
         {/* Add Video Form */}
         {showForm && tab === "videos" && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 mb-6">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-green-100 mb-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-gray-900">Add New Video</h3>
               <button onClick={() => setShowForm(false)}><X className="h-5 w-5 text-gray-400" /></button>
@@ -153,32 +153,32 @@ export default function AdminVideosPage() {
               <div>
                 <label className="text-xs font-semibold text-gray-600 mb-1 block">Title *</label>
                 <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   placeholder="Video title" />
               </div>
               <div>
                 <label className="text-xs font-semibold text-gray-600 mb-1 block">YouTube Video ID *</label>
                 <input value={form.youtubeId} onChange={(e) => setForm({ ...form, youtubeId: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   placeholder="e.g. dQw4w9WgXcQ" />
               </div>
               <div>
                 <label className="text-xs font-semibold text-gray-600 mb-1 block">Category</label>
                 <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
                   {CATEGORIES.map((c) => <option key={c} value={c}>{c.replace(/_/g, " ")}</option>)}
                 </select>
               </div>
               <div>
                 <label className="text-xs font-semibold text-gray-600 mb-1 block">Duration</label>
                 <input value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   placeholder="e.g. 12:30" />
               </div>
               <div className="sm:col-span-2">
                 <label className="text-xs font-semibold text-gray-600 mb-1 block">Description</label>
                 <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  rows={2} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+                  rows={2} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"
                   placeholder="Brief description..." />
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function AdminVideosPage() {
             )}
             <div className="flex gap-3 mt-4">
               <button onClick={handleAddVideo} disabled={saving}
-                className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 disabled:opacity-60">
+                className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 disabled:opacity-60">
                 <Check className="h-4 w-4" /> {saving ? "Saving..." : "Add Video"}
               </button>
               <button onClick={() => setShowForm(false)} className="px-5 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:bg-gray-50">Cancel</button>
@@ -218,7 +218,7 @@ export default function AdminVideosPage() {
                   <label className="text-xs font-semibold text-gray-600 mb-1 block">{label}</label>
                   <input value={centerForm[key as keyof typeof centerForm]}
                     onChange={(e) => setCenterForm({ ...centerForm, [key]: e.target.value })}
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                     placeholder={placeholder} />
                 </div>
               ))}
@@ -247,7 +247,7 @@ export default function AdminVideosPage() {
                   <div className="relative">
                     <img src={`https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg`} alt={v.title} className="w-full aspect-video object-cover" />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                    <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                       {v.category.replace(/_/g, " ")}
                     </span>
                     <button onClick={() => handleDeleteVideo(v.id)}

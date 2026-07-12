@@ -28,18 +28,18 @@ export default function VideoSection() {
   if (!videos.length) return null;
 
   return (
-    <section className="py-20 bg-blue-900 text-white">
+    <section className="py-20 bg-green-900 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <span className="inline-block bg-blue-700 text-blue-200 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+            <span className="inline-block bg-green-700 text-green-200 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
               Learning Center
             </span>
             <h2 className="text-4xl font-extrabold">Learn From Our Experts</h2>
-            <p className="mt-2 text-blue-300">Free video guides for installation, maintenance & safety</p>
+            <p className="mt-2 text-green-300">Free video guides for installation, maintenance & safety</p>
           </div>
           <Link href="/learning-center"
-            className="hidden sm:flex items-center gap-2 text-blue-300 hover:text-white font-semibold transition-colors">
+            className="hidden sm:flex items-center gap-2 text-green-300 hover:text-white font-semibold transition-colors">
             <BookOpen className="h-4 w-4" /> All Videos
           </Link>
         </div>
@@ -53,7 +53,7 @@ export default function VideoSection() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               onClick={() => setActiveVideo(video)}
-              className="group relative rounded-2xl overflow-hidden aspect-video bg-blue-800/50 border border-blue-700/50 hover:border-blue-400 transition-all text-left"
+              className="group relative rounded-2xl overflow-hidden aspect-video bg-green-800/50 border border-green-700/50 hover:border-green-400 transition-all text-left"
             >
               <img
                 src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}
@@ -67,9 +67,9 @@ export default function VideoSection() {
                 </div>
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-4">
-                <span className="text-xs text-blue-300 font-semibold uppercase tracking-wider">{video.category.replace(/_/g, " ")}</span>
+                <span className="text-xs text-green-300 font-semibold uppercase tracking-wider">{video.category.replace(/_/g, " ")}</span>
                 <p className="text-white font-bold text-sm mt-1 line-clamp-2">{video.title}</p>
-                {video.duration && <p className="text-blue-300 text-xs mt-1">⏱ {video.duration}</p>}
+                {video.duration && <p className="text-green-300 text-xs mt-1">⏱ {video.duration}</p>}
               </div>
             </motion.button>
           ))}

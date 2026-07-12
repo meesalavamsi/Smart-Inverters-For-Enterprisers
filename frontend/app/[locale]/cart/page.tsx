@@ -78,7 +78,7 @@ export default function CartPage() {
           description: "Smart Inverter's purchase",
           order_id: orderId,
           prefill: { name: user?.name, email: user?.email, contact: user?.phone },
-          theme: { color: "#2563eb" },
+          theme: { color: "#16a34a" },
           handler: (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => resolve(response),
           modal: { ondismiss: () => reject(new Error("Payment cancelled")) },
         });
@@ -165,17 +165,17 @@ export default function CartPage() {
           </div>
           <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Order Placed!</h2>
           <p className="text-gray-500 mb-3">Your order has been received and is being processed.</p>
-          <div className="bg-blue-50 rounded-xl p-4 mb-6">
+          <div className="bg-green-50 rounded-xl p-4 mb-6">
             <p className="text-sm text-gray-500">Order Number</p>
-            <p className="text-xl font-mono font-extrabold text-blue-700">{ordered}</p>
+            <p className="text-xl font-mono font-extrabold text-green-700">{ordered}</p>
           </div>
           <div className="space-y-3">
             <Link href={`/invoice/${ordered}`}
-              className="block w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors text-center">
+              className="block w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition-colors text-center">
               View / Download Invoice
             </Link>
             <Link href="/order-tracking"
-              className="block w-full border-2 border-blue-600 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-50 transition-colors text-center">
+              className="block w-full border-2 border-green-600 text-green-600 font-bold py-3 rounded-xl hover:bg-green-50 transition-colors text-center">
               Track My Order
             </Link>
             <a
@@ -185,7 +185,7 @@ export default function CartPage() {
             >
               <MessageCircle className="h-5 w-5" /> Confirm on WhatsApp
             </a>
-            <Link href="/products" className="block text-center text-sm text-blue-600 hover:underline">
+            <Link href="/products" className="block text-center text-sm text-green-600 hover:underline">
               Continue Shopping
             </Link>
           </div>
@@ -204,7 +204,7 @@ export default function CartPage() {
           <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Your cart is empty</h2>
           <p className="text-gray-500 mb-6">Add products to your cart to place an order</p>
           <Link href="/products"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors">
+            className="inline-flex items-center gap-2 px-8 py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition-colors">
             Browse Products
           </Link>
         </div>
@@ -216,7 +216,7 @@ export default function CartPage() {
     <div className="min-h-screen bg-gray-50 pt-20">
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center gap-3 mb-6">
-          <button onClick={() => router.back()} className="text-gray-500 hover:text-blue-600">
+          <button onClick={() => router.back()} className="text-gray-500 hover:text-green-600">
             <ArrowLeft className="h-5 w-5" />
           </button>
           <h1 className="text-2xl font-extrabold text-gray-900">Your Cart ({items.length} items)</h1>
@@ -245,7 +245,7 @@ export default function CartPage() {
 
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-gray-900 line-clamp-1">{item.name}</p>
-                  <p className="text-blue-700 font-bold">{formatCurrency(item.price)}</p>
+                  <p className="text-green-700 font-bold">{formatCurrency(item.price)}</p>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
@@ -278,7 +278,7 @@ export default function CartPage() {
               <h3 className="font-extrabold text-gray-900 mb-4">Order Summary</h3>
 
               {/* Total */}
-              <div className="bg-blue-50 rounded-xl p-4 mb-5">
+              <div className="bg-green-50 rounded-xl p-4 mb-5">
                 <div className="flex justify-between text-sm text-gray-600 mb-1">
                   <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
                   <span>{formatCurrency(totalPrice)}</span>
@@ -287,10 +287,10 @@ export default function CartPage() {
                   <span>Delivery</span>
                   <span className="text-green-600 font-semibold">Free</span>
                 </div>
-                <hr className="border-blue-200 mb-2" />
+                <hr className="border-green-200 mb-2" />
                 <div className="flex justify-between font-extrabold text-lg text-gray-900">
                   <span>Total</span>
-                  <span className="text-blue-700">{formatCurrency(totalPrice)}</span>
+                  <span className="text-green-700">{formatCurrency(totalPrice)}</span>
                 </div>
               </div>
 
@@ -302,7 +302,7 @@ export default function CartPage() {
                   <input
                     {...register("recipientName")}
                     placeholder="Full Name *"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                   {errors.recipientName && <p className="text-red-500 text-xs mt-1">{errors.recipientName.message}</p>}
                 </div>
@@ -311,7 +311,7 @@ export default function CartPage() {
                   <input
                     {...register("doorNo")}
                     placeholder="Door No / Street / Area *"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                   {errors.doorNo && <p className="text-red-500 text-xs mt-1">{errors.doorNo.message}</p>}
                 </div>
@@ -321,7 +321,7 @@ export default function CartPage() {
                     <input
                       {...register("mandal")}
                       placeholder="Mandal *"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                     />
                     {errors.mandal && <p className="text-red-500 text-xs mt-1">{errors.mandal.message}</p>}
                   </div>
@@ -331,7 +331,7 @@ export default function CartPage() {
                       placeholder="Pincode *"
                       inputMode="numeric"
                       maxLength={6}
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                     />
                     {errors.pincode && <p className="text-red-500 text-xs mt-1">{errors.pincode.message}</p>}
                   </div>
@@ -342,7 +342,7 @@ export default function CartPage() {
                     <input
                       {...register("district")}
                       placeholder="District *"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                     />
                     {errors.district && <p className="text-red-500 text-xs mt-1">{errors.district.message}</p>}
                   </div>
@@ -350,7 +350,7 @@ export default function CartPage() {
                     <input
                       {...register("state")}
                       placeholder="State *"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                     />
                     {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state.message}</p>}
                   </div>
@@ -360,7 +360,7 @@ export default function CartPage() {
                   <input
                     {...register("landmark")}
                     placeholder="Landmark *"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                   {errors.landmark && <p className="text-red-500 text-xs mt-1">{errors.landmark.message}</p>}
                 </div>
@@ -371,7 +371,7 @@ export default function CartPage() {
                     placeholder="Phone Number *"
                     inputMode="numeric"
                     maxLength={10}
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                   {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                 </div>
@@ -380,8 +380,8 @@ export default function CartPage() {
               {/* Payment */}
               <div className="mb-4">
                 <label className="text-xs font-bold text-gray-700 mb-2 block">Payment</label>
-                <div className="flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 px-3 py-3">
-                  <CreditCard className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 px-3 py-3">
+                  <CreditCard className="h-5 w-5 text-green-600 mt-0.5 shrink-0" />
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-gray-800">Pay Online — Cards / UPI / Netbanking</p>
                     <p className="text-xs text-gray-500 mt-0.5">Secure checkout via Razorpay. Your order is placed only after payment succeeds.</p>
@@ -398,7 +398,7 @@ export default function CartPage() {
                 <input
                   {...register("notes")}
                   placeholder="Any special instructions..."
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                 />
               </div>
 
@@ -411,7 +411,7 @@ export default function CartPage() {
               <button
                 type="submit"
                 disabled={placing || !user}
-                className="w-full bg-blue-600 text-white font-extrabold py-3.5 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="w-full bg-green-600 text-white font-extrabold py-3.5 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
                 {placing ? "Processing Payment..." : `Pay ${formatCurrency(totalPrice)} & Place Order`}
               </button>

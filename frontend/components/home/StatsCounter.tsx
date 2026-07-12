@@ -56,11 +56,11 @@ export default function StatsCounter() {
       className="py-10 border-y"
       style={{
         background: "linear-gradient(135deg, #0a1628 0%, #0f2044 50%, #0a1628 100%)",
-        borderColor: "rgba(37,99,235,0.2)",
+        borderColor: "rgba(22,163,74,0.2)",
       }}
     >
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-blue-800/60">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-green-800/60">
           {statValues.map((s, i) => (
             <motion.div
               key={s.key}
@@ -73,7 +73,7 @@ export default function StatsCounter() {
               <div
                 className="text-3xl sm:text-4xl font-black tabular-nums mb-1"
                 style={{
-                  background: "linear-gradient(135deg, #93c5fd 0%, #3b82f6 60%, #06b6d4 100%)",
+                  background: "linear-gradient(135deg, #86efac 0%, #22c55e 60%, #10b981 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -81,7 +81,7 @@ export default function StatsCounter() {
               >
                 <CountUp target={s.value} suffix={s.suffix} active={active} />
               </div>
-              <p className="text-xs font-semibold text-blue-400/70 tracking-widest uppercase">
+              <p className="text-xs font-semibold text-green-400/70 tracking-widest uppercase">
                 {t(s.key as any)}
               </p>
             </motion.div>

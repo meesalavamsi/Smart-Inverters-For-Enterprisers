@@ -56,12 +56,12 @@ export default function CustomerDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-10">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
         <div className="mx-auto max-w-5xl px-4 flex items-center justify-between">
           <div>
-            <p className="text-blue-200 text-sm">{t("welcome")}</p>
+            <p className="text-green-200 text-sm">{t("welcome")}</p>
             <h1 className="text-3xl font-extrabold">{user.name}</h1>
-            <p className="text-blue-300 text-sm mt-1">{user.email}</p>
+            <p className="text-green-300 text-sm mt-1">{user.email}</p>
           </div>
           <button onClick={() => { clearAuth(); router.push("/login"); }}
             className="flex items-center gap-2 bg-white/10 border border-white/20 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20 transition-colors">
@@ -78,8 +78,8 @@ export default function CustomerDashboard() {
               onClick={() => setTab(tab_item.key as typeof tab)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                 tab === tab_item.key
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                  ? "bg-green-600 text-white shadow-sm"
+                  : "text-gray-600 hover:text-green-600 hover:bg-green-50"
               }`}
             >
               <tab_item.icon className="h-4 w-4" />
@@ -112,7 +112,7 @@ export default function CustomerDashboard() {
                   <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
                     <ShoppingBag className="h-12 w-12 text-gray-200 mx-auto mb-3" />
                     <p className="text-gray-500">No orders yet</p>
-                    <Link href="/products" className="mt-3 inline-block text-blue-600 font-semibold hover:underline text-sm">
+                    <Link href="/products" className="mt-3 inline-block text-green-600 font-semibold hover:underline text-sm">
                       Browse Products →
                     </Link>
                   </div>
@@ -120,7 +120,7 @@ export default function CustomerDashboard() {
                   <div key={order.id} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <p className="font-bold text-blue-700">{order.orderNumber}</p>
+                        <p className="font-bold text-green-700">{order.orderNumber}</p>
                         <p className="text-xs text-gray-400">{formatDate(order.createdAt)} · {order.paymentMethod}</p>
                       </div>
                       <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${ORDER_STATUS_COLORS[order.status] || ""}`}>
@@ -137,10 +137,10 @@ export default function CustomerDashboard() {
                     </div>
                     <div className="flex justify-between items-center pt-3 mt-3 border-t border-gray-100">
                       <span className="text-sm text-gray-500">{t("total")}</span>
-                      <span className="font-extrabold text-blue-700">{formatCurrency(order.totalAmount)}</span>
+                      <span className="font-extrabold text-green-700">{formatCurrency(order.totalAmount)}</span>
                     </div>
                     <Link href={`/invoice/${order.orderNumber}`}
-                      className="block text-center text-sm text-blue-600 hover:underline font-semibold mt-3 pt-3 border-t border-gray-100">
+                      className="block text-center text-sm text-green-600 hover:underline font-semibold mt-3 pt-3 border-t border-gray-100">
                       View / Download Invoice
                     </Link>
                   </div>
@@ -154,7 +154,7 @@ export default function CustomerDashboard() {
                   <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
                     <Wrench className="h-12 w-12 text-gray-200 mx-auto mb-3" />
                     <p className="text-gray-500">No service bookings yet</p>
-                    <Link href="/service-booking" className="mt-3 inline-block text-blue-600 font-semibold hover:underline text-sm">
+                    <Link href="/service-booking" className="mt-3 inline-block text-green-600 font-semibold hover:underline text-sm">
                       Book a Service →
                     </Link>
                   </div>
@@ -162,7 +162,7 @@ export default function CustomerDashboard() {
                   <div key={booking.id} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className="font-bold text-blue-700">{booking.bookingNumber}</p>
+                        <p className="font-bold text-green-700">{booking.bookingNumber}</p>
                         <p className="text-sm text-gray-600 mt-1">{booking.serviceType.replace(/_/g, " ")}</p>
                         <p className="text-xs text-gray-400">{formatDate(booking.preferredDate)} · {booking.preferredTime}</p>
                         <p className="text-xs text-gray-500 mt-1">{booking.address}</p>
@@ -201,7 +201,7 @@ export default function CustomerDashboard() {
                         </span>
                         <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
                           issue.status === "RESOLVED" || issue.status === "CLOSED" ? "bg-green-100 text-green-700"
-                          : issue.status === "IN_PROGRESS" ? "bg-blue-100 text-blue-700"
+                          : issue.status === "IN_PROGRESS" ? "bg-green-100 text-green-700"
                           : "bg-red-100 text-red-700"}`}>
                           {issue.status}
                         </span>
@@ -224,12 +224,12 @@ export default function CustomerDashboard() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                     <input value={profileForm.name} onChange={e => setProfileForm(f => ({ ...f, name: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                     <input value={profileForm.phone} onChange={e => setProfileForm(f => ({ ...f, phone: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email (cannot change)</label>
@@ -237,7 +237,7 @@ export default function CustomerDashboard() {
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-400 text-sm cursor-not-allowed" />
                   </div>
                   <button onClick={handleProfileSave} disabled={saving}
-                    className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:opacity-60 transition-colors">
+                    className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-green-700 disabled:opacity-60 transition-colors">
                     {saving ? "Saving..." : "Save Changes"}
                   </button>
                 </div>

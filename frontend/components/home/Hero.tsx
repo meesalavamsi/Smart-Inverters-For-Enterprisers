@@ -10,7 +10,7 @@ const Hero3DScene = dynamic(() => import("./Hero3DScene"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-20 h-20 rounded-full border-4 border-blue-500/30 border-t-blue-400 animate-spin" />
+      <div className="w-20 h-20 rounded-full border-4 border-green-500/30 border-t-green-400 animate-spin" />
     </div>
   ),
 });
@@ -27,8 +27,8 @@ export default function Hero() {
       <ParticleCanvas />
 
       {/* Blue glow behind 3D scene */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%)" }} />
-      <div className="absolute left-0 bottom-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)" }} />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(22,163,74,0.15) 0%, transparent 70%)" }} />
+      <div className="absolute left-0 bottom-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%)" }} />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-10 pt-28 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center min-h-[80vh]">
@@ -39,7 +39,7 @@ export default function Hero() {
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
-              className="inline-flex items-center gap-2.5 border border-blue-500/30 bg-blue-500/10 text-blue-300 px-5 py-2.5 rounded-full text-sm font-semibold backdrop-blur-sm"
+              className="inline-flex items-center gap-2.5 border border-green-500/30 bg-green-500/10 text-green-300 px-5 py-2.5 rounded-full text-sm font-semibold backdrop-blur-sm"
             >
               <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse shrink-0" />
               ⚡ Available 24/7 — Emergency Service
@@ -53,14 +53,14 @@ export default function Hero() {
               <h1 className="text-4xl sm:text-5xl lg:text-[3.8rem] font-extrabold leading-[1.08] tracking-tight">
                 <span className="text-white">Welcome to</span>
                 <br />
-                <span style={{ background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 40%, #06b6d4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                <span style={{ background: "linear-gradient(135deg, #4ade80 0%, #22c55e 40%, #10b981 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                   Smart Inverters
                 </span>
                 <br />
                 <span className="text-white">Ravulapalem</span>
               </h1>
-              <p className="mt-3 text-xl sm:text-2xl font-semibold text-blue-300/80 tracking-wide">
-                {t("title")} <span style={{ background: "linear-gradient(135deg, #60a5fa, #06b6d4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{t("titleHighlight")}</span>
+              <p className="mt-3 text-xl sm:text-2xl font-semibold text-green-300/80 tracking-wide">
+                {t("title")} <span style={{ background: "linear-gradient(135deg, #4ade80, #10b981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{t("titleHighlight")}</span>
               </p>
             </motion.div>
 
@@ -85,7 +85,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.32 }}
-              className="text-lg text-blue-200/80 leading-relaxed max-w-xl"
+              className="text-lg text-green-200/80 leading-relaxed max-w-xl"
             >
               {t("subtitle")}
             </motion.p>
@@ -99,14 +99,14 @@ export default function Hero() {
               <Link
                 href="/products"
                 className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-lg text-white transition-all duration-300 hover:-translate-y-1"
-                style={{ background: "linear-gradient(135deg, #2563eb, #1d4ed8)", boxShadow: "0 0 30px rgba(37,99,235,0.5), 0 4px 24px rgba(37,99,235,0.3)" }}
+                style={{ background: "linear-gradient(135deg, #16a34a, #15803d)", boxShadow: "0 0 30px rgba(22,163,74,0.5), 0 4px 24px rgba(22,163,74,0.3)" }}
               >
                 {t("cta")}
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/service-booking"
-                className="inline-flex items-center gap-2 border border-blue-500/40 bg-blue-500/10 text-blue-200 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-500/20 hover:border-blue-400/60 hover:text-white transition-all duration-300 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 border border-green-500/40 bg-green-500/10 text-green-200 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-green-500/20 hover:border-green-400/60 hover:text-white transition-all duration-300 backdrop-blur-sm"
               >
                 {t("ctaSecondary")}
               </Link>
@@ -119,17 +119,17 @@ export default function Hero() {
               className="flex flex-wrap gap-5"
             >
               <div className="flex flex-col gap-1">
-                <a href="tel:9951447358" className="flex items-center gap-2.5 text-blue-200 hover:text-white transition-colors font-semibold">
-                  <div className="h-9 w-9 rounded-xl bg-blue-600/30 border border-blue-500/30 flex items-center justify-center">
-                    <Phone className="h-4 w-4 text-blue-400" />
+                <a href="tel:9951447358" className="flex items-center gap-2.5 text-green-200 hover:text-white transition-colors font-semibold">
+                  <div className="h-9 w-9 rounded-xl bg-green-600/30 border border-green-500/30 flex items-center justify-center">
+                    <Phone className="h-4 w-4 text-green-400" />
                   </div>
                   9951447358
                 </a>
-                <a href="tel:9133639888" className="flex items-center gap-2.5 text-blue-200/70 hover:text-white transition-colors text-sm font-medium pl-11">
+                <a href="tel:9133639888" className="flex items-center gap-2.5 text-green-200/70 hover:text-white transition-colors text-sm font-medium pl-11">
                   9133639888 (WhatsApp)
                 </a>
               </div>
-              <div className="flex items-center gap-2.5 text-blue-200/70">
+              <div className="flex items-center gap-2.5 text-green-200/70">
                 <div className="h-9 w-9 rounded-xl bg-green-600/20 border border-green-500/20 flex items-center justify-center">
                   <Shield className="h-4 w-4 text-green-400" />
                 </div>
@@ -145,7 +145,7 @@ export default function Hero() {
               className="flex flex-wrap gap-2.5"
             >
               {["Terranova", "LiFePO4 Tech", "Zero Maintenance", "5 Yr Warranty", "Eco Friendly"].map((brand) => (
-                <span key={brand} className="inline-flex items-center gap-1.5 text-xs font-semibold border border-blue-500/20 bg-blue-500/10 text-blue-300 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                <span key={brand} className="inline-flex items-center gap-1.5 text-xs font-semibold border border-green-500/20 bg-green-500/10 text-green-300 px-3 py-1.5 rounded-full backdrop-blur-sm">
                   <CheckCircle className="h-3 w-3 text-green-400" />
                   {brand}
                 </span>
@@ -166,8 +166,8 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute top-8 right-6 z-10 rounded-2xl px-4 py-2.5 text-sm font-bold text-white border border-blue-400/30 backdrop-blur-md"
-              style={{ background: "rgba(37,99,235,0.35)", boxShadow: "0 0 20px rgba(37,99,235,0.4)" }}
+              className="absolute top-8 right-6 z-10 rounded-2xl px-4 py-2.5 text-sm font-bold text-white border border-green-400/30 backdrop-blur-md"
+              style={{ background: "rgba(22,163,74,0.35)", boxShadow: "0 0 20px rgba(22,163,74,0.4)" }}
             >
               🔋 LiFePO4 Certified
             </motion.div>
@@ -199,9 +199,9 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.8 }}
-          className="w-6 h-10 rounded-full border border-blue-500/40 flex items-center justify-center"
+          className="w-6 h-10 rounded-full border border-green-500/40 flex items-center justify-center"
         >
-          <div className="w-1.5 h-3 rounded-full bg-blue-400/70" />
+          <div className="w-1.5 h-3 rounded-full bg-green-400/70" />
         </motion.div>
       </div>
     </section>

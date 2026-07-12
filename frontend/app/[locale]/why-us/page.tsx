@@ -81,7 +81,7 @@ export default function WhyUsPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-14">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
         <div className="mx-auto max-w-4xl px-4 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -90,7 +90,7 @@ export default function WhyUsPage() {
           >
             Why Choose Smart Inverter&apos;s?
           </motion.h1>
-          <p className="text-blue-200 text-lg max-w-2xl mx-auto">
+          <p className="text-green-200 text-lg max-w-2xl mx-auto">
             Compare brands, understand the technology, and see why thousands of East Godavari families trust us.
           </p>
         </div>
@@ -111,8 +111,8 @@ export default function WhyUsPage() {
                 transition={{ delay: i * 0.07, duration: 0.4 }}
                 className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex gap-4"
               >
-                <div className="h-10 w-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                  <CheckCircle className="h-5 w-5 text-blue-600" />
+                <div className="h-10 w-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
@@ -134,14 +134,14 @@ export default function WhyUsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-blue-600 text-white">
+                  <tr className="bg-green-600 text-white">
                     <th className="text-left px-5 py-4 font-bold">Feature</th>
                     <th className="px-4 py-4 font-bold text-center">
                       <span className="bg-green-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">★ Terranova</span>
                     </th>
-                    <th className="px-4 py-4 font-bold text-center text-blue-200">Luminous</th>
-                    <th className="px-4 py-4 font-bold text-center text-blue-200">Exide</th>
-                    <th className="px-4 py-4 font-bold text-center text-blue-200">Amaron</th>
+                    <th className="px-4 py-4 font-bold text-center text-green-200">Luminous</th>
+                    <th className="px-4 py-4 font-bold text-center text-green-200">Exide</th>
+                    <th className="px-4 py-4 font-bold text-center text-green-200">Amaron</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -164,7 +164,7 @@ export default function WhyUsPage() {
         </section>
 
         {/* Why Lithium over Tubular */}
-        <section className="bg-blue-900 rounded-2xl p-8 text-white">
+        <section className="bg-green-900 rounded-2xl p-8 text-white">
           <h2 className="text-2xl font-extrabold mb-6 text-center">Lithium vs Tubular Battery — Quick Decision Guide</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white/10 rounded-xl p-5">
@@ -179,7 +179,7 @@ export default function WhyUsPage() {
                   "Want fast charging (3–4 hours vs 12+ hours)",
                 ].map(item => (
                   <li key={item} className="flex items-start gap-2 text-sm">
-                    <Check /> <span className="text-blue-100">{item}</span>
+                    <Check /> <span className="text-green-100">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -196,7 +196,7 @@ export default function WhyUsPage() {
                   "Live in a hot climate region (like Andhra Pradesh)",
                 ].map(item => (
                   <li key={item} className="flex items-start gap-2 text-sm">
-                    <Cross /> <span className="text-blue-100">{item}</span>
+                    <Cross /> <span className="text-green-100">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -210,7 +210,7 @@ export default function WhyUsPage() {
           <p className="text-gray-500 mb-6">We'll assess your power needs and recommend the exact right system — for free.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/products"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors">
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition-colors">
               Browse Products
             </Link>
             <a

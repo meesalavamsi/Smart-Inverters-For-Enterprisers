@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-12">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
         <div className="mx-auto max-w-3xl px-4 flex items-center gap-3">
-          <Shield className="h-7 w-7 text-blue-300" />
+          <Shield className="h-7 w-7 text-green-300" />
           <h1 className="text-4xl font-extrabold">Privacy Policy</h1>
         </div>
       </div>
@@ -72,11 +72,11 @@ export default function PrivacyPage() {
             <p className="text-sm leading-relaxed">
               You may request access to, correction of, or deletion of your personal data at any time by
               contacting us at{" "}
-              <a href="mailto:maniagency.rvpm@gmail.com" className="text-blue-600 hover:underline">
+              <a href="mailto:maniagency.rvpm@gmail.com" className="text-green-600 hover:underline">
                 maniagency.rvpm@gmail.com
               </a>{" "}
               or calling{" "}
-              <a href="tel:9133639888" className="text-blue-600 hover:underline">9133639888</a>.
+              <a href="tel:9133639888" className="text-green-600 hover:underline">9133639888</a>.
             </p>
           </section>
 

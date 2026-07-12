@@ -19,7 +19,7 @@ const FALLBACK: Testimonial[] = [
   { id: "6", name: "Padma Kumari", rating: 4, message: "Very satisfied with the battery replacement. Team was courteous and efficient. The lithium battery is much better than the old tubular one.", createdAt: "2025", location: "Ravulapalem" },
 ];
 
-const COLORS = ["from-blue-600 to-blue-800", "from-purple-600 to-violet-800", "from-cyan-600 to-blue-700", "from-emerald-600 to-teal-800", "from-rose-600 to-pink-800", "from-amber-500 to-orange-600"];
+const COLORS = ["from-green-600 to-green-800", "from-purple-600 to-violet-800", "from-cyan-600 to-green-700", "from-emerald-600 to-teal-800", "from-rose-600 to-pink-800", "from-amber-500 to-orange-600"];
 
 function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
   return (
@@ -34,7 +34,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
     >
       {/* Quote icon */}
       <div className="absolute top-5 right-5 opacity-10">
-        <Quote className="h-10 w-10 text-blue-400" />
+        <Quote className="h-10 w-10 text-green-400" />
       </div>
 
       {/* Stars */}
@@ -45,7 +45,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
       </div>
 
       {/* Message */}
-      <p className="text-blue-100/80 text-sm leading-relaxed flex-1">&quot;{t.message}&quot;</p>
+      <p className="text-green-100/80 text-sm leading-relaxed flex-1">&quot;{t.message}&quot;</p>
 
       {/* Author */}
       <div className="flex items-center gap-3 pt-2 border-t border-white/10">
@@ -54,7 +54,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
         </div>
         <div>
           <p className="font-semibold text-white text-sm">{t.name}</p>
-          <p className="text-xs text-blue-400">
+          <p className="text-xs text-green-400">
             {t.location ? `${t.location}` : "Verified Customer"}
             {t.createdAt ? ` • ${t.createdAt.slice(0, 4)}` : ""}
           </p>
@@ -76,7 +76,7 @@ export default function Testimonials() {
   return (
     <section className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #050d24 0%, #020818 100%)" }}>
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[300px]" style={{ background: "radial-gradient(ellipse, rgba(37,99,235,0.1) 0%, transparent 70%)" }} />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[300px]" style={{ background: "radial-gradient(ellipse, rgba(22,163,74,0.1) 0%, transparent 70%)" }} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -102,7 +102,7 @@ export default function Testimonials() {
               Customers Say
             </span>
           </motion.h2>
-          <p className="text-blue-300/70">Trusted by thousands of families across Andhra Pradesh & Telangana</p>
+          <p className="text-green-300/70">Trusted by thousands of families across Andhra Pradesh & Telangana</p>
         </div>
 
         {/* Cards grid */}
@@ -114,7 +114,7 @@ export default function Testimonials() {
 
         <div className="text-center mt-10">
           <a href="/feedback"
-            className="inline-flex items-center gap-2 border border-blue-500/40 text-blue-300 hover:text-white hover:bg-blue-500/20 px-6 py-3 rounded-xl font-semibold transition-all duration-200">
+            className="inline-flex items-center gap-2 border border-green-500/40 text-green-300 hover:text-white hover:bg-green-500/20 px-6 py-3 rounded-xl font-semibold transition-all duration-200">
             Leave Your Review →
           </a>
         </div>

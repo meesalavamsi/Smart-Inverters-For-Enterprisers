@@ -88,10 +88,10 @@ export default function ProductsListClient() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-12">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
         <div className="mx-auto max-w-7xl px-4">
           <h1 className="text-4xl font-extrabold mb-2">{t("title")}</h1>
-          <p className="text-blue-200">{t("subtitle")}</p>
+          <p className="text-green-200">{t("subtitle")}</p>
         </div>
       </div>
 
@@ -105,13 +105,13 @@ export default function ProductsListClient() {
               placeholder={t("searchPlaceholder")}
               value={filters.search}
               onChange={(e) => updateFilter("search", e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
             />
           </div>
           <select
             value={filters.sort}
             onChange={(e) => updateFilter("sort", e.target.value)}
-            className="px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[180px]"
+            className="px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500 min-w-[180px]"
           >
             {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
@@ -122,7 +122,7 @@ export default function ProductsListClient() {
             <SlidersHorizontal className="h-4 w-4" />
             {t("filters")}
             {activeFilterCount > 0 && (
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white text-xs">{activeFilterCount}</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-white text-xs">{activeFilterCount}</span>
             )}
           </button>
         </div>
@@ -137,7 +137,7 @@ export default function ProductsListClient() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
               <select value={filters.category} onChange={e => updateFilter("category", e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">All Categories</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
@@ -145,7 +145,7 @@ export default function ProductsListClient() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Battery Type</label>
               <select value={filters.batteryType} onChange={e => updateFilter("batteryType", e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">All Types</option>
                 {BATTERY_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
@@ -154,13 +154,13 @@ export default function ProductsListClient() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Min Price (₹)</label>
               <input type="number" placeholder="0" value={filters.minPrice}
                 onChange={e => updateFilter("minPrice", e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Max Price (₹)</label>
               <input type="number" placeholder="50000" value={filters.maxPrice}
                 onChange={e => updateFilter("maxPrice", e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
             </div>
             <div className="col-span-2 md:col-span-4 flex justify-end">
               <button onClick={clearFilters} className="flex items-center gap-1 text-sm text-red-500 hover:text-red-700">
@@ -196,7 +196,7 @@ export default function ProductsListClient() {
             <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-600">{t("noProducts")}</h3>
             <p className="text-gray-400 mt-2">Try adjusting your search or filters</p>
-            <button onClick={clearFilters} className="mt-4 text-blue-600 hover:underline text-sm">
+            <button onClick={clearFilters} className="mt-4 text-green-600 hover:underline text-sm">
               Clear all filters
             </button>
           </div>
@@ -244,25 +244,25 @@ export default function ProductsListClient() {
                     <h3 className="font-bold text-gray-900 text-sm leading-tight line-clamp-2 mb-1">{product.name}</h3>
                     <p className="text-xs text-gray-400 mb-2">{product.model}</p>
                     <div className="flex gap-1 flex-wrap mb-2">
-                      <span className="bg-blue-50 text-blue-700 text-[10px] px-1.5 py-0.5 rounded">{product.capacity}</span>
+                      <span className="bg-green-50 text-green-700 text-[10px] px-1.5 py-0.5 rounded">{product.capacity}</span>
                       <span className="bg-green-50 text-green-700 text-[10px] px-1.5 py-0.5 rounded">{product.warranty}</span>
                     </div>
                     <div className="mt-auto">
                       <div className="flex items-center gap-1.5 mb-3">
-                        <span className="text-xl font-extrabold text-blue-700">{formatCurrency(product.price)}</span>
+                        <span className="text-xl font-extrabold text-green-700">{formatCurrency(product.price)}</span>
                         {product.originalPrice && (
                           <span className="text-xs text-gray-600 line-through">{formatCurrency(product.originalPrice)}</span>
                         )}
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <Link href={`/products/${product.slug}`}
-                          className="flex items-center justify-center gap-1.5 w-full border-2 border-blue-600 text-blue-600 hover:bg-blue-50 py-2 rounded-lg font-semibold text-xs transition-colors">
+                          className="flex items-center justify-center gap-1.5 w-full border-2 border-green-600 text-green-600 hover:bg-green-50 py-2 rounded-lg font-semibold text-xs transition-colors">
                           <Eye className="h-3.5 w-3.5" /> Review Details
                         </Link>
                         <button
                           onClick={() => handleBookNow(product)}
                           disabled={product.stockQuantity === 0}
-                          className="flex items-center justify-center gap-1.5 w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-2 rounded-lg font-semibold text-xs transition-colors">
+                          className="flex items-center justify-center gap-1.5 w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white py-2 rounded-lg font-semibold text-xs transition-colors">
                           <ShoppingCart className="h-3.5 w-3.5" /> Book Your Order
                         </button>
                       </div>
@@ -289,7 +289,7 @@ export default function ProductsListClient() {
               return (
                 <button key={page}
                   onClick={() => setFilters(f => ({ ...f, page }))}
-                  className={`h-9 w-9 rounded-lg text-sm font-medium transition-colors ${pagination.page === page ? "bg-blue-600 text-white" : "border border-gray-200 hover:bg-gray-50"}`}
+                  className={`h-9 w-9 rounded-lg text-sm font-medium transition-colors ${pagination.page === page ? "bg-green-600 text-white" : "border border-gray-200 hover:bg-gray-50"}`}
                 >
                   {page}
                 </button>

@@ -95,7 +95,7 @@ export default function AdminReviewsPage() {
 
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
-            { label: "Total", value: reviews.length, color: "bg-blue-50 text-blue-700" },
+            { label: "Total", value: reviews.length, color: "bg-green-50 text-green-700" },
             { label: "Pending", value: pending, color: "bg-yellow-50 text-yellow-700" },
             { label: "Approved", value: reviews.filter(r => r.isApproved).length, color: "bg-green-50 text-green-700" },
           ].map(({ label, value, color }) => (
@@ -113,14 +113,14 @@ export default function AdminReviewsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by customer, product or comment..."
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
             />
           </div>
           <div className="flex gap-1 bg-white border border-gray-200 rounded-xl p-1">
             {(["ALL", "PENDING", "APPROVED"] as const).map((f) => (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                  filter === f ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-800"
+                  filter === f ? "bg-green-600 text-white" : "text-gray-500 hover:text-gray-800"
                 }`}>
                 {f}
               </button>
@@ -154,7 +154,7 @@ export default function AdminReviewsPage() {
                     ))}
                   </div>
                 </div>
-                <p className="text-xs font-semibold text-blue-600 mb-1">{r.product.name} ({r.product.model})</p>
+                <p className="text-xs font-semibold text-green-600 mb-1">{r.product.name} ({r.product.model})</p>
                 {r.title && <p className="font-medium text-gray-800 text-sm mb-1">{r.title}</p>}
                 <p className="text-gray-700 text-sm leading-relaxed mb-1">{r.comment}</p>
                 <p className="text-xs text-gray-400 mb-4">{formatDate(r.createdAt)}</p>

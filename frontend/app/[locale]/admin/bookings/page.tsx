@@ -95,7 +95,7 @@ export default function AdminBookingsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by booking number, name, or phone..."
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
             />
           </div>
           <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3">
@@ -146,12 +146,12 @@ export default function AdminBookingsPage() {
                   {filtered.map((booking) => (
                     <tr key={booking.id} className="hover:bg-gray-50/50 transition-colors">
                       <td className="px-5 py-4">
-                        <p className="font-mono text-sm font-bold text-blue-700">{booking.bookingNumber}</p>
+                        <p className="font-mono text-sm font-bold text-green-700">{booking.bookingNumber}</p>
                         <p className="text-xs text-gray-400 mt-0.5">{formatDate(booking.createdAt)}</p>
                       </td>
                       <td className="px-5 py-4">
                         <p className="font-semibold text-gray-900 text-sm">{booking.customerName}</p>
-                        <a href={`tel:${booking.phone}`} className="flex items-center gap-1 text-xs text-gray-500 mt-0.5 hover:text-blue-600">
+                        <a href={`tel:${booking.phone}`} className="flex items-center gap-1 text-xs text-gray-500 mt-0.5 hover:text-green-600">
                           <Phone className="h-3 w-3" />{booking.phone}
                         </a>
                         <div className="flex items-start gap-1 text-xs text-gray-400 mt-0.5">
@@ -185,7 +185,7 @@ export default function AdminBookingsPage() {
                             value={booking.status}
                             onChange={(e) => handleStatusChange(booking.id, e.target.value)}
                             disabled={updating === booking.id}
-                            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 pr-6 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 appearance-none cursor-pointer"
+                            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 pr-6 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 disabled:opacity-50 appearance-none cursor-pointer"
                           >
                             {["PENDING", "CONFIRMED", "IN_PROGRESS", "COMPLETED", "CANCELLED"].map((s) => (
                               <option key={s} value={s}>{s.replace(/_/g, " ")}</option>

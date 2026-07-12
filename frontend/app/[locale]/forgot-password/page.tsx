@@ -58,12 +58,12 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center">
+            <div className="h-10 w-10 bg-green-600 rounded-xl flex items-center justify-center">
               <Zap className="h-6 w-6 text-white" />
             </div>
             <span className="text-xl font-extrabold text-gray-900">Smart Inverter&apos;s</span>
@@ -89,7 +89,7 @@ export default function ForgotPasswordPage() {
                     {...emailForm.register("email")}
                     type="email"
                     placeholder="you@example.com"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-sm"
                   />
                 </div>
                 {emailForm.formState.errors.email && (
@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
                 )}
               </div>
               <button type="submit" disabled={loading}
-                className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-60">
+                className="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-60">
                 {loading ? "Sending OTP..." : "Send Reset OTP"}
               </button>
             </form>
@@ -105,7 +105,7 @@ export default function ForgotPasswordPage() {
 
           {step === "reset" && (
             <form onSubmit={resetForm.handleSubmit(handleResetSubmit)} className="space-y-4">
-              <div className="bg-blue-50 rounded-xl p-3 text-sm text-blue-700 flex items-center gap-2">
+              <div className="bg-green-50 rounded-xl p-3 text-sm text-green-700 flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0" />
                 <span>Check your email for a 6-digit OTP</span>
               </div>
@@ -115,7 +115,7 @@ export default function ForgotPasswordPage() {
                   {...resetForm.register("otp")}
                   placeholder="123456"
                   maxLength={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-center text-2xl font-mono tracking-widest"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-center text-2xl font-mono tracking-widest"
                 />
                 {resetForm.formState.errors.otp && (
                   <p className="text-red-500 text-xs mt-1">{resetForm.formState.errors.otp.message}</p>
@@ -129,7 +129,7 @@ export default function ForgotPasswordPage() {
                     {...resetForm.register("newPassword")}
                     type={showPassword ? "text" : "password"}
                     placeholder="Min 8 chars, uppercase, number"
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-sm"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -146,14 +146,14 @@ export default function ForgotPasswordPage() {
                   {...resetForm.register("confirmPassword")}
                   type="password"
                   placeholder="Re-enter new password"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-sm"
                 />
                 {resetForm.formState.errors.confirmPassword && (
                   <p className="text-red-500 text-xs mt-1">{resetForm.formState.errors.confirmPassword.message}</p>
                 )}
               </div>
               <button type="submit" disabled={loading}
-                className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-60">
+                className="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-60">
                 {loading ? "Resetting..." : "Reset Password"}
               </button>
             </form>
@@ -166,7 +166,7 @@ export default function ForgotPasswordPage() {
               </div>
               <p className="text-gray-600 mb-6">Your password has been successfully reset. You can now login with your new password.</p>
               <Link href="/login"
-                className="block w-full text-center bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors">
+                className="block w-full text-center bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition-colors">
                 Back to Login
               </Link>
             </div>
@@ -174,7 +174,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         <div className="text-center mt-6">
-          <Link href="/login" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600">
+          <Link href="/login" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-green-600">
             <ArrowLeft className="h-4 w-4" /> Back to Login
           </Link>
         </div>
