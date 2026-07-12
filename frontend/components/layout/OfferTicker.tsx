@@ -22,14 +22,6 @@ export default function OfferTicker() {
   const isAdmin = /\/admin(\/|$)/.test(pathname);
   const showing = !!text && !isAdmin;
 
-  useEffect(() => {
-    // Every page reserves top padding assuming only the navbar is above it. The ticker
-    // adds its own clearance (margin-top) plus height, which would double-count that
-    // padding — this negative margin on <main> (see layout.tsx) cancels the navbar's
-    // portion back out so each page's existing padding stays correct either way.
-    document.documentElement.style.setProperty("--ticker-correction", showing ? "-4rem" : "0px");
-  }, [showing]);
-
   if (!showing) return null;
 
   const item = (key: string) => (

@@ -16,7 +16,7 @@ export default async function LocaleLayout({ children }: { children: React.React
     <NextIntlClientProvider locale={locale} messages={messages}>
       <Navbar />
       <OfferTicker />
-      <main className="min-h-screen" style={{ marginTop: "var(--ticker-correction, 0px)" }}>{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
       <WhatsAppButton />
       <ChatBot />
