@@ -115,6 +115,19 @@ router.get("/settings/popup", async (req, res) => {
   }
 });
 
+// PUBLIC: Get exchange offer badge settings (shown on product cards/detail pages, no auth needed)
+router.get("/settings/exchange-offer", async (req, res) => {
+  try {
+    const keys = ["exchange_offer_enabled", "exchange_offer_text"];
+    const settings = await prisma.setting.findMany({ where: { key: { in: keys } } });
+    const obj = {};
+    settings.forEach(s => obj[s.key] = s.value);
+    res.json({ success: true, data: obj });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to fetch exchange offer settings" });
+  }
+});
+
 // ADMIN: Get settings
 router.get("/settings/all", authenticate, authorize("ADMIN"), async (req, res) => {
   try {

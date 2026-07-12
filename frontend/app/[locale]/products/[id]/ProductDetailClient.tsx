@@ -6,11 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Star, ShoppingCart, MessageCircle, Shield, Zap, ArrowLeft,
-  CheckCircle, Package, Truck, ChevronLeft, ChevronRight, ClipboardList
+  CheckCircle, Package, Truck, ChevronLeft, ChevronRight, ClipboardList, Repeat
 } from "lucide-react";
 import { productsApi, reviewsApi } from "@/lib/api";
 import { useCartStore, useAuthStore } from "@/lib/store";
 import { formatCurrency, getWhatsAppUrl, getProductImageSrc, formatDate } from "@/lib/utils";
+import { useExchangeOffer } from "@/lib/useExchangeOffer";
 import { toast } from "sonner";
 
 interface Product {
@@ -53,6 +54,7 @@ export default function ProductDetailClient() {
   const [imageIdx, setImageIdx] = useState(0);
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState<"specs" | "features" | "reviews">("specs");
+  const exchangeOffer = useExchangeOffer();
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [eligibility, setEligibility] = useState<{ canReview: boolean; alreadyReviewed: boolean; reason?: string } | null>(null);
@@ -226,6 +228,13 @@ export default function ProductDetailClient() {
                 <span className="text-gray-600 line-through text-lg">{formatCurrency(product.originalPrice)}</span>
               )}
             </div>
+
+            {exchangeOffer && (
+              <div className="mb-5 flex items-center gap-2 text-sm font-semibold text-green-700 bg-green-50 border border-green-200 rounded-xl px-3 py-2 w-fit">
+                <Repeat className="h-4 w-4 shrink-0" />
+                <span>{exchangeOffer}</span>
+              </div>
+            )}
 
             <p className="text-gray-600 leading-relaxed mb-5">{product.description}</p>
 

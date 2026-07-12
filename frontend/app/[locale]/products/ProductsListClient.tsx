@@ -4,11 +4,12 @@ import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, SlidersHorizontal, Package, ChevronLeft, ChevronRight, X, ShoppingCart, Eye } from "lucide-react";
+import { Search, SlidersHorizontal, Package, ChevronLeft, ChevronRight, X, ShoppingCart, Eye, Repeat } from "lucide-react";
 
 import { productsApi } from "@/lib/api";
 import { formatCurrency, getProductImageSrc } from "@/lib/utils";
 import { useCartStore } from "@/lib/store";
+import { useExchangeOffer } from "@/lib/useExchangeOffer";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -41,6 +42,7 @@ export default function ProductsListClient() {
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0, limit: 12 });
   const [showFilters, setShowFilters] = useState(false);
+  const exchangeOffer = useExchangeOffer();
 
   const handleBookNow = (product: Product) => {
     const img = product.images[0]?.url;
@@ -254,6 +256,12 @@ export default function ProductsListClient() {
                           <span className="text-xs text-gray-600 line-through">{formatCurrency(product.originalPrice)}</span>
                         )}
                       </div>
+                      {exchangeOffer && (
+                        <div className="flex items-center gap-1 mb-3 text-[11px] font-semibold text-green-700 bg-green-50 border border-green-200 rounded-md px-2 py-1">
+                          <Repeat className="h-3 w-3 shrink-0" />
+                          <span className="line-clamp-1">{exchangeOffer}</span>
+                        </div>
+                      )}
                       <div className="flex flex-col gap-1.5">
                         <Link href={`/products/${product.slug}`}
                           className="flex items-center justify-center gap-1.5 w-full border-2 border-green-600 text-green-600 hover:bg-green-50 py-2 rounded-lg font-semibold text-xs transition-colors">

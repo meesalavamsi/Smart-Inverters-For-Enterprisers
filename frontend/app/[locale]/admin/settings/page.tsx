@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, RefreshCw, CheckCircle, AlertCircle, Megaphone } from "lucide-react";
+import { Settings, Save, RefreshCw, CheckCircle, AlertCircle, Megaphone, Repeat } from "lucide-react";
 import { usersApi } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -213,6 +213,45 @@ export default function AdminSettingsPage() {
                     className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+              <div className="flex items-center gap-2">
+                <Repeat className="h-4 w-4 text-gray-400" />
+                <h2 className="font-bold text-gray-900">Exchange Offer Badge</h2>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Shown on every product card and product page, near the price — like Amazon's exchange offer</p>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setEdits((prev) => ({ ...prev, exchange_offer_enabled: prev.exchange_offer_enabled === "true" ? "false" : "true" }))}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    edits.exchange_offer_enabled === "true" ? "bg-green-600" : "bg-gray-200"
+                  }`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                    edits.exchange_offer_enabled === "true" ? "translate-x-6" : "translate-x-1"
+                  }`} />
+                </button>
+                <span className="text-sm text-gray-600">
+                  {edits.exchange_offer_enabled === "true" ? "Enabled — showing on products" : "Disabled"}
+                </span>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Offer Text</label>
+                <input
+                  value={edits.exchange_offer_text || ""}
+                  onChange={(e) => setEdits((prev) => ({ ...prev, exchange_offer_text: e.target.value }))}
+                  placeholder="e.g. Exchange offer: Upto ₹6,000 off on your old battery/inverter"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                />
               </div>
             </div>
           </div>

@@ -141,4 +141,9 @@ export const popupApi = {
   get: () => api.get("/api/users/settings/popup"),
 };
 
+// Exchange offer badge (public)
+export const exchangeOfferApi = {
+  get: () => api.get("/api/users/settings/exchange-offer"),
+};
+
 export default api;
