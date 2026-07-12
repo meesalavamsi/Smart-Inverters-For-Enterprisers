@@ -136,4 +136,9 @@ export const usersApi = {
   updateSettings: (data: Record<string, string>) => api.put("/api/users/settings/update", data),
 };
 
+// Special offer popup (public)
+export const popupApi = {
+  get: () => api.get("/api/users/settings/popup"),
+};
+
 export default api;

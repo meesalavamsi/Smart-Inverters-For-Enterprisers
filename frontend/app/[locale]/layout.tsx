@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import ChatBot from "@/components/ui/ChatBot";
+import SpecialOfferPopup from "@/components/ui/SpecialOfferPopup";
 
 export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
@@ -17,6 +18,7 @@ export default async function LocaleLayout({ children }: { children: React.React
       <Footer />
       <WhatsAppButton />
       <ChatBot />
+      <SpecialOfferPopup />
       <Toaster position="top-right" richColors closeButton />
     </NextIntlClientProvider>
   );

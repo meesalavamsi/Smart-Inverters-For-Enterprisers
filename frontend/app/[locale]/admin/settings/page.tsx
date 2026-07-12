@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, RefreshCw, CheckCircle, AlertCircle } from "lucide-react";
+import { Settings, Save, RefreshCw, CheckCircle, AlertCircle, Megaphone } from "lucide-react";
 import { usersApi } from "@/lib/api";
 import { useAuthStore } from "@/lib/store";
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -135,6 +135,88 @@ export default function AdminSettingsPage() {
             {saving ? "Saving..." : saved ? "Saved!" : "Save Settings"}
           </button>
         </div>
+
+        {!loading && !error && (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+              <div className="flex items-center gap-2">
+                <Megaphone className="h-4 w-4 text-gray-400" />
+                <h2 className="font-bold text-gray-900">Special Offer Popup</h2>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Shown once to visitors when they open the website</p>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setEdits((prev) => ({ ...prev, popup_enabled: prev.popup_enabled === "true" ? "false" : "true" }))}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    edits.popup_enabled === "true" ? "bg-blue-600" : "bg-gray-200"
+                  }`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                    edits.popup_enabled === "true" ? "translate-x-6" : "translate-x-1"
+                  }`} />
+                </button>
+                <span className="text-sm text-gray-600">
+                  {edits.popup_enabled === "true" ? "Enabled — showing on the website" : "Disabled"}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Title</label>
+                  <input
+                    value={edits.popup_title || ""}
+                    onChange={(e) => setEdits((prev) => ({ ...prev, popup_title: e.target.value }))}
+                    placeholder="e.g. Independence Day Sale!"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Image URL (optional)</label>
+                  <input
+                    value={edits.popup_image || ""}
+                    onChange={(e) => setEdits((prev) => ({ ...prev, popup_image: e.target.value }))}
+                    placeholder="https://i.ibb.co/..."
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Message</label>
+                <textarea
+                  value={edits.popup_message || ""}
+                  onChange={(e) => setEdits((prev) => ({ ...prev, popup_message: e.target.value }))}
+                  rows={3}
+                  placeholder="e.g. Get 10% off on all lithium inverters this week only!"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Button Text (optional)</label>
+                  <input
+                    value={edits.popup_button_text || ""}
+                    onChange={(e) => setEdits((prev) => ({ ...prev, popup_button_text: e.target.value }))}
+                    placeholder="e.g. Shop Now"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Button Link (optional)</label>
+                  <input
+                    value={edits.popup_button_link || ""}
+                    onChange={(e) => setEdits((prev) => ({ ...prev, popup_button_link: e.target.value }))}
+                    placeholder="/products"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {loading ? (
           <div className="space-y-6">
