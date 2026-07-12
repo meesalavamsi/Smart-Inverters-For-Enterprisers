@@ -1,49 +1,36 @@
-const nodemailer = require("nodemailer");
 const logger = require("./logger");
 
-// Brevo (formerly Sendinblue) SMTP — 300 emails/day free, works on Render
-function createTransporter() {
-  return nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: (process.env.SMTP_PASS || "").replace(/\s/g, ""),
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-    connectionTimeout: 30000,
-    greetingTimeout: 30000,
-    socketTimeout: 30000,
-  });
-}
-
-const transporter = createTransporter();
-
-// Test connection on startup
-transporter.verify((error) => {
-  if (error) {
-    logger.error(`[EMAIL] SMTP connection FAILED: ${error.message}`);
-    logger.error("[EMAIL] Fix: ensure SMTP_USER and SMTP_PASS are set in .env and Gmail 2-Step Verification is ON");
-  } else {
-    logger.info(`[EMAIL] SMTP connected ✓ — ready to send from ${process.env.SMTP_USER}`);
-  }
-});
+// Brevo Transactional Email HTTP API — used instead of raw SMTP because
+// Render's free tier blocks outbound SMTP ports (25/587/465), but a normal
+// HTTPS call on port 443 works fine.
+const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 
 async function sendEmail({ to, subject, html, text }) {
-  const t = createTransporter(); // fresh transporter per send (avoids stale connections)
+  const senderEmail = process.env.EMAIL_FROM || process.env.MANAGER_EMAIL;
   try {
-    const info = await t.sendMail({
-      from: `"Smart Inverter's" <${process.env.EMAIL_FROM || process.env.MANAGER_EMAIL || process.env.SMTP_USER}>`,
-      to,
-      subject,
-      html,
-      text,
+    const res = await fetch(BREVO_API_URL, {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        "api-key": process.env.BREVO_API_KEY,
+      },
+      body: JSON.stringify({
+        sender: { name: "Smart Inverter's", email: senderEmail },
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
+        textContent: text,
+      }),
     });
-    logger.info(`[EMAIL] Sent: ${subject} → ${to} (${info.messageId})`);
-    return info;
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data?.message || `Brevo API error (${res.status})`);
+    }
+
+    logger.info(`[EMAIL] Sent: ${subject} → ${to} (${data.messageId})`);
+    return data;
   } catch (error) {
     logger.error(`[EMAIL] FAILED to send "${subject}" to ${to}: ${error.message}`);
     throw error;
