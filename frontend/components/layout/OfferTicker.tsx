@@ -42,12 +42,17 @@ export default function OfferTicker() {
   // Normal document flow (not fixed) — sits right below the fixed navbar on load, then
   // scrolls away naturally with the rest of the page, and pushes page content down by
   // exactly its own height with no manual spacing/gap math needed.
+  // A real spacer div (not margin-top) is used to clear the navbar, since a top margin
+  // on the very first flow element can collapse away instead of pushing it down.
   return (
-    <div className="mt-16 h-9 w-full overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 flex items-center shadow-md">
-      <div className="flex whitespace-nowrap animate-marquee w-max text-white text-sm font-bold">
-        {[0, 1, 2, 3, 4, 5].map((i) => item(String(i)))}
-        {[6, 7, 8, 9, 10, 11].map((i) => item(String(i)))}
+    <>
+      <div className="h-16" aria-hidden />
+      <div className="h-9 w-full overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 flex items-center shadow-md">
+        <div className="flex whitespace-nowrap animate-marquee w-max text-white text-sm font-bold">
+          {[0, 1, 2, 3, 4, 5].map((i) => item(String(i)))}
+          {[6, 7, 8, 9, 10, 11].map((i) => item(String(i)))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
