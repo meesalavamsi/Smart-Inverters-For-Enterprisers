@@ -48,7 +48,7 @@ export default async function AboutPage() {
 
   return (
     <div className="min-h-screen bg-white pt-20">
-      <div className="bg-gradient-to-br from-green-900 to-green-700 text-white py-6">
+      <div className="bg-gradient-to-br from-green-900 to-green-700 text-white py-4">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white/20 mb-6">
             <Zap className="h-9 w-9 text-yellow-400" />

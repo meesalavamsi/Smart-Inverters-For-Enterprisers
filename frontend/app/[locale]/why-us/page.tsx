@@ -81,7 +81,7 @@ export default function WhyUsPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-4">
         <div className="mx-auto max-w-4xl px-4 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

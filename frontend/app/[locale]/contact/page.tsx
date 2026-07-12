@@ -40,7 +40,7 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-4">
         <div className="mx-auto max-w-4xl px-4">
           <div className="flex items-center gap-2 mb-2">
             <Zap className="h-6 w-6 text-yellow-400" />

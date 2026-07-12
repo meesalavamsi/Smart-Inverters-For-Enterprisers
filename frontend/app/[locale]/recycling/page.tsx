@@ -37,7 +37,7 @@ export default function RecyclingPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-green-600 to-emerald-800 text-white py-6">
+      <div className="bg-gradient-to-br from-green-600 to-emerald-800 text-white py-4">
         <div className="max-w-5xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm font-medium mb-4">
             <Leaf className="h-4 w-4" /> Eco Responsibility

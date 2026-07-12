@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { X, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { popupApi } from "@/lib/api";
@@ -18,10 +19,12 @@ interface PopupSettings {
 const DISMISS_KEY = "offer_popup_dismissed";
 
 export default function SpecialOfferPopup() {
+  const pathname = usePathname();
   const [settings, setSettings] = useState<PopupSettings | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (/\/admin(\/|$)/.test(pathname)) return;
     if (sessionStorage.getItem(DISMISS_KEY)) return;
     popupApi.get().then((res) => {
       const data: PopupSettings = res.data?.data || {};

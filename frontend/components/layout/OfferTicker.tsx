@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Sparkles } from "lucide-react";
 import { popupApi } from "@/lib/api";
 
 export default function OfferTicker() {
+  const pathname = usePathname();
   const [text, setText] = useState<string | null>(null);
 
   useEffect(() => {
@@ -17,7 +19,8 @@ export default function OfferTicker() {
     }).catch(() => {});
   }, []);
 
-  if (!text) return null;
+  // Admin pages have their own layout math (pt-16, exactly matches navbar height) — skip there.
+  if (!text || /\/admin(\/|$)/.test(pathname)) return null;
 
   const item = (key: string) => (
     <span key={key} className="flex items-center gap-2 mx-6 shrink-0">
@@ -28,9 +31,11 @@ export default function OfferTicker() {
 
   return (
     <>
-      {/* Spacer — reserves flow space so page content never overlaps the fixed ticker below,
-          regardless of each page's own top padding (which only accounts for the navbar). */}
-      <div className="h-9" aria-hidden />
+      {/* Spacer — reserves just enough flow space to close the gap between the ticker and
+          each page's own top padding (most pages use pt-20, which already has ~16px of
+          buffer beyond the 64px navbar; the ticker itself is 36px tall, so a 20px spacer
+          exactly closes that gap: 20 + 80 = 64 (navbar) + 36 (ticker) = 100px). */}
+      <div className="h-5" aria-hidden />
       <div className="fixed top-16 inset-x-0 z-40 h-9 w-full overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 flex items-center shadow-md">
         <div className="flex whitespace-nowrap animate-marquee w-max text-white text-sm font-bold">
           {[0, 1, 2, 3, 4, 5].map((i) => item(String(i)))}

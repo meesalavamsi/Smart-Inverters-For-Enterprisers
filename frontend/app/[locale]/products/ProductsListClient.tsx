@@ -88,9 +88,9 @@ export default function ProductsListClient() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-4">
         <div className="mx-auto max-w-7xl px-4">
-          <h1 className="text-4xl font-extrabold mb-2">{t("title")}</h1>
+          <h1 className="text-3xl font-extrabold mb-1">{t("title")}</h1>
           <p className="text-green-200">{t("subtitle")}</p>
         </div>
       </div>

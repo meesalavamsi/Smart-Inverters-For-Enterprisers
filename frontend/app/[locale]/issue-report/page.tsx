@@ -74,7 +74,7 @@ export default function IssueReportPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-orange-600 to-red-700 text-white py-6">
+      <div className="bg-gradient-to-r from-orange-600 to-red-700 text-white py-4">
         <div className="mx-auto max-w-2xl px-4">
           <div className="flex items-center gap-3 mb-2">
             <AlertTriangle className="h-8 w-8 text-yellow-300" />

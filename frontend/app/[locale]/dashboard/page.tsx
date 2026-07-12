@@ -56,7 +56,7 @@ export default function CustomerDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-4">
         <div className="mx-auto max-w-5xl px-4 flex items-center justify-between">
           <div>
             <p className="text-green-200 text-sm">{t("welcome")}</p>

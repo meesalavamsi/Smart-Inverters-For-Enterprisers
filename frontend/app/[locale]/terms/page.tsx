@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-6">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white py-4">
         <div className="mx-auto max-w-3xl px-4 flex items-center gap-3">
           <FileText className="h-7 w-7 text-green-300" />
           <h1 className="text-4xl font-extrabold">Terms &amp; Conditions</h1>
