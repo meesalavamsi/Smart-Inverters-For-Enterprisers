@@ -70,7 +70,7 @@ function ProductCard({ product, index, exchangeOffer }: { product: Product; inde
       <TiltCard className="rounded-3xl overflow-hidden flex flex-col h-full border border-white/10 cursor-default"
         style={{ background: "linear-gradient(145deg, #0f1f3d, #0a1628)" } as React.CSSProperties}>
         {/* Image */}
-        <div className="relative h-52 overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
+        <Link href={`/products/${product.slug}`} className="relative h-52 overflow-hidden block" style={{ background: "rgba(255,255,255,0.04)" }}>
           {primaryImage ? (
             <Image
               src={getProductImageSrc(primaryImage)}
@@ -90,7 +90,7 @@ function ProductCard({ product, index, exchangeOffer }: { product: Product; inde
           <span className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full border border-green-500/40 text-green-300" style={{ background: "rgba(22,163,74,0.2)" }}>
             {product.category.name}
           </span>
-        </div>
+        </Link>
 
         {/* Content */}
         <div className="p-5 flex flex-col flex-1">

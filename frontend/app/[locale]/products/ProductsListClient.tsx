@@ -218,7 +218,7 @@ export default function ProductsListClient() {
                   transition={{ delay: i * 0.05 }}
                   className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
                 >
-                  <div className="relative h-44 bg-gray-50 overflow-hidden">
+                  <Link href={`/products/${product.slug}`} className="relative h-44 bg-gray-50 overflow-hidden block">
                     {primaryImage ? (
                       <Image
                         src={getProductImageSrc(primaryImage)}
@@ -240,7 +240,7 @@ export default function ProductsListClient() {
                         <span className="bg-gray-900/70 text-white text-xs font-semibold px-3 py-1 rounded-full">Out of Stock</span>
                       </div>
                     )}
-                  </div>
+                  </Link>
                   <div className="p-4 flex flex-col flex-1">
                     <p className="text-[10px] text-gray-400 mb-0.5">{product.category.name}</p>
                     <h3 className="font-bold text-gray-900 text-sm leading-tight line-clamp-2 mb-1">{product.name}</h3>
