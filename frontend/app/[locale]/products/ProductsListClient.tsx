@@ -259,7 +259,7 @@ export default function ProductsListClient() {
                       {exchangeOffer && (
                         <div className="flex items-center gap-1 mb-3 text-[11px] font-semibold text-green-700 bg-green-50 border border-green-200 rounded-md px-2 py-1">
                           <Repeat className="h-3 w-3 shrink-0" />
-                          <span className="line-clamp-1">{exchangeOffer}</span>
+                          <span className="line-clamp-1">{exchangeOffer.text}</span>
                         </div>
                       )}
                       <div className="flex flex-col gap-1.5">

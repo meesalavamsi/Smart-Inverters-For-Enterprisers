@@ -103,20 +103,22 @@ model ProductVideo {
 }
 
 model Order {
-  id              String    @id @default(uuid())
-  orderNumber     String    @unique
-  status          String    @default("PENDING")
-  totalAmount     Float
-  shippingAddress String
-  paymentMethod   String    @default("COD")
-  paymentStatus   String    @default("PENDING")
-  notes           String?
-  userId          String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id               String    @id @default(uuid())
+  orderNumber      String    @unique
+  status           String    @default("PENDING")
+  totalAmount      Float
+  exchangeDiscount Float     @default(0)
+  customerGstin    String?
+  shippingAddress  String
+  paymentMethod    String    @default("COD")
+  paymentStatus    String    @default("PENDING")
+  notes            String?
+  userId           String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
-  user            User      @relation(fields: [userId], references: [id])
-  items           OrderItem[]
+  user             User      @relation(fields: [userId], references: [id])
+  items            OrderItem[]
 }
 
 model OrderItem {

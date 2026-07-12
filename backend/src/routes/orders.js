@@ -16,7 +16,7 @@ function generateOrderNumber() {
 
 // CUSTOMER: Create order
 router.post("/", authenticate, async (req, res) => {
-  const { items, shippingAddress, paymentMethod = "COD", notes } = req.body;
+  const { items, shippingAddress, paymentMethod = "COD", notes, wantsExchange, gstin } = req.body;
 
   if (!items?.length || !shippingAddress) {
     return res.status(400).json({ success: false, message: "Items and shipping address are required" });
@@ -25,7 +25,7 @@ router.post("/", authenticate, async (req, res) => {
   logger.info(`User ${req.user.id} (${req.user.email}) attempting to place order with ${items.length} items`);
 
   try {
-    let totalAmount = 0;
+    let subtotal = 0;
     const enrichedItems = [];
 
     for (const item of items) {
@@ -37,13 +37,30 @@ router.post("/", authenticate, async (req, res) => {
         return res.status(400).json({ success: false, message: `Insufficient stock for ${product.name}` });
       }
       enrichedItems.push({ product, quantity: item.quantity, price: product.price });
-      totalAmount += product.price * item.quantity;
+      subtotal += product.price * item.quantity;
     }
+
+    // Exchange discount is recomputed server-side from the current admin-set amount —
+    // never trusted from the client — so it can't be tampered with.
+    let exchangeDiscount = 0;
+    if (wantsExchange) {
+      const exchangeSettings = await prisma.setting.findMany({
+        where: { key: { in: ["exchange_offer_enabled", "exchange_offer_amount"] } },
+      });
+      const settingsObj = {};
+      exchangeSettings.forEach(s => settingsObj[s.key] = s.value);
+      if (settingsObj.exchange_offer_enabled === "true") {
+        exchangeDiscount = Math.min(parseFloat(settingsObj.exchange_offer_amount) || 0, subtotal);
+      }
+    }
+    const totalAmount = subtotal - exchangeDiscount;
 
     const order = await prisma.order.create({
       data: {
         orderNumber: generateOrderNumber(),
         totalAmount,
+        exchangeDiscount,
+        customerGstin: gstin || null,
         shippingAddress,
         paymentMethod,
         notes,

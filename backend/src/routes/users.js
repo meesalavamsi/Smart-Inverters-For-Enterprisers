@@ -118,7 +118,7 @@ router.get("/settings/popup", async (req, res) => {
 // PUBLIC: Get exchange offer badge settings (shown on product cards/detail pages, no auth needed)
 router.get("/settings/exchange-offer", async (req, res) => {
   try {
-    const keys = ["exchange_offer_enabled", "exchange_offer_text"];
+    const keys = ["exchange_offer_enabled", "exchange_offer_text", "exchange_offer_amount"];
     const settings = await prisma.setting.findMany({ where: { key: { in: keys } } });
     const obj = {};
     settings.forEach(s => obj[s.key] = s.value);

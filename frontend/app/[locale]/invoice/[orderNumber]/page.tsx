@@ -22,9 +22,13 @@ interface Order {
   paymentStatus: string;
   shippingAddress: string;
   totalAmount: number;
+  exchangeDiscount: number;
+  customerGstin?: string | null;
   items: OrderItem[];
   user?: { name: string; email: string };
 }
+
+const GST_RATE = 0.18;
 
 const PAYMENT_STATUS_STYLE: Record<string, string> = {
   PAID: "bg-green-100 text-green-700",
@@ -70,6 +74,11 @@ export default function InvoicePage() {
     );
   }
 
+  const itemsSubtotal = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const taxableValue = order.totalAmount / (1 + GST_RATE);
+  const cgst = taxableValue * (GST_RATE / 2);
+  const sgst = taxableValue * (GST_RATE / 2);
+
   return (
     <div className="min-h-screen bg-gray-100 pt-20 print:pt-0 print:bg-white">
       <div className="mx-auto max-w-3xl px-4 py-8 print:p-0">
@@ -114,6 +123,9 @@ export default function InvoicePage() {
               <p className="font-semibold text-gray-900">{order.user?.name}</p>
               <p className="text-sm text-gray-500">{order.user?.email}</p>
               <p className="text-sm text-gray-500 mt-1">{order.shippingAddress}</p>
+              {order.customerGstin && (
+                <p className="text-sm text-gray-500 mt-1">Customer GSTIN: <span className="font-semibold text-gray-700">{order.customerGstin}</span></p>
+              )}
             </div>
             <div className="text-right">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Payment</p>
@@ -151,9 +163,31 @@ export default function InvoicePage() {
 
           {/* Total */}
           <div className="flex justify-end mt-4">
-            <div className="w-56">
+            <div className="w-64 text-sm">
+              <div className="flex justify-between py-1 text-gray-600">
+                <span>Items Subtotal</span>
+                <span>{formatCurrency(itemsSubtotal)}</span>
+              </div>
+              {order.exchangeDiscount > 0 && (
+                <div className="flex justify-between py-1 text-green-700 font-semibold">
+                  <span>Exchange Discount</span>
+                  <span>-{formatCurrency(order.exchangeDiscount)}</span>
+                </div>
+              )}
+              <div className="flex justify-between py-1 text-gray-600 border-t border-gray-100 mt-1 pt-2">
+                <span>Taxable Value</span>
+                <span>{formatCurrency(taxableValue)}</span>
+              </div>
+              <div className="flex justify-between py-1 text-gray-600">
+                <span>CGST @9%</span>
+                <span>{formatCurrency(cgst)}</span>
+              </div>
+              <div className="flex justify-between py-1 text-gray-600">
+                <span>SGST @9%</span>
+                <span>{formatCurrency(sgst)}</span>
+              </div>
               <div className="flex justify-between py-2 border-t border-gray-200 mt-2">
-                <span className="font-bold text-gray-900">Total</span>
+                <span className="font-bold text-gray-900">Total (Incl. GST)</span>
                 <span className="font-extrabold text-green-700 text-lg">{formatCurrency(order.totalAmount)}</span>
               </div>
             </div>

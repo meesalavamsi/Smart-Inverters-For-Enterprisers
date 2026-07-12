@@ -232,7 +232,7 @@ export default function ProductDetailClient() {
             {exchangeOffer && (
               <div className="mb-5 flex items-center gap-2 text-sm font-semibold text-green-700 bg-green-50 border border-green-200 rounded-xl px-3 py-2 w-fit">
                 <Repeat className="h-4 w-4 shrink-0" />
-                <span>{exchangeOffer}</span>
+                <span>{exchangeOffer.text}</span>
               </div>
             )}
 

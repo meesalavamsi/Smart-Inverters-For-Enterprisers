@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle, CreditCard, ShieldCheck } from "lucide-react";
+import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, Package, MessageCircle, CreditCard, ShieldCheck, Repeat } from "lucide-react";
 import { useCartStore, useAuthStore } from "@/lib/store";
 import { ordersApi, paymentsApi } from "@/lib/api";
 import { formatCurrency, getWhatsAppUrl, getProductImageSrc } from "@/lib/utils";
+import { useExchangeOffer } from "@/lib/useExchangeOffer";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,6 +43,10 @@ const checkoutSchema = z.object({
   landmark: z.string().min(2, "Landmark is required"),
   pincode: z.string().regex(/^\d{6}$/, "Enter a valid 6-digit pincode"),
   phone: z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit phone number"),
+  gstin: z.string().trim().optional().refine(
+    (val) => !val || /^[0-9]{2}[A-Z0-9]{13}$/i.test(val),
+    "Enter a valid 15-character GSTIN"
+  ),
   notes: z.string().optional(),
 });
 
@@ -53,8 +58,12 @@ export default function CartPage() {
   const router = useRouter();
   const [placing, setPlacing] = useState(false);
   const [ordered, setOrdered] = useState<string | null>(null);
+  const [wantsExchange, setWantsExchange] = useState(false);
+  const exchangeOffer = useExchangeOffer();
 
   const totalPrice = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const exchangeDiscount = wantsExchange && exchangeOffer ? Math.min(exchangeOffer.amount, totalPrice) : 0;
+  const payableTotal = totalPrice - exchangeDiscount;
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
@@ -68,7 +77,7 @@ export default function CartPage() {
   // Opens Razorpay checkout and resolves with the verified payment response once paid
   const collectPayment = () => {
     return new Promise<{ razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }>((resolve, reject) => {
-      paymentsApi.createOrder(totalPrice).then((res) => {
+      paymentsApi.createOrder(payableTotal).then((res) => {
         const { orderId, amount, currency, keyId } = res.data;
         const rzp = new window.Razorpay({
           key: keyId,
@@ -125,7 +134,9 @@ export default function CartPage() {
         shippingAddress,
         paymentMethod: "RAZORPAY",
         notes: data.notes || "",
-        totalAmount: totalPrice,
+        totalAmount: payableTotal,
+        wantsExchange,
+        gstin: data.gstin || "",
       });
       const orderNumber = res.data.data?.orderNumber || "ORDER";
       const dbOrderId = res.data.data?.id;
@@ -277,12 +288,36 @@ export default function CartPage() {
             <form onSubmit={handleSubmit(handleOrder)} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 sticky top-24">
               <h3 className="font-extrabold text-gray-900 mb-4">Order Summary</h3>
 
+              {/* Exchange offer */}
+              {exchangeOffer && (
+                <label className="flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 px-3 py-3 mb-4 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={wantsExchange}
+                    onChange={(e) => setWantsExchange(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 accent-green-600 shrink-0"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-1.5 text-sm font-semibold text-green-800">
+                      <Repeat className="h-4 w-4 shrink-0" /> {exchangeOffer.text}
+                    </div>
+                    <p className="text-xs text-green-700 mt-0.5">Check this if you're exchanging your old battery/inverter — {formatCurrency(exchangeOffer.amount)} off will be applied to your total.</p>
+                  </div>
+                </label>
+              )}
+
               {/* Total */}
               <div className="bg-green-50 rounded-xl p-4 mb-5">
                 <div className="flex justify-between text-sm text-gray-600 mb-1">
                   <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
                   <span>{formatCurrency(totalPrice)}</span>
                 </div>
+                {exchangeDiscount > 0 && (
+                  <div className="flex justify-between text-sm text-green-700 font-semibold mb-1">
+                    <span>Exchange Discount</span>
+                    <span>-{formatCurrency(exchangeDiscount)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-sm text-gray-600 mb-2">
                   <span>Delivery</span>
                   <span className="text-green-600 font-semibold">Free</span>
@@ -290,7 +325,7 @@ export default function CartPage() {
                 <hr className="border-green-200 mb-2" />
                 <div className="flex justify-between font-extrabold text-lg text-gray-900">
                   <span>Total</span>
-                  <span className="text-green-700">{formatCurrency(totalPrice)}</span>
+                  <span className="text-green-700">{formatCurrency(payableTotal)}</span>
                 </div>
               </div>
 
@@ -392,6 +427,17 @@ export default function CartPage() {
                 </div>
               </div>
 
+              {/* GSTIN */}
+              <div className="mb-4">
+                <label className="text-xs font-bold text-gray-700 mb-1 block">GST Number (optional)</label>
+                <input
+                  {...register("gstin")}
+                  placeholder="For a business invoice with your GSTIN"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 uppercase"
+                />
+                {errors.gstin && <p className="text-red-500 text-xs mt-1">{errors.gstin.message}</p>}
+              </div>
+
               {/* Notes */}
               <div className="mb-5">
                 <label className="text-xs font-bold text-gray-700 mb-1 block">Notes (optional)</label>
@@ -413,11 +459,11 @@ export default function CartPage() {
                 disabled={placing || !user}
                 className="w-full bg-green-600 text-white font-extrabold py-3.5 rounded-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
-                {placing ? "Processing Payment..." : `Pay ${formatCurrency(totalPrice)} & Place Order`}
+                {placing ? "Processing Payment..." : `Pay ${formatCurrency(payableTotal)} & Place Order`}
               </button>
 
               <a
-                href={getWhatsAppUrl(`Hi! I want to order: ${items.map(i => `${i.name} x${i.quantity}`).join(", ")}. Total: ₹${totalPrice}. Please confirm availability.`)}
+                href={getWhatsAppUrl(`Hi! I want to order: ${items.map(i => `${i.name} x${i.quantity}`).join(", ")}. Total: ₹${payableTotal}. Please confirm availability.`)}
                 target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full mt-3 bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition-colors text-sm"
               >

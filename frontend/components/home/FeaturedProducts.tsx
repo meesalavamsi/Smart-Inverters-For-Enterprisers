@@ -8,7 +8,7 @@ import { Star, ArrowRight, Package, ShoppingCart, Repeat } from "lucide-react";
 import { productsApi } from "@/lib/api";
 import { formatCurrency, getProductImageSrc } from "@/lib/utils";
 import { useCartStore } from "@/lib/store";
-import { useExchangeOffer } from "@/lib/useExchangeOffer";
+import { useExchangeOffer, ExchangeOffer } from "@/lib/useExchangeOffer";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -44,7 +44,7 @@ function TiltCard({ children, className, style }: { children: React.ReactNode; c
   );
 }
 
-function ProductCard({ product, index, exchangeOffer }: { product: Product; index: number; exchangeOffer: string | null }) {
+function ProductCard({ product, index, exchangeOffer }: { product: Product; index: number; exchangeOffer: ExchangeOffer | null }) {
   const t = useTranslations("featured");
   const { addItem } = useCartStore();
   const router = useRouter();
@@ -125,7 +125,7 @@ function ProductCard({ product, index, exchangeOffer }: { product: Product; inde
             {exchangeOffer && (
               <div className="mb-3 flex items-center gap-1.5 text-xs font-semibold text-green-300 bg-green-500/10 border border-green-500/30 rounded-lg px-2.5 py-1.5">
                 <Repeat className="h-3.5 w-3.5 shrink-0" />
-                <span className="line-clamp-1">{exchangeOffer}</span>
+                <span className="line-clamp-1">{exchangeOffer.text}</span>
               </div>
             )}
             <div className="flex gap-2">

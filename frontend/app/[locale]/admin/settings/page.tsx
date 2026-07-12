@@ -225,7 +225,7 @@ export default function AdminSettingsPage() {
                 <Repeat className="h-4 w-4 text-gray-400" />
                 <h2 className="font-bold text-gray-900">Exchange Offer Badge</h2>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Shown on every product card and product page, near the price — like Amazon's exchange offer</p>
+              <p className="text-xs text-gray-500 mt-1">Shown on every product card and product page, near the price — like Amazon's exchange offer. Customers can opt in at checkout to get this amount off their order total.</p>
             </div>
             <div className="p-6 space-y-4">
               <div className="flex items-center gap-3">
@@ -244,14 +244,27 @@ export default function AdminSettingsPage() {
                 </span>
               </div>
 
-              <div>
-                <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Offer Text</label>
-                <input
-                  value={edits.exchange_offer_text || ""}
-                  onChange={(e) => setEdits((prev) => ({ ...prev, exchange_offer_text: e.target.value }))}
-                  placeholder="e.g. Exchange offer: Upto ₹6,000 off on your old battery/inverter"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Offer Text</label>
+                  <input
+                    value={edits.exchange_offer_text || ""}
+                    onChange={(e) => setEdits((prev) => ({ ...prev, exchange_offer_text: e.target.value }))}
+                    placeholder="e.g. Exchange offer: Upto ₹6,000 off on your old battery/inverter"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Discount Amount (₹)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={edits.exchange_offer_amount || ""}
+                    onChange={(e) => setEdits((prev) => ({ ...prev, exchange_offer_amount: e.target.value }))}
+                    placeholder="e.g. 6000"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                  />
+                </div>
               </div>
             </div>
           </div>
