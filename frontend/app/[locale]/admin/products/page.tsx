@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Plus, Search, Edit, Trash2, Package, X, Loader2, Upload, CheckCircle } from "lucide-react";
+import { Plus, Search, Edit, Trash2, Package, X, Loader2, Upload, CheckCircle, ChevronLeft, ChevronRight, RefreshCw } from "lucide-react";
 import { productsApi } from "@/lib/api";
 import { formatCurrency, getProductImageSrc } from "@/lib/utils";
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -54,6 +54,9 @@ export default function AdminProductsPage() {
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [replacingId, setReplacingId] = useState<string | null>(null);
+  const [replaceUrl, setReplaceUrl] = useState("");
+  const [reordering, setReordering] = useState(false);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -69,7 +72,7 @@ export default function AdminProductsPage() {
     productsApi.getCategories().then(r => setCategories(r.data.data || [])).catch(() => {});
   }, [search]);
 
-  const openAdd = () => { setForm(defaultForm); setFiles([]); setImageUrls([""]); setFeatures([""]); setEditProduct(null); setShowForm(true); };
+  const openAdd = () => { setForm(defaultForm); setFiles([]); setImageUrls([""]); setFeatures([""]); setEditProduct(null); setReplacingId(null); setReplaceUrl(""); setShowForm(true); };
   const openEdit = (p: Product) => {
     setEditProduct(p);
     setForm({
@@ -91,8 +94,15 @@ export default function AdminProductsPage() {
     });
     setFiles([]);
     setImageUrls([""]);
+    setReplacingId(null);
+    setReplaceUrl("");
     setFeatures(parseFeatures(p.features));
     setShowForm(true);
+
+    // The list view only sends the primary image — fetch the full image set for editing
+    productsApi.getAdminById(p.id).then(res => {
+      setEditProduct(prev => prev && prev.id === p.id ? { ...prev, images: res.data.data.images } : prev);
+    }).catch(() => {});
   };
 
   const handleDeleteImage = async (imageId: string) => {
@@ -108,6 +118,31 @@ export default function AdminProductsPage() {
       });
       toast.success("Image removed");
     } catch { toast.error("Failed to remove image"); }
+  };
+
+  const handleReplaceImage = async (imageId: string) => {
+    if (!editProduct || !replaceUrl.trim()) return;
+    try {
+      const res = await productsApi.replaceImage(editProduct.id, imageId, replaceUrl.trim());
+      setEditProduct(prev => prev ? { ...prev, images: res.data.data } : prev);
+      setReplacingId(null);
+      setReplaceUrl("");
+      toast.success("Image replaced");
+    } catch { toast.error("Failed to replace image"); }
+  };
+
+  const handleMoveImage = async (index: number, direction: -1 | 1) => {
+    if (!editProduct) return;
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= editProduct.images.length) return;
+    const reordered = [...editProduct.images];
+    [reordered[index], reordered[newIndex]] = [reordered[newIndex], reordered[index]];
+    setReordering(true);
+    try {
+      const res = await productsApi.reorderImages(editProduct.id, reordered.map(i => i.id));
+      setEditProduct(prev => prev ? { ...prev, images: res.data.data } : prev);
+    } catch { toast.error("Failed to reorder images"); }
+    finally { setReordering(false); }
   };
 
   const handleSave = async () => {
@@ -362,21 +397,56 @@ export default function AdminProductsPage() {
                 {/* Show existing images when editing */}
                 {editProduct?.images?.length ? (
                   <div>
-                    <p className="text-xs text-gray-500 mb-2">Current images ({editProduct.images.length}/{MAX_IMAGES}):</p>
-                    <div className="flex flex-wrap gap-2">
-                      {editProduct.images.map((img) => (
-                        <div key={img.id} className="relative">
-                          <img
-                            src={getProductImageSrc(img.url)}
-                            alt="" className="h-20 w-20 object-cover rounded-lg border-2 border-gray-200"
-                          />
-                          {img.isPrimary && (
-                            <span className="absolute -top-1.5 -left-1.5 bg-green-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">MAIN</span>
+                    <p className="text-xs text-gray-500 mb-2">
+                      Current images ({editProduct.images.length}/{MAX_IMAGES}) — use the arrows to reorder, the refresh icon to swap in a different image:
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {editProduct.images.map((img, index) => (
+                        <div key={img.id} className="w-24">
+                          <div className="relative">
+                            <img
+                              src={getProductImageSrc(img.url)}
+                              alt="" className="h-20 w-24 object-cover rounded-lg border-2 border-gray-200"
+                            />
+                            {img.isPrimary && (
+                              <span className="absolute -top-1.5 -left-1.5 bg-green-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">MAIN</span>
+                            )}
+                            <button onClick={() => handleDeleteImage(img.id)} type="button"
+                              className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
+                              ×
+                            </button>
+                          </div>
+                          <div className="flex items-center justify-between mt-1">
+                            <button type="button" disabled={index === 0 || reordering} onClick={() => handleMoveImage(index, -1)}
+                              className="p-1 rounded text-gray-500 hover:text-green-600 disabled:opacity-25 disabled:hover:text-gray-500">
+                              <ChevronLeft className="h-3.5 w-3.5" />
+                            </button>
+                            <button type="button" onClick={() => { setReplacingId(img.id); setReplaceUrl(""); }}
+                              className="p-1 rounded text-gray-500 hover:text-green-600">
+                              <RefreshCw className="h-3.5 w-3.5" />
+                            </button>
+                            <button type="button" disabled={index === editProduct.images.length - 1 || reordering} onClick={() => handleMoveImage(index, 1)}
+                              className="p-1 rounded text-gray-500 hover:text-green-600 disabled:opacity-25 disabled:hover:text-gray-500">
+                              <ChevronRight className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                          {replacingId === img.id && (
+                            <div className="mt-1 space-y-1">
+                              <input
+                                type="url"
+                                value={replaceUrl}
+                                onChange={(e) => setReplaceUrl(e.target.value)}
+                                placeholder="New image URL"
+                                className="w-full px-2 py-1 rounded-lg border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-green-500"
+                              />
+                              <div className="flex gap-1">
+                                <button type="button" onClick={() => handleReplaceImage(img.id)}
+                                  className="flex-1 text-[10px] font-semibold bg-green-600 text-white rounded-md py-1">Save</button>
+                                <button type="button" onClick={() => { setReplacingId(null); setReplaceUrl(""); }}
+                                  className="flex-1 text-[10px] font-semibold bg-gray-100 text-gray-600 rounded-md py-1">Cancel</button>
+                              </div>
+                            </div>
                           )}
-                          <button onClick={() => handleDeleteImage(img.id)} type="button"
-                            className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
-                            ×
-                          </button>
                         </div>
                       ))}
                     </div>

@@ -45,10 +45,13 @@ export const productsApi = {
   getAll: (params?: Record<string, string | number>) => api.get("/api/products", { params }),
   getBySlug: (slug: string) => api.get(`/api/products/${slug}`),
   getAdminAll: (params?: Record<string, string | number>) => api.get("/api/products/admin/all", { params }),
+  getAdminById: (id: string) => api.get(`/api/products/admin/${id}`),
   create: (data: FormData) => api.post("/api/products", data, { headers: { "Content-Type": "multipart/form-data" } }),
   update: (id: string, data: FormData) => api.put(`/api/products/${id}`, data, { headers: { "Content-Type": "multipart/form-data" } }),
   delete: (id: string) => api.delete(`/api/products/${id}`),
   deleteImage: (productId: string, imageId: string) => api.delete(`/api/products/${productId}/images/${imageId}`),
+  replaceImage: (productId: string, imageId: string, url: string) => api.put(`/api/products/${productId}/images/${imageId}`, { url }),
+  reorderImages: (productId: string, imageIds: string[]) => api.put(`/api/products/${productId}/images-reorder`, { imageIds }),
   getCategories: () => api.get("/api/products/categories/all"),
   createCategory: (data: Record<string, string>) => api.post("/api/products/categories", data),
 };

@@ -125,6 +125,21 @@ router.get("/admin/all", authenticate, authorize("ADMIN"), async (req, res) => {
   }
 });
 
+// ADMIN: Get a single product with ALL its images (list view only sends the primary image)
+router.get("/admin/:id", authenticate, authorize("ADMIN"), async (req, res) => {
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id: req.params.id },
+      include: { category: true, images: { orderBy: { order: "asc" } } },
+    });
+    if (!product) return res.status(404).json({ success: false, message: "Product not found" });
+    res.json({ success: true, data: product });
+  } catch (error) {
+    logger.error("Admin get product error:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch product" });
+  }
+});
+
 // ADMIN: Create product
 router.post("/", authenticate, authorize("ADMIN"), upload.array("images", 10), async (req, res) => {
   try {
@@ -281,6 +296,42 @@ router.delete("/:id/images/:imageId", authenticate, authorize("ADMIN"), async (r
     res.json({ success: true, message: "Image deleted" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to delete image" });
+  }
+});
+
+// ADMIN: Replace a single image's URL in place (keeps its position and primary status)
+router.put("/:id/images/:imageId", authenticate, authorize("ADMIN"), async (req, res) => {
+  try {
+    const { imageId } = req.params;
+    const { url } = req.body;
+    if (!url || !url.trim()) {
+      return res.status(400).json({ success: false, message: "A new image URL is required" });
+    }
+    await prisma.productImage.update({ where: { id: imageId }, data: { url: url.trim() } });
+    const images = await prisma.productImage.findMany({ where: { productId: req.params.id }, orderBy: { order: "asc" } });
+    res.json({ success: true, message: "Image replaced", data: images });
+  } catch (error) {
+    logger.error("Replace product image error:", error);
+    res.status(500).json({ success: false, message: "Failed to replace image" });
+  }
+});
+
+// ADMIN: Reorder a product's images (first id in the array becomes primary)
+router.put("/:id/images-reorder", authenticate, authorize("ADMIN"), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { imageIds } = req.body;
+    if (!Array.isArray(imageIds) || !imageIds.length) {
+      return res.status(400).json({ success: false, message: "imageIds array is required" });
+    }
+    await Promise.all(imageIds.map((imageId, index) =>
+      prisma.productImage.update({ where: { id: imageId }, data: { order: index, isPrimary: index === 0 } })
+    ));
+    const images = await prisma.productImage.findMany({ where: { productId: id }, orderBy: { order: "asc" } });
+    res.json({ success: true, message: "Images reordered", data: images });
+  } catch (error) {
+    logger.error("Reorder product images error:", error);
+    res.status(500).json({ success: false, message: "Failed to reorder images" });
   }
 });
 
