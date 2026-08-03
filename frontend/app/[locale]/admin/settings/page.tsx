@@ -194,6 +194,25 @@ export default function AdminSettingsPage() {
                 />
               </div>
 
+              <div>
+                <label className="text-xs font-semibold text-gray-600 mb-1.5 block">
+                  Scroll Speed {edits.popup_scroll_speed || "50"}s (drag right to slow it down)
+                </label>
+                <input
+                  type="range"
+                  min={15}
+                  max={150}
+                  step={5}
+                  value={Number(edits.popup_scroll_speed) || 50}
+                  onChange={(e) => setEdits((prev) => ({ ...prev, popup_scroll_speed: e.target.value }))}
+                  className="w-full accent-green-600"
+                />
+                <div className="flex justify-between text-[11px] text-gray-400 mt-0.5">
+                  <span>Fast</span>
+                  <span>Slow</span>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Button Text (optional)</label>

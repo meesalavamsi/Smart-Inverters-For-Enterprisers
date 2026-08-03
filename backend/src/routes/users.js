@@ -105,7 +105,7 @@ router.put("/:id/toggle-status", authenticate, authorize("ADMIN"), async (req, r
 // PUBLIC: Get special offer popup settings (shown to all site visitors, no auth needed)
 router.get("/settings/popup", async (req, res) => {
   try {
-    const keys = ["popup_enabled", "popup_title", "popup_message", "popup_image", "popup_button_text", "popup_button_link"];
+    const keys = ["popup_enabled", "popup_title", "popup_message", "popup_image", "popup_button_text", "popup_button_link", "popup_scroll_speed"];
     const settings = await prisma.setting.findMany({ where: { key: { in: keys } } });
     const obj = {};
     settings.forEach(s => obj[s.key] = s.value);

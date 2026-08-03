@@ -8,6 +8,7 @@ import { popupApi } from "@/lib/api";
 export default function OfferTicker() {
   const pathname = usePathname();
   const [text, setText] = useState<string | null>(null);
+  const [speed, setSpeed] = useState("50");
 
   useEffect(() => {
     popupApi.get().then((res) => {
@@ -16,6 +17,7 @@ export default function OfferTicker() {
         const combined = [data.popup_title, data.popup_message].filter(Boolean).join(" — ");
         if (combined) setText(combined);
       }
+      if (data.popup_scroll_speed) setSpeed(data.popup_scroll_speed);
     }).catch(() => {});
   }, []);
 
@@ -48,7 +50,10 @@ export default function OfferTicker() {
     <>
       <div className="h-16" aria-hidden />
       <div className="h-9 w-full overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 flex items-center shadow-md">
-        <div className="flex whitespace-nowrap animate-marquee w-max text-white text-sm font-bold">
+        <div
+          className="flex whitespace-nowrap animate-marquee w-max text-white text-sm font-bold"
+          style={{ ["--marquee-duration" as string]: `${speed}s` }}
+        >
           {[0, 1, 2, 3, 4, 5].map((i) => item(String(i)))}
           {[6, 7, 8, 9, 10, 11].map((i) => item(String(i)))}
         </div>

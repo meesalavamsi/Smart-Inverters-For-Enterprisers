@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const api = axios.create({
   baseURL: API_URL,
   withCredentials: true,
-  timeout: 30000,
+  timeout: 60000,
 });
 
 api.interceptors.request.use((config) => {
@@ -16,14 +16,26 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Render's free tier puts the backend to sleep after ~15 min idle; the first
+// request that wakes it can be slow enough to time out or drop. One silent
+// retry covers that cold-start case without the user seeing an error.
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error.response?.status === 401 && typeof window !== "undefined") {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       window.location.href = "/login";
+      return Promise.reject(error);
     }
+
+    const config = error.config;
+    const isRetriable = !error.response || error.code === "ECONNABORTED";
+    if (config && isRetriable && !config._retried) {
+      config._retried = true;
+      return api(config);
+    }
+
     return Promise.reject(error);
   }
 );

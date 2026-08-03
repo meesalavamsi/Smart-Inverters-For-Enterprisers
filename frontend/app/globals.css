@@ -141,7 +141,7 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-.animate-marquee { animation: marquee 50s linear infinite; }
+.animate-marquee { animation: marquee var(--marquee-duration, 50s) linear infinite; }
 
 /* When the ticker is showing, it already clears the fixed navbar itself, so each
    page's own top-level wrapper no longer needs its own navbar-clearance padding.

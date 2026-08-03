@@ -40,6 +40,7 @@ export default function ProductsListClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0, limit: 12 });
   const [showFilters, setShowFilters] = useState(false);
   const exchangeOffer = useExchangeOffer();
@@ -58,6 +59,7 @@ export default function ProductsListClient() {
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
+    setLoadError(false);
     try {
       const params: Record<string, string | number> = { page: filters.page, limit: 12 };
       if (filters.search) params.search = filters.search;
@@ -70,8 +72,10 @@ export default function ProductsListClient() {
       const res = await productsApi.getAll(params);
       setProducts(res.data.data || []);
       setPagination(res.data.pagination || { page: 1, pages: 1, total: 0, limit: 12 });
-    } catch { setProducts([]); }
-    finally { setLoading(false); }
+    } catch {
+      setProducts([]);
+      setLoadError(true);
+    } finally { setLoading(false); }
   }, [filters]);
 
   useEffect(() => { fetchProducts(); }, [fetchProducts]);
@@ -173,11 +177,13 @@ export default function ProductsListClient() {
         )}
 
         {/* Results info */}
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-gray-500">
-            Showing {products.length} of {pagination.total} products
-          </p>
-        </div>
+        {!loading && !loadError && (
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-gray-500">
+              Showing {products.length} of {pagination.total} products
+            </p>
+          </div>
+        )}
 
         {/* Products grid */}
         {loading ? (
@@ -192,6 +198,15 @@ export default function ProductsListClient() {
                 </div>
               </div>
             ))}
+          </div>
+        ) : loadError ? (
+          <div className="text-center py-24">
+            <Package className="h-16 w-16 text-red-300 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-600">Couldn&apos;t load products</h3>
+            <p className="text-gray-400 mt-2">The server didn&apos;t respond in time. Please try again.</p>
+            <button onClick={fetchProducts} className="mt-4 text-green-600 hover:underline text-sm">
+              Retry
+            </button>
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-24">
