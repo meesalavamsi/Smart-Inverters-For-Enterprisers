@@ -1,0 +1,16 @@
+name: Keep backend warm
+
+# Render's free tier spins the backend down after ~15 min idle; the next request
+# then pays a 20+ second cold-start penalty (e.g. the /products page looking
+# empty/broken while it waits). Pinging health every 10 minutes keeps it awake.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend health endpoint
+        run: curl -sS -o /dev/null -w "HTTP %{http_code} in %{time_total}s\n" --max-time 90 https://www.smartinverters.in/api/health

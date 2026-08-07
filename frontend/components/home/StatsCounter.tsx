@@ -12,12 +12,17 @@ const statValues = [
 ];
 
 function CountUp({ target, suffix, active }: { target: number; suffix: string; active: boolean }) {
-  const [count, setCount] = useState(0);
-  const [visible, setVisible] = useState(false);
+  // Default to the final value so the real number is what's in the server-rendered
+  // HTML (search engines, link-preview bots, JS-disabled visitors) instead of "0+".
+  // The count-up is purely a scroll-into-view flourish layered on top, and only
+  // plays once per mount.
+  const [count, setCount] = useState(target);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!active) return;
-    setVisible(true);
+    if (!active || hasAnimated.current) return;
+    hasAnimated.current = true;
+    setCount(0);
     let frame = 0;
     const total = 80;
     const timer = setInterval(() => {
@@ -29,11 +34,7 @@ function CountUp({ target, suffix, active }: { target: number; suffix: string; a
     return () => clearInterval(timer);
   }, [active, target]);
 
-  return (
-    <span className={`transition-opacity duration-300 ${visible ? "opacity-100" : "opacity-0"}`}>
-      {count.toLocaleString()}{suffix}
-    </span>
-  );
+  return <span>{count.toLocaleString()}{suffix}</span>;
 }
 
 export default function StatsCounter() {
