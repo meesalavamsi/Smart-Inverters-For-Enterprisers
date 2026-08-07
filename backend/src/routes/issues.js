@@ -1,7 +1,7 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { authenticate, authorize, optionalAuth } = require("../middleware/auth");
-const { createUploadMiddleware } = require("../middleware/upload");
+const { createUploadMiddleware, useCloudinary } = require("../middleware/upload");
 const { sendEmail } = require("../utils/email");
 const { v4: uuidv4 } = require("uuid");
 const logger = require("../utils/logger");
@@ -23,7 +23,7 @@ router.post("/", optionalAuth, upload.array("images", 5), async (req, res) => {
   }
 
   try {
-    const images = req.files?.map(f => `/uploads/issues/${f.filename}`).join(",") || null;
+    const images = req.files?.map(f => useCloudinary ? f.path : `/uploads/issues/${f.filename}`).join(",") || null;
 
     const issue = await prisma.issueReport.create({
       data: {

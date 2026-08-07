@@ -1,7 +1,7 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { authenticate, authorize } = require("../middleware/auth");
-const { createUploadMiddleware } = require("../middleware/upload");
+const { createUploadMiddleware, useCloudinary } = require("../middleware/upload");
 const { v4: uuidv4 } = require("uuid");
 const logger = require("../utils/logger");
 const path = require("path");
@@ -167,7 +167,7 @@ router.post("/", authenticate, authorize("ADMIN"), upload.array("images", 10), a
 
     const urlImages = (Array.isArray(req.body.imageUrls) ? req.body.imageUrls : req.body.imageUrls ? [req.body.imageUrls] : [])
       .map((u) => u && u.trim()).filter(Boolean);
-    const fileImages = (req.files || []).map((file) => `/uploads/products/${file.filename}`);
+    const fileImages = (req.files || []).map((file) => useCloudinary ? file.path : `/uploads/products/${file.filename}`);
     const allImages = [...fileImages, ...urlImages].slice(0, 5);
 
     if (allImages.length) {
@@ -234,7 +234,7 @@ router.put("/:id", authenticate, authorize("ADMIN"), upload.array("images", 10),
     // Handle new images (pasted URLs and/or uploaded files), respecting the 5-image cap
     const urlImages = (Array.isArray(req.body.imageUrls) ? req.body.imageUrls : req.body.imageUrls ? [req.body.imageUrls] : [])
       .map((u) => u && u.trim()).filter(Boolean);
-    const fileImages = (req.files || []).map((file) => `/uploads/products/${file.filename}`);
+    const fileImages = (req.files || []).map((file) => useCloudinary ? file.path : `/uploads/products/${file.filename}`);
     const allNewImages = [...fileImages, ...urlImages];
 
     if (allNewImages.length) {
